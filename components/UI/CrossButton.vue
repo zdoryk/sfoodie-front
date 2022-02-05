@@ -17,7 +17,7 @@ export default {
 .cross-button {
   width: 24px;
   height: 24px;
-  border: 1px solid #ED957D;
+  border: 1.5px solid #ED957D;
   color: #ED957D;
   box-sizing: content-box;
   border-radius: 4px;

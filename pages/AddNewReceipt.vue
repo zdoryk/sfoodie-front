@@ -34,6 +34,16 @@
           :key="product.product_id"
            v-bind:product_data="product"
           />
+        <div id="line"></div>
+        <div class="total">
+          <div class="total-amount">Total {{this.$store.state.state.receipt_products.length}} products</div>
+          <div class="total-price">${{this.total_price.toFixed(2)}}</div>
+          <cross-button id="blank"/>
+        </div>
+        <div id="delete-save-buttons">
+          <red-button @click.native="delete_all_from_receipt" class="buttons">Delete all</red-button>
+          <blue-button class="buttons">Save Receipt</blue-button>
+        </div>
       </div>
     </div>
 </template>
@@ -43,11 +53,13 @@
 import BlueButton from "@/components/UI/BlueButton";
 import NewProduct from "@/components/NewProduct"
 import md5 from "md5"
-import {mapActions} from "vuex"
+import {mapActions, mapMutations} from "vuex"
 import _ from "lodash"
+import RedButton from "@/components/UI/RedButton";
+import CrossButton from "@/components/UI/CrossButton";
 
 export default {
-  components: {BlueButton, NewProduct},
+  components: {CrossButton, RedButton, BlueButton, NewProduct},
   data() {
     return {
       new_product: {
@@ -55,7 +67,6 @@ export default {
         price: 123.45,
         product_id: ''
       },
-      isExist: false  // We check if there is product with same product_id in state.receipt_products
     }
   },
   computed: {
@@ -64,6 +75,10 @@ export default {
     },
     user_added_products(){
       return this.$store.state.state.receipt_products
+    },
+    total_price(){
+      let before_sum = JSON.parse(JSON.stringify(this.$store.state.state.receipt_products)).map(item => item.price)
+      return before_sum.reduce((partialSum, a) => partialSum + a, 0);
     }
   },
 
@@ -71,13 +86,20 @@ export default {
     ...mapActions([
       'ADD_PRODUCT_TO_RECEIPT_PRODUCTS',
     ]),
+    ...mapMutations([
+      'DELETE_ALL_FROM_RECEIPT'
+    ]),
     add_new_product() {
       this.new_product['product_id'] = md5(this.new_product.product_name.toLowerCase())
+      // We're checking if there is product with same product_id in state.receipt_products
       if (!JSON.parse(JSON.stringify(this.$store.state.state.receipt_products))
           .map(item => item.product_id).includes(this.new_product.product_id)){
         this.ADD_PRODUCT_TO_RECEIPT_PRODUCTS(JSON.parse(JSON.stringify(this.new_product)))
       }
       else alert(`The receipt already contains a product with the name: "${this.new_product.product_name}"`);
+    },
+    delete_all_from_receipt() {
+      this.DELETE_ALL_FROM_RECEIPT()
     }
   }
 }
@@ -152,5 +174,46 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+
+#line {
+  width: 100%;
+  height: 0;
+  border: 1px solid #3A3C4C;
+  transform: rotate(0.13deg);
+  flex: none;
+  order: 0;
+  align-self: stretch;
+  flex-grow: 1;
+  margin-bottom: 16px;
+}
+
+.total, .total-price {
+  display: flex;
+}
+
+.total-amount{
+  flex: 4;
+}
+
+.total-price{
+  flex: 1;
+  justify-content: flex-end;
+  margin-right: 32px;
+}
+
+#blank {
+  opacity: 0;
+  cursor: default
+}
+
+#delete-save-buttons {
+  margin-top: 28px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.buttons{
+  width: 160px;
+}
 
 </style>

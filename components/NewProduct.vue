@@ -4,7 +4,7 @@
       {{product_data.product_name}}
     </div>
     <div class="product-price">
-      ${{product_data.price}}
+      ${{product_data.price.toFixed(2)}}
     </div>
     <cross-button @click.native="delete_from_receipt"/>
   </div>

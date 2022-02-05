@@ -19,9 +19,12 @@ export const state = () => ({
 });
 
 export const getters = {
-  // PRODUCTS(state) {
-  //   return state.products;
-  // },
+  TOTAL_PRICE(state) {
+      state.state.receipt_products.indexOf(
+        state.state.receipt_products.find(element => element.product_id === product_id))
+
+    return state.state.receipt_products;
+  },
 }
 
 export const mutations = {
@@ -34,6 +37,10 @@ export const mutations = {
     state.state.receipt_products.splice(
       state.state.receipt_products.indexOf(
         state.state.receipt_products.find(element => element.product_id === product_id)),1)
+  },
+
+  DELETE_ALL_FROM_RECEIPT: (state) => {
+    state.state.receipt_products = []
   }
 }
 
@@ -46,5 +53,6 @@ export const actions = {
   DELETE_FROM_RECEIPT({commit}, product_id){
     console.log(product_id)
     commit('REMOVE_FROM_RECEIPT', product_id)
-  }
+  },
+
 }

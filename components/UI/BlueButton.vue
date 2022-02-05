@@ -17,6 +17,7 @@ export default {
     color: #EDEFFF;
     background-color: #696AE9;
     display: flex;
+    align-items: center;
     font-size: 15px;
     border: none;
     border-radius: 4px;
