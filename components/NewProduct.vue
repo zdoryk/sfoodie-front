@@ -6,12 +6,14 @@
     <div class="product-price">
       ${{product_data.price}}
     </div>
-    <cross-button @click="test"/>
+    <cross-button @click.native="delete_from_receipt"/>
   </div>
 </template>
 
 <script>
 import CrossButton from "@/components/UI/CrossButton";
+import {mapActions} from "vuex";
+
 export default {
   name: "NewProduct",
   components: {CrossButton},
@@ -24,8 +26,13 @@ export default {
     }
   },
   methods:{
-    test(){
-      console.log('Test')
+    ...mapActions([
+      'DELETE_FROM_RECEIPT'
+    ]),
+
+    delete_from_receipt(){
+      console.log(this.product_data.product_id)
+      this.DELETE_FROM_RECEIPT(this.product_data.product_id)
     }
   }
 }
