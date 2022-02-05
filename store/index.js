@@ -1,17 +1,17 @@
-import getters from './getters';
+// import getters from './getters';
 
 export const state = () => ({
-  state: {
-      products: ['Bread', 'Chicken', 'Salmon',
-        'Pasta', 'Rice', 'Oil', 'Ketchup',
-        'Salad', 'Cereals', 'Tomato', 'Carrot',
-        'Cheese', 'Eggs', 'Juice', 'Milk', 'Pineapple'],
-  },
   namespaced: true,
-  getters: getters
+  state: {
+    products: ['Bread', 'Chicken', 'Salmon',
+      'Pasta', 'Rice', 'Oil', 'Ketchup',
+      'Salad', 'Cereals', 'Tomato', 'Carrot',
+      'Cheese', 'Eggs', 'Juice', 'Milk', 'Pineapple'],
+  },
 });
 
-// export default {
-//   state,
-//   getters
-// }
+export const getters = {
+  PRODUCTS(state) {
+    return state.products;
+  },
+}

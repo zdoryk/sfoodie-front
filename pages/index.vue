@@ -11,6 +11,6 @@
   export default Vue.extend({
     components: { },
     name: 'Index',
-
+    middleware: ['redirect-to-add-new']
   })
 </script>

@@ -1,21 +1,26 @@
 <template>
   <div id=main>
     <div class="container-fluid">
-        <div class="col">
+      <div class="col">
             <div class="row">
                 <h1>
                     New Receipt
                 </h1>
             </div>
             <div class="row">
-                <div class="col-4">
-                    <input placeholder="Product name" class="form-control" id="product-input" list="my-list-id">
+                <div class="col-8">
+                    <input placeholder="Product name" class="form-control custom-input" id="product-input" list="my-list-id">
                     <datalist id="my-list-id" class="qwe">
-                        <option v-for="product in products" :key="product" class="qwe">{{ product }}</option>
+                        <option v-for="size in productss" :key="size" class="qwe">{{ size }}</option>
                     </datalist>
                 </div>
-                <div class="col-2">
-                    <!-- <b-form-input type="number"/> -->
+                <div class="col-3">
+                     <input placeholder="Price" type="number" class="form-control custom-input"  id="price-input"/>
+                </div>
+                <div class="col-1">
+                  <blue-button>
+                    Add
+                  </blue-button>
                 </div>
             </div>
         </div>
@@ -24,20 +29,18 @@
 </template>
 
 <script>
-    import {mapState} from "vuex";
 
+    import BlueButton from "@/components/UI/BlueButton";
     export default {
-        data() {
+      components: {BlueButton},
+      data() {
             return {
-                sizes: ['Bread', 'Chicken', 'Salmon',
-                        'Pasta', 'Rice', 'Oil', 'Ketchup',
-                        'Salad', 'Cereals', 'Tomato', 'Carrot',
-                        'Cheese', 'Eggs', 'Juice', 'Milk', 'Pineapple'],
-                // size: list.length
             }
         },
         computed: {
-          ...mapState('products', ['products'])
+          productss(){
+            return this.$store.state.state.products
+          }
         }
     }
 </script>
@@ -58,13 +61,20 @@
     }
 
     #product-input{
-        width: 300px;
-        background: #282932;
-        border: none;
-        border-radius: 4px;
-        outline: none;
-        box-shadow: none;
-        color: #EDEFFF;
+        /*width: 300px;*/
+    }
+
+    #price-input{
+
+    }
+
+    .custom-input{
+      background: #282932;
+      border: none;
+      border-radius: 4px;
+      outline: none;
+      box-shadow: none;
+      color: #EDEFFF;
     }
 
     input::-webkit-calendar-picker-indicator {
@@ -75,7 +85,6 @@
     .qwe{
         background-color: #1D1E26;
     }
-
 
 
 </style>

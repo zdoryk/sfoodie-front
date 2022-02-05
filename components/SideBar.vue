@@ -25,29 +25,37 @@
       </menu-item>
     </nuxt-link>
 
-    <menu-item class="menu-item">
-      <apple-icon class="ico" />
-      My Products
-    </menu-item>
+    <nuxt-link to="/MyProducts">
+      <menu-item class="menu-item">
+        <apple-icon class="ico" />
+        My Products
+      </menu-item>
+    </nuxt-link>
 
-    <menu-item class="menu-item">
-      <chart-infographic-icon class="ico" />
-      Statistic
-    </menu-item>
+    <nuxt-link to="/Statistic">
+      <menu-item class="menu-item">
+        <chart-infographic-icon class="ico" />
+        Statistic
+      </menu-item>
+    </nuxt-link>
 
-    <menu-item class="menu-item">
-      <info-circle-icon class="ico" />
-      Info
-    </menu-item>
+    <nuxt-link to="/Info">
+      <menu-item class="menu-item">
+        <info-circle-icon class="ico" />
+        Info
+      </menu-item>
+    </nuxt-link>
+
   </div>
 </template>
 
 <script>
 import BlueButton from "@/components/UI/BlueButton.vue"
 import MenuItem from "@/components/UI/MenuItem.vue"
+import { InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon } from 'vue-tabler-icons';
 
 export default {
-  components:{ BlueButton, MenuItem, }
+  components:{ BlueButton, MenuItem, InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon}
 }
 </script>
 
