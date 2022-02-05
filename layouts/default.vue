@@ -1,11 +1,13 @@
 <template>
     <div id="main-window">
         <SideBar/>
-        <nuxt/>
+        <div id="main">
+          <nuxt/>
+        </div>
     </div>
 </template>
 
-<script lang="ts">
+<script>
     import SideBar from '@/components/SideBar.vue'
     export default {
         components: {
@@ -21,6 +23,15 @@
         height: 100vh;
         width: 100%;
         display: flex;
+    }
+
+    #main {
+      width: 100%;
+      padding: 40px;
+      background-color: #1d1e26;
+      color: #edefff;
+      display: flex;
+      justify-content: center;
     }
 
 </style>

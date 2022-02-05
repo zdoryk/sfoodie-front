@@ -13,35 +13,35 @@
 
     <nuxt-link class="sidebar-link" active-class="new-receipt-btn" to="/AddNewReceipt">
       <blue-button id="add-new">
-        <file-plus-icon class="ico" />
+        <file-plus-icon class="ico menu-item-icon" />
         New Receipt
       </blue-button>
     </nuxt-link>
 
     <nuxt-link class="sidebar-link" active-class="active" to="/AllReceipts">
       <menu-item class="menu-item">
-        <receipt-icon class="ico" />
+        <receipt-icon class="ico menu-item-icon" />
         All Receipts
       </menu-item>
     </nuxt-link>
 
     <nuxt-link class="sidebar-link" active-class="active" to="/MyProducts">
       <menu-item class="menu-item">
-        <apple-icon class="ico" />
+        <apple-icon class="ico menu-item-icon" />
         My Products
       </menu-item>
     </nuxt-link>
 
     <nuxt-link class="sidebar-link" active-class="active" to="/Statistic">
       <menu-item class="menu-item">
-        <chart-infographic-icon class="ico" />
+        <chart-infographic-icon class="ico menu-item-icon" />
         Statistic
       </menu-item>
     </nuxt-link>
 
     <nuxt-link class="sidebar-link" active-class="active" to="/Info">
       <menu-item class="menu-item">
-        <info-circle-icon class="ico" />
+        <info-circle-icon class="ico menu-item-icon" />
         Info
       </menu-item>
     </nuxt-link>
@@ -59,7 +59,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 .sidebar-link {
   align-self: center;
 }
@@ -81,11 +81,11 @@ export default {
 
 #logo {
   padding: 34px;
-  width: 250px;
+  width: 270px;
   align-self: center;
 }
 
-.ico {
+.menu-item-icon {
   padding-bottom: 2px;
   margin-right: 12px;
 }
