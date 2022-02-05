@@ -20,6 +20,8 @@
     "webpack": "^4.46.0"
   },
   "devDependencies": {
-    "@nuxt/types": "~2.15.0"
+    "@nuxt/types": "~2.15.0",
+    "sass": "^1.49.7",
+    "sass-loader": "^10.2.1"
   }
 }

@@ -14,14 +14,13 @@ export default {
 
 
   .bttn {
-    padding: 10px 15px;
-    width: 200px;
     color: #EDEFFF;
     background-color: #696AE9;
     display: flex;
     font-size: 15px;
     border: none;
     border-radius: 4px;
+    justify-content: center;
   }
 
   .bttn:hover{

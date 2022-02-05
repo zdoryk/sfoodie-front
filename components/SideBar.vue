@@ -11,35 +11,35 @@
       <path d="M545.426 22.2567V34.1645H568.874V49.5929H545.426V62.7433H572V79H525V6H572V22.2567H545.426Z" fill="#EDEFFF"/>
     </svg>
 
-    <nuxt-link to="/AddNewReceipt">
+    <nuxt-link class="sidebar-link" active-class="new-receipt-btn" to="/AddNewReceipt">
       <blue-button id="add-new">
         <file-plus-icon class="ico" />
         New Receipt
       </blue-button>
     </nuxt-link>
 
-    <nuxt-link to="/AllReceipts">
+    <nuxt-link class="sidebar-link" active-class="active" to="/AllReceipts">
       <menu-item class="menu-item">
         <receipt-icon class="ico" />
         All Receipts
       </menu-item>
     </nuxt-link>
 
-    <nuxt-link to="/MyProducts">
+    <nuxt-link class="sidebar-link" active-class="active" to="/MyProducts">
       <menu-item class="menu-item">
         <apple-icon class="ico" />
         My Products
       </menu-item>
     </nuxt-link>
 
-    <nuxt-link to="/Statistic">
+    <nuxt-link class="sidebar-link" active-class="active" to="/Statistic">
       <menu-item class="menu-item">
         <chart-infographic-icon class="ico" />
         Statistic
       </menu-item>
     </nuxt-link>
 
-    <nuxt-link to="/Info">
+    <nuxt-link class="sidebar-link" active-class="active" to="/Info">
       <menu-item class="menu-item">
         <info-circle-icon class="ico" />
         Info
@@ -59,28 +59,51 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.sidebar-link {
+  align-self: center;
+}
+
 #add-new {
-  margin-left: 25px;
-  padding-top: 15px;
-  padding-left: 15px;
+  width: 200px;
+  padding: 12px 0;
 }
 
 #side-bar {
-  width: 330px;
+  max-width: 280px;
+  min-width: 280px;
   height: 100%;
   background-color: #23242d;
   display: flex;
   flex-direction: column;
+  align-content: center;
 }
 
 #logo {
   padding: 34px;
   width: 250px;
+  align-self: center;
 }
 
 .ico {
   padding-bottom: 2px;
   margin-right: 12px;
 }
+
+a.active.active > button {
+  transition: all 0.3s ease-out;
+  transform: translate(12px, 0);
+  color: #696AE9;
+}
+
+a.new-receipt-btn.new-receipt-btn > button{
+  box-shadow: 0 0 20px rgba(105, 106, 233, 0.2);
+  background-color: #5D5FEF;
+  border-radius: 4px;
+}
+
+a {
+  text-decoration: none;
+}
+
 </style>
