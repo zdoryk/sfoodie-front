@@ -34,7 +34,7 @@ export default {
   transition: 0.3s ease-out;
   background: #ED957D;
   color: #edefff;
-  border: 1px solid #ED957D;
+  border: 1.5px solid #ED957D;
   box-shadow: 0 0 20px rgba(242, 139, 112, 0.3);
   border-radius: 4px;
 }
