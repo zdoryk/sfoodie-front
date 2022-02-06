@@ -72,7 +72,6 @@ export default {
 #side-bar {
   max-width: 280px;
   min-width: 280px;
-  height: 100%;
   background-color: #23242d;
   display: flex;
   flex-direction: column;
