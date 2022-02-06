@@ -202,8 +202,7 @@ input[type=number] {
 }
 
 #blank {
-  opacity: 0;
-  cursor: default
+  visibility: hidden;
 }
 
 #delete-save-buttons {
@@ -214,6 +213,14 @@ input[type=number] {
 
 .buttons{
   width: 160px;
+}
+
+.total-price{
+  font-size: 20px;
+  color: #B6B8CA;
+  /*font-family: Poppins;*/
+  font-style: normal;
+  font-weight: 600;
 }
 
 </style>

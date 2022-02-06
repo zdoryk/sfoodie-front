@@ -1,11 +1,13 @@
 <template>
   <div class="AllTime">
-    <h1>All Time</h1>
+    <ExistingReceiptItem/>
   </div>
 </template>
 
 <script>
+import ExistingReceiptItem from "@/components/AllReceipts/ExistingReceiptItem";
 export default {
+  components: {ExistingReceiptItem},
   layout: 'allReceiptsPage',
   name: "AllTime"
 }

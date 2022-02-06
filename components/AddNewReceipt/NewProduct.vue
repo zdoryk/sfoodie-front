@@ -54,5 +54,6 @@ export default {
     flex: 1;
     justify-content: flex-end;
     margin-right: 32px;
+    color: #B6B8CA;
   }
 </style>

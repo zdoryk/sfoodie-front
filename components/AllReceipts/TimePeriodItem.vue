@@ -21,7 +21,6 @@ export default {
     border: none;
     outline: none;
     box-shadow: none;
-    margin-left: 80px;
     font-size: 16px;
     //border-bottom: 1px solid #696AE9;
     padding-bottom: 12px;
@@ -30,6 +29,7 @@ export default {
     span {
       display: block;
       transition: all 0.3s ease-out;
+      white-space: nowrap;
     }
   }
 

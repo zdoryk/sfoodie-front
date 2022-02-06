@@ -7,13 +7,13 @@
           <time-period-item>All time</time-period-item>
         </nuxt-link>
         <nuxt-link active-class="time-period-active" to="/AllReceipts/ThisWeek">
-          <time-period-item >This week</time-period-item>
+          <time-period-item class="not-first" >This week</time-period-item>
         </nuxt-link>
         <nuxt-link active-class="time-period-active" to="/AllReceipts/ThisMonth">
-          <time-period-item>This month</time-period-item>
+          <time-period-item class="not-first">This month</time-period-item>
         </nuxt-link>
         <nuxt-link active-class="time-period-active" to="/AllReceipts/CustomPeriod">
-          <time-period-item>Custom period</time-period-item>
+          <time-period-item class="not-first">Custom period</time-period-item>
         </nuxt-link>
       </div>
     </div>
@@ -37,7 +37,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .AllReceipts{
   width: 100%;
 }
@@ -53,6 +53,11 @@ export default {
 .navigation-bar {
   display: flex;
   margin-bottom: 40px;
+  flex-wrap: wrap;
+
+  //@media (max-width: 825px) {
+  //  flex-direction: column;
+  //}
 }
 
 .time-period {
@@ -60,7 +65,21 @@ export default {
   align-items: center;
   justify-content: flex-end;
   flex: 2.5;
+
+  //@media (max-width: 1200px) {
+  //  margin-top: 30px;
+  //}
 }
+
+.not-first{
+  margin-left: 80px;
+
+  //@media (max-width: 1200px) {
+  //  margin-left: 30px;
+  //}
+
+}
+
 
 
 </style>
