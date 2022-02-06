@@ -1,52 +1,66 @@
 <template>
-    <div class="container-fluid">
-      <h1>All Receipts</h1>
-       <div class="row justify-content-center">
-         <cross-button @click.native="test"/>
-       </div>
+  <div class="AllReceipts">
+    <div class="navigation-bar">
+      <div id="title">All Receipts</div>
+      <div class="time-period">
+        <nuxt-link active-class="time-period-active" to="/AllReceipts/AllTime">
+          <time-period-item>All time</time-period-item>
+        </nuxt-link>
+        <nuxt-link active-class="time-period-active" to="/AllReceipts/ThisWeek">
+          <time-period-item >This week</time-period-item>
+        </nuxt-link>
+        <nuxt-link active-class="time-period-active" to="/AllReceipts/ThisMonth">
+          <time-period-item>This month</time-period-item>
+        </nuxt-link>
+        <nuxt-link active-class="time-period-active" to="/AllReceipts/CustomPeriod">
+          <time-period-item>Custom period</time-period-item>
+        </nuxt-link>
+      </div>
     </div>
+    <div class="time-period-content">
+      <NuxtChild />
+    </div>
+  </div>
 </template>
 
 <script>
-    import CrossButton from "@/components/UI/CrossButton";
-    import _ from "lodash"
-    import md5 from "md5";
+import TimePeriodItem from "@/components/AllReceipts/TimePeriodItem";
 
-    export default {
-      components: {CrossButton},
-      data() {
-            return {
-              a: [
-                {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-                {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-                {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-                {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-              ]
-                // size: list.length
-            }
-        },
-      methods:{
-        test(){
-          let b = md5('Beef'.toLowerCase())
-          console.log(JSON.parse(JSON.stringify(this.a)).map(item => item.product_id).includes(b))
-        }
-
-      }
+export default {
+  components: {TimePeriodItem},
+  data() {
+    return {
     }
+  },
+  methods:{
+  }
+}
 </script>
 
 <style scoped>
-    h1{
-        font-size: 25px;
-        font-weight: bold;
-        padding-bottom: 15px;
-    }
+.AllReceipts{
+  width: 100%;
+}
 
-    input::-webkit-calendar-picker-indicator {
-        display: none;
-        opacity: 0;
-    }
 
+#title{
+  font-size: 25px;
+  font-weight: bold;
+  flex: 1;
+  justify-self: flex-start;
+}
+
+.navigation-bar {
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.time-period {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 2.5;
+}
 
 
 </style>

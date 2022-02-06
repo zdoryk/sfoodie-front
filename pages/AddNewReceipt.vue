@@ -51,7 +51,7 @@
 <script>
 
 import BlueButton from "@/components/UI/BlueButton";
-import NewProduct from "@/components/NewProduct"
+import NewProduct from "@/components/AddNewReceipt/NewProduct"
 import md5 from "md5"
 import {mapActions, mapMutations} from "vuex"
 import _ from "lodash"

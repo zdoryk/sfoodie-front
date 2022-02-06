@@ -51,7 +51,7 @@
 
 <script>
 import BlueButton from "@/components/UI/BlueButton.vue"
-import MenuItem from "@/components/UI/MenuItem.vue"
+import MenuItem from "@/components/SideBar/MenuItem.vue"
 import { InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon } from 'vue-tabler-icons';
 
 export default {
