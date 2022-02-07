@@ -36,7 +36,7 @@
           />
         <div id="line"></div>
         <div class="total">
-          <div class="total-amount">Total {{this.$store.state.state.receipt_products.length}} products</div>
+          <div class="total-amount">Total {{this.$store.state.state.new_receipt_products.length}} products</div>
           <div class="total-price">${{this.total_price.toFixed(2)}}</div>
           <cross-button id="blank"/>
         </div>
@@ -74,10 +74,10 @@ export default {
       return this.$store.state.state.products
     },
     user_added_products(){
-      return this.$store.state.state.receipt_products
+      return this.$store.state.state.new_receipt_products
     },
     total_price(){
-      let before_sum = JSON.parse(JSON.stringify(this.$store.state.state.receipt_products)).map(item => item.price)
+      let before_sum = JSON.parse(JSON.stringify(this.$store.state.state.new_receipt_products)).map(item => item.price)
       return before_sum.reduce((partialSum, a) => partialSum + a, 0);
     }
   },
@@ -92,8 +92,9 @@ export default {
     add_new_product() {
       this.new_product['product_id'] = md5(this.new_product.product_name.toLowerCase())
       // We're checking if there is product with same product_id in state.receipt_products
-      if (!JSON.parse(JSON.stringify(this.$store.state.state.receipt_products))
+      if (!JSON.parse(JSON.stringify(this.$store.state.state.new_receipt_products))
           .map(item => item.product_id).includes(this.new_product.product_id)){
+        console.log(JSON.parse(JSON.stringify(this.new_product)))
         this.ADD_PRODUCT_TO_RECEIPT_PRODUCTS(JSON.parse(JSON.stringify(this.new_product)))
       }
       else alert(`The receipt already contains a product with the name: "${this.new_product.product_name}"`);
