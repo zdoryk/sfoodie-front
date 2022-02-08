@@ -65,6 +65,7 @@ export default {
   align-items: center;
   justify-content: flex-end;
   flex: 2.5;
+  min-height: 40px;
 
   //@media (max-width: 1200px) {
   //  margin-top: 30px;

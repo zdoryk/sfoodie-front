@@ -24,7 +24,7 @@ export default {
     font-size: 16px;
     //border-bottom: 1px solid #696AE9;
     padding-bottom: 12px;
-    margin-bottom: -12px;
+    margin-bottom: -10px;
 
     span {
       display: block;
