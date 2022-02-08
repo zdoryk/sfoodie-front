@@ -192,7 +192,7 @@ export const state = () => ({
           ]
         },
         {
-          createdAt: "02/05/2022",
+          createdAt: "02/05/2021",
           receipt_id: '3',
           products: [
             {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},

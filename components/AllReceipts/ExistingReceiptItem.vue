@@ -72,9 +72,9 @@ export default {
 
     date_format() {
       const date = new Date(this.existing_receipt_data.createdAt)
-      return date.toLocaleString('en-EG', { month: 'short' }) + ', ' + date.getDate()
-
-
+      let result = date.toLocaleString('en-EG', { month: 'short' }) + ' ' + date.getDate()
+      if (date.getFullYear() === new Date().getFullYear()) return result
+      else return result + ', ' + date.getFullYear()
     }
   }
 }
