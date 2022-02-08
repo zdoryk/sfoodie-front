@@ -18,7 +18,9 @@
 </script>
 
 
-<style>
+<style lang="scss">
+    @import "assets/variables";
+
     #main-window {
         min-height: 100vh;
         height: 100%;
@@ -29,10 +31,32 @@
     #main {
       width: 100%;
       padding: 40px;
-      background-color: #1d1e26;
-      color: #edefff;
+      background-color: $black;
+      color: $white;
       display: flex;
       justify-content: center;
     }
+
+    .total-amount,.total-price, .product-price, .product-name {
+      color: $grey;
+      /*font-family: Poppins;*/
+    }
+
+    .total-amount, .product-name {
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .total-price{
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .product-price {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
 
 </style>

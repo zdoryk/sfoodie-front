@@ -15,9 +15,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "assets/variables";
+
   .time-period-button.time-period-button {
     background: none;
-    color: #B6B8CA;
+    color: $grey;
     border: none;
     outline: none;
     box-shadow: none;
@@ -37,7 +39,7 @@ export default {
     .time-period-button {
       span {
         transition: all 0.3s ease-out;
-        color: #696AE9;
+        color: $blue;
       }
     }
   }

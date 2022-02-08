@@ -11,10 +11,10 @@
     <div class="hidden" v-if="isOpened">
       <div class="receipt-line"/>
       <div class="existing-receipt-product" v-for="product in this.existing_receipt_data.products" :key="product.product_id">
-        <div class="grey existing-receipt-product-title">
+        <div class="product-name existing-receipt-product-title">
           {{product.product_name}}
         </div>
-        <div class="grey existing-receipt-product-price">
+        <div class="product-price existing-receipt-product-price">
           ${{product.price}}
         </div>
       </div>
@@ -81,6 +81,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "assets/variables";
+
   .ExistingReceiptItem {
     display: flex;
     flex-direction: column;
@@ -90,8 +92,8 @@ export default {
     width: 334px;
     //height: 136px;
     top: 0;
-    background: #23242D;
-    box-shadow: 0 -4px 40px #1B1C22;
+    background: $grey-background;
+    box-shadow: 0 -4px 40px $black-shadow;
     border-radius: 8px;
   }
 
@@ -108,7 +110,7 @@ export default {
 
     &:hover > button{
       transition: 0.3s ease-out;
-      color: #696AE9;
+      color: $blue;
     }
   }
 
@@ -118,7 +120,7 @@ export default {
 
   .receipt-line{
     width: 100%;
-    border: 1px solid #3A3C4C;
+    border: 1px solid $line;
     height: 0;
     margin-top: 16px
   }
@@ -129,21 +131,6 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-
-  .total-amount {
-    font-size: 16px;
-  }
-
-  .total-price{
-    font-size: 20px;
-    /*font-family: Poppins;*/
-    font-style: normal;
-    font-weight: 600;
-  }
-
-  .grey{
-    color: #B6B8CA;
   }
 
   .hidden {

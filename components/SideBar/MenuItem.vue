@@ -10,7 +10,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "assets/variables";
+
     .btn.btn{
         position: relative;
         width: 200px;
@@ -19,7 +21,7 @@ export default {
         margin-left: 10px;
         padding-top: 35px;
         background: none;
-        color: #B6B8CA;
+        color: $grey;
         border: none;
         font-size: 15px;
         outline: none;
@@ -29,6 +31,6 @@ export default {
     .btn:hover{
         transition: all 0.3s ease-out;
         transform: translate(12px, 0);
-        color: #696AE9;
+        color: $blue;
     }
 </style>

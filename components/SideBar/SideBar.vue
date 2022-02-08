@@ -60,6 +60,8 @@ export default {
 </script>
 
 <style lang="scss" >
+@import "assets/variables";
+
 .sidebar-link {
   align-self: center;
 }
@@ -72,7 +74,7 @@ export default {
 #side-bar {
   max-width: 280px;
   min-width: 280px;
-  background-color: #23242d;
+  background-color: $grey-background;
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -92,12 +94,12 @@ export default {
 a.active.active > button {
   transition: all 0.3s ease-out;
   transform: translate(12px, 0);
-  color: #696AE9;
+  color: $blue;
 }
 
 a.new-receipt-btn.new-receipt-btn > button{
-  box-shadow: 0 0 20px rgba(105, 106, 233, 0.2);
-  background-color: #5D5FEF;
+  box-shadow: 0 0 20px $blue-shadow;
+  background-color: $blue-dark;
   border-radius: 4px;
 }
 

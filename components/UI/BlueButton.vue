@@ -10,12 +10,12 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  @import "assets/variables";
 
   .bttn {
-    color: #EDEFFF;
-    background-color: #696AE9;
+    color: $white;
+    background-color: $blue;
     display: flex;
     align-items: center;
     font-size: 15px;
@@ -26,8 +26,8 @@ export default {
 
   .bttn:hover{
     transition: 0.3s ease-out;
-    box-shadow: 0 0 20px rgba(105, 106, 233, 0.2);
-    background-color: #5D5FEF;
+    box-shadow: 0 0 20px $blue-shadow;
+    background-color: $blue-dark;
     border-radius: 4px;
   }
 

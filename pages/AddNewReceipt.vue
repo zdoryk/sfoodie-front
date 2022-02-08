@@ -107,7 +107,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+@import "assets/variables";
 
 .first-row, .products-container {
   max-width: 560px;
@@ -116,8 +116,8 @@ export default {
 .products-container {
   margin-top: 16px;
   padding: 40px;
-  background: #23242D;
-  box-shadow: 0px -4px 40px #1B1C22;
+  background: $grey-background;
+  box-shadow: 0px -4px 40px $black-shadow;
   border-radius: 8px;
 }
 
@@ -152,12 +152,12 @@ h1 {
 }
 
 .custom-input {
-  background: #282932;
+  background: $grey-input-background;
   border: none;
   border-radius: 4px;
   outline: none;
   box-shadow: none;
-  color: #edefff;
+  color: $white;
 }
 
 input::-webkit-calendar-picker-indicator {
@@ -179,7 +179,7 @@ input[type=number] {
 #line {
   width: 100%;
   height: 0;
-  border: 1px solid #3A3C4C;
+  border: 1px solid $line;
   transform: rotate(0.13deg);
   flex: none;
   order: 0;
@@ -187,6 +187,7 @@ input[type=number] {
   flex-grow: 1;
   margin-bottom: 16px;
 }
+
 
 .total, .total-price {
   display: flex;
@@ -214,14 +215,6 @@ input[type=number] {
 
 .buttons{
   width: 160px;
-}
-
-.total-price{
-  font-size: 20px;
-  color: #B6B8CA;
-  /*font-family: Poppins;*/
-  font-style: normal;
-  font-weight: 600;
 }
 
 </style>

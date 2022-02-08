@@ -14,11 +14,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "assets/variables";
+
+
 .cross-button {
   width: 24px;
   height: 24px;
-  border: 1.5px solid #ED957D;
-  color: #ED957D;
+  border: 1.5px solid $peach;
+  color: $peach;
   box-sizing: content-box;
   border-radius: 4px;
   background-color: transparent;
@@ -32,10 +35,10 @@ export default {
 
 .cross-button:hover{
   transition: 0.3s ease-out;
-  background: #ED957D;
-  color: #edefff;
-  border: 1.5px solid #ED957D;
-  box-shadow: 0 0 20px rgba(242, 139, 112, 0.3);
+  background: $peach;
+  color: $white;
+  border: 1.5px solid $peach;
+  box-shadow: 0 0 20px $peach-shadow;
   border-radius: 4px;
 }
 

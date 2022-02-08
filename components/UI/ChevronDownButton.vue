@@ -18,12 +18,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "assets/variables";
+
 
 .chevron-down-button {
   width: 100%;
   height: 32px;
-  color: #edefff;
+  color: $white;
   box-sizing: content-box;
   border-radius: 4px;
   background-color: transparent;

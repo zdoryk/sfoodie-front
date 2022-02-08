@@ -6,3 +6,11 @@ if the input is empty, then Date.now() will be written
 Questions:
 
 1. What about year? What if our user has been using this app for over a year.
+
+
+Accepted:
+
+1. Add input for date on "AddNewReceipt"
+2. Add year on receipts on "AllReceipts"
+3. Add page for "Custom Period" on page "AllReceipts"
+
