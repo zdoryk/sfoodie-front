@@ -191,6 +191,16 @@ export const state = () => ({
             {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
           ]
         },
+        {
+          createdAt: "02/05/2022",
+          receipt_id: '3',
+          products: [
+            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+          ]
+        },
     ]
     },
 });
