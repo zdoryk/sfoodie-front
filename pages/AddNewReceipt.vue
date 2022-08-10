@@ -25,7 +25,7 @@
           id="add-button"
           v-on:click.native="add_new_product"
         >
-          Add
+          <div>Add</div>
         </blue-button>
       </div>
       <div class="products-container">
@@ -138,11 +138,13 @@ h1 {
 }
 
 #product-input {
-  flex: 3;
+  //flex: 3;
+  width: 70%
 }
 
 #price-input {
-  flex: 1;
+  width: 30%
+  //flex: 1;
 }
 
 #add-button {
@@ -186,6 +188,7 @@ input[type=number] {
   align-self: stretch;
   flex-grow: 1;
   margin-bottom: 16px;
+  z-index: 10;
 }
 
 
@@ -215,6 +218,44 @@ input[type=number] {
 
 .buttons{
   width: 160px;
+}
+
+@media (max-width: 420px){
+  .first-row{
+    margin-top: 20px;
+  }
+
+  #product-input{
+    max-width: 200px;
+  }
+
+  #price-input{
+    max-width: 80px;
+  }
+
+  #add-button{
+    max-width: 40px;
+    max-height: 40px;
+  }
+
+  #product-input,
+  #price-input {
+    margin-right: 8px;
+  }
+
+  .products-container{
+    max-width: 338px;
+    padding: 16px;
+  }
+
+  .buttons{
+    max-width: 143.5px;
+  }
+
+  .NewProduct{
+    margin-bottom: 20px;
+  }
+
 }
 
 </style>
