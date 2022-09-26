@@ -1,11 +1,12 @@
 <template>
     <div id="main-window">
-        <SideBar id="side-bar" :class="{active: isActive}"/>
-        <div class="menu-toggle" v-on:click="isActive = !isActive" :class="{active: isActive}">
-          <div class="hamburger" >
-            <span></span>
-          </div>
-        </div>
+        <SideBar id="side-bar" :class="{active: checkState}"/>
+<!--        <div class="menu-toggle" v-on:click="isActive = !isActive" :class="{active: isActive}">-->
+<!--          <div class="burger" >-->
+<!--            <span></span>-->
+<!--          </div>-->
+<!--        </div>-->
+        <Burger/>
         <div id="main">
           <nuxt/>
         </div>
@@ -14,16 +15,23 @@
 
 <script>
     import SideBar from '@/components/SideBar/SideBar.vue'
+    import Burger from "@/components/SideBar/Burger";
     export default {
         components: {
+          Burger,
             SideBar
         },
         name: "layout",
         data() {
           return {
-            isActive: false
+            isActive: false,
           }
         },
+        computed: {
+          checkState() {
+            return this.$store.state.state.isHamburger
+          },
+        }
     }
 
 </script>
@@ -32,10 +40,9 @@
 <style lang="scss">
     @import "assets/variables";
 
-
     #main-window {
         min-height: 100vh;
-        height: 100vh;
+        //height: 100vh;
         width: 100%;
         display: flex;
     }
@@ -52,7 +59,8 @@
 
     .total-amount,.total-price, .product-price, .product-name {
       color: $grey;
-      /*font-family: Poppins;*/
+      font-family: Poppins, sans-serif;
+      //font-weight: 600;
     }
 
     .total-amount, .product-name {
@@ -71,72 +79,10 @@
       font-size: 16px;
     }
 
-    .menu-toggle{
-      display: none;
-      position: fixed;
-      top: 7px;
-      right: 2rem;
-      width: 60px;
-      height: 60px;
-      border-radius: 99px;
-      //background-color: #2e3047;
-      cursor: pointer;
-    }
-
-    .hamburger {
-      position: relative;
-      top: calc(50% - 1px);
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 24px;
-    }
-
-    .hamburger > span,
-    .hamburger > span::before,
-    .hamburger > span::after {
-      display: block;
-      position: absolute;
-      width: 100%;
-      height: 2px;
-      border-radius: 99px;
-      background-color: #FFF;
-      transition-duration: .25s;
-    }
-
-    .hamburger > span::before {
-      content: '';
-      top: -8px;
-    }
-    .hamburger > span::after {
-      content: '';
-      top: 8px;
-    }
-
-    .menu-toggle.active.active .hamburger > span {
-      transform: rotate(45deg);
-    }
-    .menu-toggle.active.active .hamburger > span::before {
-      top: 0;
-      transform: rotate(0deg);
-    }
-    .menu-toggle.active.active .hamburger > span::after {
-      top: 0;
-      transform: rotate(90deg);
-    }
-
-    @media (max-width: 1024px){
-      #side-bar{
-        max-width: 200px;
-      }
-    }
-
-    @media (max-width: 800px){
-      .menu-toggle{
-        display: block;
-      }
+    @media (max-width: $tab-size){
 
       #main {
-        padding: 0;
+        padding: 30px;
       }
 
       #side-bar{
@@ -155,11 +101,7 @@
 
     }
 
-    @media (max-width: 420px){
-      .menu-toggle{
-        display: block;
-      }
-
+    @media (max-width: $phone-size){
 
       #side-bar{
         position: fixed;
@@ -174,6 +116,12 @@
         left: 0;
       }
 
+      #main {
+        padding: 0;
+      }
+
     }
 
 </style>
+
+

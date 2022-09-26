@@ -12,10 +12,10 @@
     </svg>
 
     <nuxt-link class="sidebar-link" active-class="new-receipt-btn" to="/AddNewReceipt">
-      <blue-button id="add-new">
+      <add-new-product-button id="add-new" >
         <file-plus-icon class="ico menu-item-icon" />
         New Receipt
-      </blue-button>
+      </add-new-product-button>
     </nuxt-link>
 
     <nuxt-link class="sidebar-link" active-class="active" to="/AllReceipts">
@@ -53,9 +53,14 @@
 import BlueButton from "@/components/UI/BlueButton.vue"
 import MenuItem from "@/components/SideBar/MenuItem.vue"
 import { InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon } from 'vue-tabler-icons';
+import {mapActions} from "vuex";
+import AddNewProductButton from "@/components/SideBar/AddNewProductBtn";
 
 export default {
-  components:{ BlueButton, MenuItem, InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon}
+  components:{AddNewProductButton, BlueButton, MenuItem, InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon},
+  methods:{
+    ...mapActions(['SELECT_FIRST_RECEIPT',]),
+  },
 }
 </script>
 

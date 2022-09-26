@@ -5,6 +5,9 @@ import md5 from "md5"
 export const state = () => ({
   namespaced: true,
   state: {
+    isHamburger: false,
+    selected_receipt_desktop: [],
+    selected_receipt_mobile: [],
     products: ['Bread', 'Chicken', 'Salmon',
       'Pasta', 'Rice', 'Oil', 'Ketchup',
       'Salad', 'Cereals', 'Tomato', 'Carrot',
@@ -16,192 +19,7 @@ export const state = () => ({
       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
     ],
     new_receipt_date: {date: 'qwe'},
-    existing_receipts: [
-        {
-          createdAt: "02/07/2022",
-          receipt_id: '1',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-            {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "08/16/2022",
-          receipt_id: '2',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "12/25/2022",
-          receipt_id: '3',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "02/07/2022",
-          receipt_id: '1',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-            {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "08/16/2022",
-          receipt_id: '2',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "12/25/2022",
-          receipt_id: '3',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "02/07/2022",
-          receipt_id: '1',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-            {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "08/16/2022",
-          receipt_id: '2',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "12/25/2022",
-          receipt_id: '3',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "02/07/2022",
-          receipt_id: '1',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-            {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "08/16/2022",
-          receipt_id: '2',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "12/25/2022",
-          receipt_id: '3',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "02/07/2022",
-          receipt_id: '1',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-            {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "08/16/2022",
-          receipt_id: '2',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "12/25/2022",
-          receipt_id: '3',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "02/07/2022",
-          receipt_id: '1',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-            {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "08/16/2022",
-          receipt_id: '2',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "12/25/2022",
-          receipt_id: '3',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-          ]
-        },
-        {
-          createdAt: "02/05/2021",
-          receipt_id: '3',
-          products: [
-            {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-            {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-            {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-            {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-          ]
-        },
-    ]
+    existing_receipts: []
     },
 });
 
@@ -215,6 +33,223 @@ export const getters = {
 }
 
 export const mutations = {
+  SET_EXISTING_RECEIPTS: (state) => {
+    console.log('Hey')
+    state.state.existing_receipts = [
+      {
+        createdAt: "02/07/2022",
+        receipt_id: '1',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},{product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
+
+        ]
+      },
+      {
+        createdAt: "08/16/2022",
+        receipt_id: '2',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "12/25/2022",
+        receipt_id: '3',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "02/07/2022",
+        receipt_id: '4',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "08/16/2022",
+        receipt_id: '5',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "12/25/2022",
+        receipt_id: '6',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "02/07/2022",
+        receipt_id: '7',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "08/16/2022",
+        receipt_id: '8',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "12/25/2022",
+        receipt_id: '9',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "02/07/2022",
+        receipt_id: '10',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "08/16/2022",
+        receipt_id: '12',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "12/25/2022",
+        receipt_id: '13',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "02/07/2022",
+        receipt_id: '14',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "08/16/2022",
+        receipt_id: '15',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "12/25/2022",
+        receipt_id: '16',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "02/07/2022",
+        receipt_id: '17',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "08/16/2022",
+        receipt_id: '18',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "12/25/2022",
+        receipt_id: '19',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+        ]
+      },
+      {
+        createdAt: "02/05/2021",
+        receipt_id: '20',
+        products: [
+          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
+          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
+          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+        ]
+      },
+    ]
+    state.state.selected_receipt_desktop = state.state.existing_receipts[0]
+  },
+
+
   SET_RECEIPT_PRODUCTS_STATE: (state, product) => {
     console.log(product)
     state.state.new_receipt_products.push(product);
@@ -234,8 +269,26 @@ export const mutations = {
   REMOVE_RECEIPT_FROM_EXISTING: (state, receipt) => {
     console.log(receipt)
     state.state.existing_receipts.splice(state.state.existing_receipts.indexOf(state.state.existing_receipts.find(item => item.receipt_id === receipt.receipt_id)),1)
-  }
+  },
+
+  CHANGE_HAMBURGER_STATE: (state) => {
+    state.state.isHamburger = !state.state.isHamburger
+  },
+
+  REPLACE_SELECTED_RECEIPT: (state, receipt) => {
+    state.state.selected_receipt_desktop = receipt
+  },
+
+  SET_FIRST_RECEIPT(state) {
+    console.log(this.$store.state.state.existing_receipts)
+    state.state.selected_receipt_desktop = state.state.existing_receipts[0]
+  },
+
+  REPLACE_SELECTED_RECEIPT_MOBILE: (state, receipt) => {
+    state.state.selected_receipt_mobile = receipt
+  },
 }
+
 
 export const actions = {
   ADD_PRODUCT_TO_RECEIPT_PRODUCTS({commit}, product){
@@ -248,7 +301,26 @@ export const actions = {
 
   DELETE_EXISTING_RECEIPT({commit}, receipt){
     commit('REMOVE_RECEIPT_FROM_EXISTING', receipt)
-  }
+  },
 
+  CHANGE_HAMBURGER_STATE_ACTION({commit}, active){
+    commit('CHANGE_HAMBURGER_STATE')
+  },
+
+  SELECT_EXISTING_RECEIPT({commit}, receipt){
+    commit('REPLACE_SELECTED_RECEIPT', receipt)
+  },
+
+  SELECT_FIRST_RECEIPT({commit}){
+    commit('SET_FIRST_RECEIPT')
+  },
+
+  SET_EXISTING_RECEIPTS_ACTION({commit}){
+    commit('SET_EXISTING_RECEIPTS')
+  },
+
+  SELECT_EXISTING_MOBILE({commit}, receipt){
+    commit('REPLACE_SELECTED_RECEIPT_MOBILE', receipt)
+  },
 
 }

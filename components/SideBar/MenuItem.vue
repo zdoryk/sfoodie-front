@@ -1,12 +1,21 @@
 <template>
-    <button class="btn">
+    <button class="btn" v-on:click="changeHamburger">
         <slot></slot>
     </button>
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
-    name: 'menu-item'
+    name: 'menu-item',
+    methods: {
+      ...mapActions(['CHANGE_HAMBURGER_STATE_ACTION']),
+      changeHamburger() {
+        this.CHANGE_HAMBURGER_STATE_ACTION()
+      }
+    },
+
 }
 </script>
 

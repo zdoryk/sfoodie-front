@@ -213,14 +213,18 @@ input[type=number] {
 #delete-save-buttons {
   margin-top: 28px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .buttons{
   width: 160px;
 }
 
-@media (max-width: 420px){
+.bttn{
+  padding: 0;
+}
+
+@media (max-width: $phone-size){
   .first-row{
     margin-top: 20px;
   }
@@ -251,6 +255,7 @@ input[type=number] {
   .buttons{
     max-width: 143.5px;
   }
+
 
   .NewProduct{
     margin-bottom: 20px;

@@ -1,38 +1,28 @@
 <template>
-  <div class="ExistingReceiptItem">
-    <div class="date-and-chevron-button">
-<!--      <div class="date">-->
-<!--        December 21-->
-<!--      </div>-->
-      <chevron-down-button @click.native="isOpened = !isOpened"  v-bind:is-opened="this.isOpened">{{this.date_format}}</chevron-down-button>
-<!--      <chevron-down-button @click.native="click">{{this.existing_receipt_data[1].date}}</chevron-down-button>-->
-
-    </div>
-    <div class="hidden" v-if="isOpened">
-      <div class="receipt-line"/>
-      <div class="existing-receipt-product" v-for="product in this.existing_receipt_data.products" :key="product.product_id">
-        <div class="product-name existing-receipt-product-title">
-          {{product.product_name}}
-        </div>
-        <div class="product-price existing-receipt-product-price">
-          ${{product.price}}
-        </div>
+  <div class="ExistingReceiptItem"
+       :class="{'active' : this.activePlan === this.existing_receipt_data.receipt_id}"
+       tabindex="0"
+       @click="updateActivePlan"
+  >
+      <div id="header">
+          <div id="date">
+            {{this.date_format}}
+          </div>
       </div>
-    </div>
-    <div class="receipt-line"/>
-    <div class="total-amount-price">
-      <div class="grey total-amount">Total {{existing_receipt_data.products.length}} products</div>
-      <div class="grey total-price">${{total_price.toFixed(2)}}</div>
-    </div>
-<!--    <div class="delete-button" v-if="isOpened">-->
-    <red-button class="delete-button" v-if="isOpened" @click.native="delete_this_receipt">Delete</red-button>
-<!--    </div>-->
+
+      <div id="footer">
+          <div class="total-amount">
+              {{existing_receipt_data.products.length}} products
+          </div>
+          <div class="total-price">
+              ${{total_price.toFixed(2)}}
+          </div>
+      </div>
   </div>
 </template>
 
 <script>
 import ChevronDownButton from "@/components/UI/ChevronDownButton";
-import md5 from "md5";
 import RedButton from "@/components/UI/RedButton";
 import {mapActions} from "vuex";
 
@@ -41,28 +31,37 @@ export default {
   components: {RedButton, ChevronDownButton},
   data(){
     return{
-      isOpened: false,
+      myStyle: {
+        backgroundColor:"#16a085",
+        width: "10px",
+        height: "10px"
+      }
     }
   },
-  props: {
-      existing_receipt_data: {},
+  model: {
+    prop: 'activePlan',
+    event: 'onUpdatePlan'
   },
+  props: [
+      "existing_receipt_data", 'activePlan'
+
+  ],
   methods: {
     ...mapActions(
       [
-        'DELETE_EXISTING_RECEIPT'
+        'DELETE_EXISTING_RECEIPT', 'SELECT_EXISTING_RECEIPT', 'SELECT_EXISTING_MOBILE'
       ]
     ),
-
-    //    DEV
-    // click(){
-    //   console.log(this.existing_receipt_data)
-    // }
 
     delete_this_receipt(){
       console.log(this.existing_receipt_data)
       this.DELETE_EXISTING_RECEIPT(this.existing_receipt_data)
-    }
+    },
+    updateActivePlan() {
+      this.$emit('onUpdatePlan', this.existing_receipt_data.receipt_id)
+      this.SELECT_EXISTING_RECEIPT(this.existing_receipt_data)
+      // this.SELECT_EXISTING_MOBILE(this.existing_receipt_data)
+    },
   },
   computed: {
     total_price(){
@@ -82,77 +81,104 @@ export default {
 
 <style scoped lang="scss">
 @import "assets/variables";
-
-  .ExistingReceiptItem {
+  .ExistingReceiptItem{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 24px;
-    margin-bottom: 40px;
-    width: 334px;
-    //height: 136px;
-    top: 0;
+    padding: 16px;
+    gap: 8px;
+
+    min-width: 290px;
+    max-width: 354.83px;
+    height: 92px;
+
     background: $grey-background;
-    box-shadow: 0 -4px 40px $black-shadow;
+    box-shadow: 0 5px 20px -10px $black-shadow;
     border-radius: 8px;
+
+    flex: 1;
+
+    // Temporary
+    margin-bottom: 20px;
+    margin-right: 20px;
+
+    cursor: pointer;
   }
 
-  .date-and-chevron-button{
+  //.active {
+  //  background-color: #edefff;
+  //}
+
+  #date {
     width: 100%;
-    display: flex;
-    //align-items: center;
-    justify-content: space-between;
-    //cursor: pointer;
-
-    & > button {
-      font-size: 20px;
-    }
-
-    &:hover > button{
-      transition: 0.3s ease-out;
-      color: $blue;
-    }
-  }
-
-  .date {
-    font-size: 20px;
-  }
-
-  .receipt-line{
-    width: 100%;
-    border: 1px solid $line;
-    height: 0;
-    margin-top: 16px
-  }
-
-  .total-amount-price{
-    margin-top: 16px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .hidden {
-    width: 100%
-  }
-
-  .existing-receipt-product {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 16px;
-
-  }
-
-  .existing-receipt-product-price {
+    height: 24px;
     font-weight: 600;
-    font-size: 16px;
+
+    display: flex;
+    align-items: center;
+
+    color: #EDEFFF;
+
+    flex: none;
+    order: 0;
+    flex-grow: 1;
   }
 
-  .delete-button.delete-button {
-    padding: 4px 12px;
-    margin-top: 20px;
+  #footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 4px 4px 0;
+    gap: 32px;
+    width: 100%;
+    height: 32px;
+  }
+
+  .total-amount {
+    width: 60%;
+    height: 24px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    color: $grey;
+    flex: 4;
+  }
+
+  .total-price {
+    width: 84px;
+    height: 24px;
+    font-style: normal;
+    //font-weight: 600;
     font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: right;
+    color: $grey;
+    flex: 1;
+  }
+
+  .active{
+    background: $blue;
+    box-shadow: 0 0 8px rgba(105, 106, 233, 0.5), 0 0 20px $blue-shadow;
+
+    .total-amount, .total-price {
+      color: #edefff;
+    }
+
+    transition: background-color 0.3s ease-out;
+  }
+
+
+  @media(max-width: $phone-size){
+    .ExistingReceiptItem{
+      margin-right: 0;
+      max-width: 335px;
+    }
   }
 
 </style>
