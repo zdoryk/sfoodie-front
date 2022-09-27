@@ -122,6 +122,9 @@
 
     }
 
+    body{
+      overflow: hidden;
+    }
 </style>
 
 
