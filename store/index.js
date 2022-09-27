@@ -6,8 +6,7 @@ export const state = () => ({
   namespaced: true,
   state: {
     isHamburger: false,
-    selected_receipt_desktop: [],
-    selected_receipt_mobile: [],
+    selected_receipt: [],
     products: ['Bread', 'Chicken', 'Salmon',
       'Pasta', 'Rice', 'Oil', 'Ketchup',
       'Salad', 'Cereals', 'Tomato', 'Carrot',
@@ -45,31 +44,12 @@ export const mutations = {
           {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
           {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
           {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-          {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},{product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-          {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-          {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-          {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-
+          {product_name: 'Ham', price: 3.39, product_id: md5('Ham'.toLowerCase())},
+          {product_name: 'Juice', price: 6.19, product_id: md5('Juice'.toLowerCase())},
+          {product_name: 'Snickers', price: 0.99, product_id: md5('Snickers'.toLowerCase())},
+          {product_name: 'Lasagne', price: 7.99, product_id: md5('Lasagne'.toLowerCase())},
+          {product_name: 'Ketchup', price: 0.59, product_id: md5('Ketchup'.toLowerCase())},
+          {product_name: 'Pineapple', price: 4.99, product_id: md5('Pineapple'.toLowerCase())},
         ]
       },
       {
@@ -77,7 +57,7 @@ export const mutations = {
         receipt_id: '2',
         products: [
           {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-          {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
+          // {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
         ]
       },
       {
@@ -246,7 +226,7 @@ export const mutations = {
         ]
       },
     ]
-    state.state.selected_receipt_desktop = state.state.existing_receipts[0]
+    state.state.selected_receipt = state.state.existing_receipts[0]
   },
 
 
@@ -276,17 +256,19 @@ export const mutations = {
   },
 
   REPLACE_SELECTED_RECEIPT: (state, receipt) => {
-    state.state.selected_receipt_desktop = receipt
+    state.state.selected_receipt = receipt
+    // state.state.selected_receipt_desktop = receipt
   },
 
   SET_FIRST_RECEIPT(state) {
     console.log(this.$store.state.state.existing_receipts)
-    state.state.selected_receipt_desktop = state.state.existing_receipts[0]
+    state.state.selected_receipt = state.state.existing_receipts[0]
+    // state.state.selected_receipt_desktop = state.state.existing_receipts[0]
   },
 
-  REPLACE_SELECTED_RECEIPT_MOBILE: (state, receipt) => {
-    state.state.selected_receipt_mobile = receipt
-  },
+  // REPLACE_SELECTED_RECEIPT_MOBILE: (state, receipt) => {
+  //   state.state.selected_receipt_mobile = receipt
+  // },
 }
 
 
@@ -319,8 +301,8 @@ export const actions = {
     commit('SET_EXISTING_RECEIPTS')
   },
 
-  SELECT_EXISTING_MOBILE({commit}, receipt){
-    commit('REPLACE_SELECTED_RECEIPT_MOBILE', receipt)
-  },
+  // SELECT_EXISTING_MOBILE({commit}, receipt){
+  //   commit('REPLACE_SELECTED_RECEIPT_MOBILE', receipt)
+  // },
 
 }

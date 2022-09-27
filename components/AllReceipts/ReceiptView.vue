@@ -9,7 +9,7 @@
           <div class="line"/>
           <div id="receipt-view-products">
             <div class="receipt-view-product"
-                 v-for="product in this.$store.state.state.selected_receipt_desktop.products"
+                 v-for="product in this.$store.state.state.selected_receipt.products"
                  :key="product.product_id"
             >
               <div class="product-name receipt-view-product-title">
@@ -25,7 +25,7 @@
       <div id="footer">
 
           <div class="receipt-view-total-amount-price">
-              <div class="grey total-amount">Total {{this.$store.state.state.selected_receipt_desktop.products.length}} products</div>
+              <div class="grey total-amount">Total {{this.$store.state.state.selected_receipt.products.length}} products</div>
               <div class="grey total-price">${{total_price.toFixed(2)}}</div>
           </div>
           <red-button class="delete-button" @click.native="test">Delete</red-button>
@@ -44,14 +44,14 @@ export default {
   components: {RedButton},
   computed: {
     date_format() {
-      const date = new Date(this.$store.state.state.selected_receipt_desktop.createdAt)
+      const date = new Date(this.$store.state.state.selected_receipt.createdAt)
       // const date = new Date(this.receipt[0].createdAt)
       let result = date.toLocaleString('en-EG', { month: 'short' }) + ' ' + date.getDate()
       if (date.getFullYear() === new Date().getFullYear()) return result
       else return result + ', ' + date.getFullYear()
     },
     total_price(){
-      let before_sum = JSON.parse(JSON.stringify(this.$store.state.state.selected_receipt_desktop.products)).map(item => item.price)
+      let before_sum = JSON.parse(JSON.stringify(this.$store.state.state.selected_receipt.products)).map(item => item.price)
       return before_sum.reduce((partialSum, a) => partialSum + a);
     },
   },

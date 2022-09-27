@@ -49,7 +49,7 @@ export default {
   methods: {
     ...mapActions(
       [
-        'DELETE_EXISTING_RECEIPT', 'SELECT_EXISTING_RECEIPT', 'SELECT_EXISTING_MOBILE'
+        'DELETE_EXISTING_RECEIPT', 'SELECT_EXISTING_RECEIPT',
       ]
     ),
 
@@ -58,9 +58,10 @@ export default {
       this.DELETE_EXISTING_RECEIPT(this.existing_receipt_data)
     },
     updateActivePlan() {
+      // console.log('HI' + this.existing_receipt_data.receipt_id)
       this.$emit('onUpdatePlan', this.existing_receipt_data.receipt_id)
+      // console.log('HI' + this.existing_receipt_data.receipt_id)
       this.SELECT_EXISTING_RECEIPT(this.existing_receipt_data)
-      // this.SELECT_EXISTING_MOBILE(this.existing_receipt_data)
     },
   },
   computed: {
