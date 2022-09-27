@@ -7,32 +7,41 @@
     </div>
     <div id="body">
       <div class="line"/>
-      <div id="receipt-view-products">
-        <div class="receipt-view-product"
-             v-for="product in this.$store.state.state.selected_receipt_mobile.products"
+      <div id="pop-up-products">
+        <div class="pop-up-product"
+             v-for="product in this.$store.state.state.selected_receipt.products"
              :key="product.product_id"
         >
-          <div class="product-name receipt-view-product-title">
+          <div class="product-name pop-up-product-title">
             {{product.product_name}}
           </div>
-          <div class="product-price receipt-view-product-price">
+          <div class="product-price pop-up-product-price">
             ${{product.price}}
           </div>
         </div>
       </div>
-      <div class="line"/>
+      <div class="line-with-shadow"/>
+    </div>
+    <div id="footer">
+      <div class="pop-up-total-amount-price">
+        <div class="grey total-amount">Total {{this.$store.state.state.selected_receipt.products.length}} products</div>
+        <div class="grey total-price">${{total_price.toFixed(2)}}</div>
+      </div>
+      <red-button class="delete-button" @click.native="test">Delete</red-button>
     </div>
   </div>
 </template>
 
 <script>
 import {mapActions} from "vuex";
+import RedButton from "@/components/UI/RedButton";
 
 export default {
   name: "PopUp",
+  components: {RedButton},
   computed: {
     date_format() {
-      const date = new Date(this.$store.state.state.selected_receipt_mobile.createdAt)
+      const date = new Date(this.$store.state.state.selected_receipt.createdAt)
       let result = date.toLocaleString('en-EG', { month: 'short' }) + ' ' + date.getDate()
       if (date.getFullYear() === new Date().getFullYear()) return result
       else return result + ', ' + date.getFullYear()
@@ -41,6 +50,9 @@ export default {
       let before_sum = JSON.parse(JSON.stringify(this.$store.state.state.selected_receipt.products)).map(item => item.price)
       return before_sum.reduce((partialSum, a) => partialSum + a);
     },
+
+
+
   },
   props: {
     //   receipt: Array
@@ -48,9 +60,10 @@ export default {
   methods: {
     ...mapActions(['SELECT_FIRST_RECEIPT']),
     test(){
-      this.SELECT_FIRST_RECEIPT()
+      // this.SELECT_FIRST_RECEIPT()
     },
   },
+
 }
 </script>
 
@@ -80,12 +93,86 @@ export default {
     gap: 24px;
 
     position: relative;
-    width: 375px;
+    width: 100%;
     height: fit-content;
+    max-height: 70%;
 
     background: #23242D;
     box-shadow: 0 -4px 40px #1B1C22;
     border-radius: 8px 8px 0 0;
+  }
+
+
+  .line, .line-with-shadow{
+    width: 100%;
+    height: 0;
+    border: 1px solid $line;
+    transform: rotate(0.13deg);
+
+    flex: none;
+    order: 0;
+    align-self: stretch;
+  }
+
+  .line-with-shadow {
+    box-shadow: 0px -32px 50px 8px rgba(35, 36, 45, 1);
+    // Need to be tested
+  }
+
+  #date{
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    align-items: center;
+    margin: 0;
+  }
+
+
+  #body {
+    width: 100%
+  }
+
+  #header {
+    width: 100%;
+  }
+
+
+  #pop-up-products {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    //padding: 0;
+    padding-right: 7px;
+    gap: 8px;
+    width: 100%;
+    max-height: 360px;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    overflow-y: auto;
+
+  }
+
+  .pop-up-product {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  #footer {
+    width: 100%;
+  }
+
+  .pop-up-total-amount-price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 98%;
+    margin-bottom: 20px;
+  }
+
+  .delete-button {
+    padding: 2px 12px;
   }
 
 </style>
