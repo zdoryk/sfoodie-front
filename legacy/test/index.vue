@@ -9,7 +9,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "assets/variables";
+@import "../../assets/variables";
 
 .time-period-active span {
   transition: all 0.3s ease-out;
