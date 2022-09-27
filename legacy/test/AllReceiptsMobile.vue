@@ -92,7 +92,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "assets/variables";
+@import "../../assets/variables";
 ::-webkit-scrollbar {
   width: 6px;
 }
