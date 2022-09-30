@@ -39,12 +39,15 @@ export default {
       this.DELETE_SELECTED_RECEIPT()
       this.$emit('updateConfirmationVisibility', !this.isConfirmationVisible)
       this.$parent.closePopUp()
+
+      //desktop
+      this.SELECT_FIRST_RECEIPT()
     },
 
 
     ...mapActions(
       [
-        'DELETE_SELECTED_RECEIPT',
+        'DELETE_SELECTED_RECEIPT', 'SELECT_FIRST_RECEIPT'
       ]
     ),
   },

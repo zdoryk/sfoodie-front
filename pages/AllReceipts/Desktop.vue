@@ -1,6 +1,5 @@
 <template>
   <div class="AllReceipts">
-    <div class="opacity"/>
     <div class="navigation-bar">
       <div id="title">All Receipts</div>
       <div class="time-period">
@@ -9,13 +8,14 @@
     </div>
     <div class="time-period-content">
       <div class="AllTime">
-        <div id="receipt_view_pop-up">
-          <!--        <receipt-view v-bind:receipt="selected_receipt"/>-->
-          <!--        <receipt-view v-bind:is_selected="activeReceiptID"/>-->
-          <receipt-view id="receipt_view"/>
-          <pop-up id="pop-up"/>
+        <div id="receipt-view-div">
+          <receipt-view id="receipt-view" v-model="isConfirmationVisible"/>
         </div>
         <div id="content">
+          <div v-if="isConfirmationVisible" id="delete-confirmation-div">
+            <delete-confirmation v-model="isConfirmationVisible"/>
+            <div class="opacity" @click="closeConfirmation"></div>
+          </div>
           <div id="month" v-for="(item, key, i) in filtered_receipts_by_mmYYYY" :key="i">
             <div class="date_title">{{ key }}</div>
             <div class="receipts">
@@ -38,17 +38,26 @@ import {mapActions} from "vuex";
 import ExistingReceiptItem from "@/components/AllReceipts/ExistingReceiptItem";
 import ReceiptView from "@/components/AllReceipts/ReceiptView";
 import PopUp from "@/components/AllReceipts/PopUp";
+import DeleteConfirmation from "@/components/UI/DeleteConfirmation";
 
 export default {
-  components: {PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem},
+  components: {PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem,DeleteConfirmation},
   layout: 'allReceiptsPage',
   data() {
     return {
       activeReceiptID: this.$store.state.state.selected_receipt.receipt_id,
+      isConfirmationVisible: false
     }
   },
   methods:{
-    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION'])
+    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION','SELECT_FIRST_RECEIPT']),
+    closeConfirmation(){
+      this.isConfirmationVisible = !this.isConfirmationVisible
+    },
+    closePopUp(){
+      this.activeReceiptID = this.$store.state.state.selected_receipt.receipt_id
+      this.SELECT_FIRST_RECEIPT()
+    }
   },
 
   created() {
@@ -59,6 +68,7 @@ export default {
     existing_receipts(){
       // console.log(JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts)))
       return JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts))
+        .sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt)))
     },
 
     receipts() {
@@ -66,9 +76,8 @@ export default {
     },
 
     filtered_receipts_by_mmYYYY(){
-      // let month_year = this.existing_receipts.map((receipt) => ({ [receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)]: [] }))
-      let month_year = [...new Set (this.existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))].sort().reverse().map((item) => ({ [item]: [] }))
-      console.log(month_year)
+      let month_year = [...new Set (this.existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))]
+        .sort().reverse().map((item) => ({ [item]: [] }))
 
       this.existing_receipts.map(function(receipt){
         for (let i = 0; i < month_year.length; i++) {
@@ -78,14 +87,14 @@ export default {
           }
         }
       });
-      // console.log(Object.keys(month_year[0])[0])
+
       let smt = {}
 
       for (let index in month_year) {
         const date = new Date(Object.keys(month_year[index])[0].substring(0,3) + '01/20' + Object.keys(month_year[index])[0].substring(5))
-        console.log(date)
+        // console.log(date)
         let result = date.toLocaleString('en-EG', { month: 'short' })
-        // console.log(month_year[index][Object.keys(month_year[index])[0]])
+
         if (date.getFullYear() === new Date().getFullYear()) smt[result] = month_year[index][Object.keys(month_year[index])[0]]
         else smt[result + ', ' + date.getFullYear()] = month_year[index][Object.keys(month_year[index])[0]]
       }
@@ -206,7 +215,7 @@ export default {
     right:0;
   }
 
-  #receipt_view_pop-up{
+  #receipt-view-div{
     position: fixed;
     left: 500px;
     visibility: hidden;
@@ -233,7 +242,6 @@ export default {
 
 .AllTime{
   display: flex;
-  /*flex-wrap: wrap;*/
 }
 
 .receipts{
@@ -244,14 +252,10 @@ export default {
   width: 100%;
 }
 
-#receipt_view_pop-up{
+#receipt-view-div{
   flex: 1
 }
 
-#pop-up{
-  visibility: hidden;
-
-}
 
 .date_title {
   font-size: 20px;
@@ -276,7 +280,38 @@ export default {
   max-height: 74vh;
 }
 
+#delete-confirmation-div{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%; /* Need a specific value to work */
+  height: 100%;
+  //background-color: #edefff;
+  //border: 3px solid white;
+  display: flex;
+  justify-content: center;
+}
 
+.delete-confirmation{
+  z-index: 4;
+  margin-top: 10%;
+}
+
+.opacity{
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: #000000;
+  opacity: 0.5;
+  visibility: var(--visibility);
+  padding: 0;
+  left:0;
+  right:0;
+  z-index: 3;
+}
 
 
 </style>

@@ -28,7 +28,7 @@
               <div class="grey total-amount">Total {{this.$store.state.state.selected_receipt.products.length}} products</div>
               <div class="grey total-price">${{total_price.toFixed(2)}}</div>
           </div>
-          <red-stroke-button class="delete-button">Delete</red-stroke-button>
+          <red-stroke-button class="delete-button" @click.native="updateVisibility">Delete</red-stroke-button>
       </div>
   </div>
 </template>
@@ -55,18 +55,21 @@ export default {
       return before_sum.reduce((partialSum, a) => partialSum + a);
     },
   },
-  props: {
-  //   receipt: Array
-  },
   methods: {
     ...mapActions(['SELECT_FIRST_RECEIPT']),
-    // test(){
-    //   this.SELECT_FIRST_RECEIPT()
-    // }
+
+    updateVisibility(){
+      this.$emit('onUpdateVisibility', !this.isConfirmationVisible)
+    }
   },
-  // mounted() {
-  //     this.SELECT_FIRST_RECEIPT()
-  // }
+  model: {
+    prop: 'isConfirmationVisible',
+    event: 'onUpdateVisibility'
+  },
+  props: [
+    'isConfirmationVisible'
+  ],
+
 }
 </script>
 
@@ -173,4 +176,6 @@ export default {
   .delete-button {
     padding: 2px 12px;
   }
+
+
 </style>
