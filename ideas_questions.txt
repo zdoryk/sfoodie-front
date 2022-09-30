@@ -14,3 +14,8 @@ Accepted:
 2. Add year on receipts on "AllReceipts"
 3. Add page for "Custom Period" on page "AllReceipts"
 
+
+
+BUG:
+
+AllReceipts on sidebar doesn't change a color and does not translate to the right side.

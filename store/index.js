@@ -6,6 +6,7 @@ export const state = () => ({
   namespaced: true,
   state: {
     isHamburger: false,
+    isReceiptDeleteConfirmation: false,
     selected_receipt: [],
     products: ['Bread', 'Chicken', 'Salmon',
       'Pasta', 'Rice', 'Oil', 'Ketchup',
@@ -246,9 +247,13 @@ export const mutations = {
     state.state.new_receipt_products = []
   },
 
-  REMOVE_RECEIPT_FROM_EXISTING: (state, receipt) => {
-    console.log(receipt)
-    state.state.existing_receipts.splice(state.state.existing_receipts.indexOf(state.state.existing_receipts.find(item => item.receipt_id === receipt.receipt_id)),1)
+  // REMOVE_RECEIPT_FROM_EXISTING: (state, receipt) => {
+  //   console.log(receipt)
+  //   state.state.existing_receipts.splice(state.state.existing_receipts.indexOf(state.state.existing_receipts.find(item => item.receipt_id === receipt.receipt_id)),1)
+  // },
+
+  DELETE_SELECTED_RECEIPT_FROM_EXISTING: (state) => {
+    state.state.existing_receipts.splice(state.state.existing_receipts.indexOf(state.state.existing_receipts.find(item => item.receipt_id === state.state.selected_receipt.receipt_id)),1)
   },
 
   CHANGE_HAMBURGER_STATE: (state) => {
@@ -281,8 +286,12 @@ export const actions = {
     commit('REMOVE_FROM_RECEIPT', product_id)
   },
 
-  DELETE_EXISTING_RECEIPT({commit}, receipt){
-    commit('REMOVE_RECEIPT_FROM_EXISTING', receipt)
+  // DELETE_EXISTING_RECEIPT({commit}, receipt){
+  //   commit('REMOVE_RECEIPT_FROM_EXISTING', receipt)
+  // },
+
+  DELETE_SELECTED_RECEIPT({commit}){
+    commit('DELETE_SELECTED_RECEIPT_FROM_EXISTING')
   },
 
   CHANGE_HAMBURGER_STATE_ACTION({commit}, active){

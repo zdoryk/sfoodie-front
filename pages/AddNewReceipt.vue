@@ -41,7 +41,7 @@
           <cross-button id="blank"/>
         </div>
         <div id="delete-save-buttons">
-          <red-button @click.native="delete_all_from_receipt" class="buttons">Delete all</red-button>
+          <red-stroke-button @click.native="delete_all_from_receipt" class="buttons">Delete all</red-stroke-button>
           <blue-button class="buttons">Save Receipt</blue-button>
         </div>
       </div>
@@ -55,11 +55,11 @@ import NewProduct from "@/components/AddNewReceipt/NewProduct"
 import md5 from "md5"
 import {mapActions, mapMutations} from "vuex"
 import _ from "lodash"
-import RedButton from "@/components/UI/RedButton";
 import CrossButton from "@/components/UI/CrossButton";
+import RedStrokeButton from "@/components/UI/RedStrokeButton";
 
 export default {
-  components: {CrossButton, RedButton, BlueButton, NewProduct},
+  components: {RedStrokeButton, CrossButton, BlueButton, NewProduct},
   data() {
     return {
       new_product: {

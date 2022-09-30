@@ -11,27 +11,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-@import 'assets/variables';
+@import "assets/variables";
 
 .red-button {
+  color: $white;
+  background-color: $accents-red;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 12px;
-  border: 1px solid $peach;
-  color: $peach;
-  box-sizing: border-box;
+  border: none;
   border-radius: 4px;
-  background-color: transparent;
+  justify-content: center;
 }
 
 .red-button:hover{
   transition: 0.3s ease-out;
-  border-radius: 4px;
-  background: $peach;
   box-shadow: 0 0 20px $peach-shadow;
-  color: $white;
+  background-color: $accents-red-dark;
+  border-radius: 4px;
 }
 
 </style>

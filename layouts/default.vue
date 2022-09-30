@@ -57,7 +57,7 @@
       justify-content: center;
     }
 
-    .total-amount,.total-price, .product-price, .product-name {
+    .total-amount,.total-price, .product-price, .product-name, .text {
       color: $grey;
       font-family: Poppins, sans-serif;
       //font-weight: 600;

@@ -23,7 +23,7 @@
 
 <script>
 import ChevronDownButton from "@/components/UI/ChevronDownButton";
-import RedButton from "@/components/UI/RedButton";
+import RedButton from "@/components/UI/RedStrokeButton";
 import {mapActions} from "vuex";
 
 export default {
@@ -44,19 +44,18 @@ export default {
   },
   props: [
       "existing_receipt_data", 'activePlan'
-
   ],
   methods: {
     ...mapActions(
       [
-        'DELETE_EXISTING_RECEIPT', 'SELECT_EXISTING_RECEIPT',
+         'SELECT_EXISTING_RECEIPT',
       ]
     ),
 
-    delete_this_receipt(){
-      console.log(this.existing_receipt_data)
-      this.DELETE_EXISTING_RECEIPT(this.existing_receipt_data)
-    },
+    // delete_this_receipt(){
+    //   console.log(this.existing_receipt_data)
+    //   this.DELETE_EXISTING_RECEIPT(this.existing_receipt_data)
+    // },
     updateActivePlan() {
       // console.log('HI' + this.existing_receipt_data.receipt_id)
       this.$emit('onUpdatePlan', this.existing_receipt_data.receipt_id)

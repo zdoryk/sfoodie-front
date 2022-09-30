@@ -1,6 +1,6 @@
 <template>
   <div class="AllReceipts">
-    <div class="opacity" :style="cssVars" v-on:click="activePlan = ''"/>
+    <div class="opacity" :style="cssVars" v-on:click="activeReceiptID = ''"/>
     <div class="navigation-bar">
       <div id="title">All Receipts</div>
       <div class="filters">
@@ -15,7 +15,7 @@
             <div class="receipts">
               <ExistingReceiptItem v-for="(receipt, index) in item" :key="index"
                                    v-bind:existing_receipt_data="receipt"
-                                   v-model="activePlan"
+                                   v-model="activeReceiptID"
               />
             </div>
             <div class="line"/>
@@ -23,8 +23,15 @@
         </div>
       </div>
     </div>
+
     <div id="pop-up" :style="cssVars">
-      <pop-up/>
+      <pop-up v-model="isConfirmationVisible"/>
+    </div>
+<!--    <div v-if="this.$store.state.state.isReceiptDeleteConfirmation" id="delete-confirmation">-->
+    <div v-if="isConfirmationVisible" id="delete-confirmation-div" >
+      <DeleteConfirmation v-model="isConfirmationVisible"/>
+<!--      <DeleteConfirmation/>-->
+      <div class="opacity confirmation-opacity" @click="closeConfirmation"></div>
     </div>
 <!--    <div class="test" :style="cssVars">qweqwe</div>-->
   </div>
@@ -36,18 +43,25 @@ import {mapActions} from "vuex";
 import ExistingReceiptItem from "@/components/AllReceipts/ExistingReceiptItem";
 import ReceiptView from "@/components/AllReceipts/ReceiptView";
 import PopUp from "@/components/AllReceipts/PopUp";
+import DeleteConfirmation from "@/components/UI/DeleteConfirmation";
 
 export default {
-  components: {PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem},
+  components: {PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem, DeleteConfirmation},
   layout: 'allReceiptsPage',
   data() {
     return {
-      activePlan: '',
-      color: 'red'
+      activeReceiptID: '',
+      isConfirmationVisible: false
     }
   },
   methods:{
-    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION'])
+    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION']),
+    closeConfirmation(){
+      this.isConfirmationVisible = !this.isConfirmationVisible
+    },
+    closePopUp(){
+      this.activeReceiptID = ''
+    }
   },
 
   created() {
@@ -101,20 +115,22 @@ export default {
 
     translate_height(){
       // console.log(height)
-      if(this.activePlan === "") return 204 + this.$store.state.state.selected_receipt.products.length * 40
+      if(this.activeReceiptID === "") return 204 + this.$store.state.state.selected_receipt.products.length * 40
       else return "0"
     },
 
     isVisible(){
-      if (this.activePlan === "") return 'hidden'
+      if (this.activeReceiptID === "") return 'hidden'
       else return 'visible'
     },
+
 
     cssVars() {
       return {
         // '--bg-color': this.bgColor,
         '--height': this.translate_height + 'px',
-        '--visibility': this.isVisible
+        '--visibility': this.isVisible,
+        '--delete-confirmation-visibility': this.isConfirmationVisible
       }
     }
   }
@@ -280,8 +296,6 @@ export default {
 }
 
 
-
-
 #pop-up {
   position: absolute;
   width: 100%;
@@ -296,6 +310,31 @@ export default {
 //  height: var(--height);
 //}
 
+#delete-confirmation-div{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%; /* Need a specific value to work */
+  height: 100%;
+  //background-color: #edefff;
+  //border: 3px solid white;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.delete-confirmation{
+  z-index: 4;
+  margin-top: 50%;
+}
+
+.confirmation-opacity{
+  z-index: 3;
+}
 
 
 </style>

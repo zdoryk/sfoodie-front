@@ -11,7 +11,7 @@
       <div class="AllTime">
         <div id="receipt_view_pop-up">
           <!--        <receipt-view v-bind:receipt="selected_receipt"/>-->
-          <!--        <receipt-view v-bind:is_selected="activePlan"/>-->
+          <!--        <receipt-view v-bind:is_selected="activeReceiptID"/>-->
           <receipt-view id="receipt_view"/>
           <pop-up id="pop-up"/>
         </div>
@@ -21,7 +21,7 @@
             <div class="receipts">
               <ExistingReceiptItem v-for="(receipt, index) in item" :key="index"
                                    v-bind:existing_receipt_data="receipt"
-                                   v-model="activePlan"
+                                   v-model="activeReceiptID"
               />
             </div>
             <div class="line"/>
@@ -44,7 +44,7 @@ export default {
   layout: 'allReceiptsPage',
   data() {
     return {
-      activePlan: '1',
+      activeReceiptID: '1',
     }
   },
   methods:{

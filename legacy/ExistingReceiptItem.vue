@@ -25,7 +25,7 @@
       <div class="grey total-price">${{total_price.toFixed(2)}}</div>
     </div>
 <!--    <div class="delete-button" v-if="isOpened">-->
-    <red-button class="delete-button" v-if="isOpened" @click.native="delete_this_receipt">Delete</red-button>
+    <red-stroke-button class="delete-button" v-if="isOpened" @click.native="delete_this_receipt">Delete</red-stroke-button>
 <!--    </div>-->
   </div>
 </template>
@@ -33,12 +33,12 @@
 <script>
 import ChevronDownButton from "@/components/UI/ChevronDownButton";
 import md5 from "md5";
-import RedButton from "@/components/UI/RedButton";
 import {mapActions} from "vuex";
+import RedStrokeButton from "@/components/UI/RedStrokeButton";
 
 export default {
   name: "ExistingReceiptItem",
-  components: {RedButton, ChevronDownButton},
+  components: {RedStrokeButton, ChevronDownButton},
   data(){
     return{
       isOpened: false,

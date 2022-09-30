@@ -28,20 +28,20 @@
               <div class="grey total-amount">Total {{this.$store.state.state.selected_receipt.products.length}} products</div>
               <div class="grey total-price">${{total_price.toFixed(2)}}</div>
           </div>
-          <red-button class="delete-button" @click.native="test">Delete</red-button>
+          <red-stroke-button class="delete-button" @click.native="test">Delete</red-stroke-button>
       </div>
   </div>
 </template>
 
 <script>
 
-import RedButton from "@/components/UI/RedButton";
 import {mapActions} from "vuex";
+import RedStrokeButton from "@/components/UI/RedStrokeButton";
 
 
 export default {
   name: "ReceiptView",
-  components: {RedButton},
+  components: {RedStrokeButton},
   computed: {
     date_format() {
       const date = new Date(this.$store.state.state.selected_receipt.createdAt)

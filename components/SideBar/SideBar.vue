@@ -18,7 +18,7 @@
       </add-new-product-button>
     </nuxt-link>
 
-    <nuxt-link class="sidebar-link" active-class="active" to="/AllReceipts">
+    <nuxt-link class="sidebar-link" active-class="active" to="/AllReceiptsRedirection">
       <menu-item class="menu-item">
         <receipt-icon class="ico menu-item-icon" />
         All Receipts

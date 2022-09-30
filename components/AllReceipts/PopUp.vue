@@ -27,18 +27,18 @@
         <div class="grey total-amount">Total {{this.$store.state.state.selected_receipt.products.length}} products</div>
         <div class="grey total-price">${{total_price.toFixed(2)}}</div>
       </div>
-      <red-button class="delete-button" @click.native="test">Delete</red-button>
+      <red-stroke-button class="delete-button" @click.native="updateVisibility">Delete</red-stroke-button>
     </div>
   </div>
 </template>
 
 <script>
 import {mapActions} from "vuex";
-import RedButton from "@/components/UI/RedButton";
+import RedStrokeButton from "@/components/UI/RedStrokeButton";
 
 export default {
   name: "PopUp",
-  components: {RedButton},
+  components: {RedStrokeButton},
   computed: {
     date_format() {
       const date = new Date(this.$store.state.state.selected_receipt.createdAt)
@@ -54,13 +54,18 @@ export default {
 
 
   },
-  props: {
-    //   receipt: Array
+  model: {
+    prop: 'isConfirmationVisible',
+    event: 'onUpdateVisibility'
   },
+  props: [
+    'isConfirmationVisible'
+  ],
   methods: {
     ...mapActions(['SELECT_FIRST_RECEIPT']),
-    test(){
-      // this.SELECT_FIRST_RECEIPT()
+    updateVisibility() {
+      // console.log('HI' + !this.isConfirmationVisible)
+      this.$emit('onUpdateVisibility', !this.isConfirmationVisible)
     },
   },
 
