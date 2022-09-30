@@ -70,7 +70,7 @@ export default {
 
   computed: {
     existing_receipts(){
-      console.log(JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts)))
+      // console.log(JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts)))
       return JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts))
     },
 
@@ -79,9 +79,9 @@ export default {
     },
 
     filtered_receipts_by_mmYYYY(){
-      // let month_year = this.existing_receipts.map((receipt) => ({ [receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)]: [] }))
-      let month_year = [...new Set (this.existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))].map((item) => ({ [item]: [] }))
-      console.log(month_year)
+      let month_year = [...new Set (this.existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))].sort().reverse().map((item) => ({ [item]: [] }))
+
+      // console.log(month_year)
 
       this.existing_receipts.map(function(receipt){
         for (let i = 0; i < month_year.length; i++) {
@@ -92,17 +92,26 @@ export default {
         }
       });
       // console.log(Object.keys(month_year[0])[0])
+      // console.log(month_year)
+      // month_year.sort()
+      // console.log(month_year)
       let smt = {}
 
       for (let index in month_year) {
         const date = new Date(Object.keys(month_year[index])[0].substring(0,3) + '01/20' + Object.keys(month_year[index])[0].substring(5))
-        console.log(date)
+        // console.log(date)
         let result = date.toLocaleString('en-EG', { month: 'short' })
         // console.log(month_year[index][Object.keys(month_year[index])[0]])
         if (date.getFullYear() === new Date().getFullYear()) smt[result] = month_year[index][Object.keys(month_year[index])[0]]
         else smt[result + ', ' + date.getFullYear()] = month_year[index][Object.keys(month_year[index])[0]]
       }
 
+      // let allMonths = ['Jan','Feb','Mar', 'Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+      // smt.sort(function(a,b){
+      //   return allMonths.indexOf(a) > allMonths.indexOf(b);
+      // });
+      // console.log(smt)
       return smt
     },
 
