@@ -227,8 +227,11 @@ export const mutations = {
       },
     ]
 
+    let a = JSON.parse(JSON.stringify(state.state.existing_receipts))
+      .sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))).reverse()
+
     state.state.selected_receipt = JSON.parse(JSON.stringify(
-      state.state.existing_receipts.find(item => item.receipt_id == state.state.existing_receipts.length))
+      state.state.existing_receipts.find(item => item.receipt_id === a[0].receipt_id))
     )
   },
 
@@ -268,8 +271,11 @@ export const mutations = {
   },
 
   SET_FIRST_RECEIPT(state) {
+    let a = JSON.parse(JSON.stringify(state.state.existing_receipts))
+      .sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))).reverse()
+
     state.state.selected_receipt = JSON.parse(JSON.stringify(
-      state.state.existing_receipts.find(item => item.receipt_id == state.state.existing_receipts.length))
+      state.state.existing_receipts.find(item => item.receipt_id === a[0].receipt_id))
     )
   },
 

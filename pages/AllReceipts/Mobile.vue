@@ -72,7 +72,7 @@ export default {
     existing_receipts(){
       // console.log(JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts)))
       return JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts))
-        .sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt)))
+        .sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))).reverse()
     },
 
     receipts() {
