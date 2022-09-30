@@ -44,7 +44,7 @@ export default {
   layout: 'allReceiptsPage',
   data() {
     return {
-      activeReceiptID: '1',
+      activeReceiptID: this.$store.state.state.selected_receipt.receipt_id,
     }
   },
   methods:{
@@ -57,7 +57,7 @@ export default {
 
   computed: {
     existing_receipts(){
-      console.log(JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts)))
+      // console.log(JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts)))
       return JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts))
     },
 
@@ -67,7 +67,7 @@ export default {
 
     filtered_receipts_by_mmYYYY(){
       // let month_year = this.existing_receipts.map((receipt) => ({ [receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)]: [] }))
-      let month_year = [...new Set (this.existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))].map((item) => ({ [item]: [] }))
+      let month_year = [...new Set (this.existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))].sort().reverse().map((item) => ({ [item]: [] }))
       console.log(month_year)
 
       this.existing_receipts.map(function(receipt){

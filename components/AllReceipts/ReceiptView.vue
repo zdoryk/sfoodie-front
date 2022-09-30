@@ -28,7 +28,7 @@
               <div class="grey total-amount">Total {{this.$store.state.state.selected_receipt.products.length}} products</div>
               <div class="grey total-price">${{total_price.toFixed(2)}}</div>
           </div>
-          <red-stroke-button class="delete-button" @click.native="test">Delete</red-stroke-button>
+          <red-stroke-button class="delete-button">Delete</red-stroke-button>
       </div>
   </div>
 </template>
@@ -60,9 +60,9 @@ export default {
   },
   methods: {
     ...mapActions(['SELECT_FIRST_RECEIPT']),
-    test(){
-      this.SELECT_FIRST_RECEIPT()
-    }
+    // test(){
+    //   this.SELECT_FIRST_RECEIPT()
+    // }
   },
   // mounted() {
   //     this.SELECT_FIRST_RECEIPT()
