@@ -18,7 +18,7 @@
         </nuxt-link>
       </div>
     </div>
-    <div class="time-period-content">
+    <div class="all-receipts-content">
       <NuxtChild />
     </div>
   </div>
@@ -35,7 +35,7 @@ export default {
     }
   },
   methods:{
-    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION'])
+    // ...mapActions(['SET_EXISTING_RECEIPTS_ACTION'])
   },
   // mounted() {
   //   this.SET_EXISTING_RECEIPTS_ACTION()
@@ -73,7 +73,7 @@ export default {
   flex: 0.9;
 }
 
-.time-period-content{
+.all-receipts-content{
   padding: 0 16px;
 }
 
@@ -131,7 +131,7 @@ export default {
     //padding: 16px;
   }
 
-  .time-period-content > div {
+  .all-receipts-content > div {
     justify-content: center;
   }
 

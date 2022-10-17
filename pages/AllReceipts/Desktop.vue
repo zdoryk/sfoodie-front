@@ -3,20 +3,29 @@
     <div class="navigation-bar">
       <div id="title">All Receipts</div>
       <div class="time-period">
-        <div>* Filters in the future *</div>
+        <div class="filters">
+          <price-range-filter v-model="priceRange"/>
+
+          <div class="date-time">
+            <date-picker v-model="timePeriod" range format="MMM DD, YYYY"></date-picker>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="time-period-content">
+    <div class="all-receipts-content">
       <div class="AllTime">
-        <div id="receipt-view-div">
-          <receipt-view id="receipt-view" v-model="isConfirmationVisible"/>
-        </div>
-        <div id="content">
+<!--        <div id="receipt-view-div">-->
+          <receipt-view id="receipt-view" v-model="isConfirmationVisible" />
+<!--        </div>-->
+        <div id="content" :style="cssVars">
           <div v-if="isConfirmationVisible" id="delete-confirmation-div">
             <delete-confirmation v-model="isConfirmationVisible"/>
             <div class="opacity" @click="closeConfirmation"></div>
           </div>
-          <div id="month" v-for="(item, key, i) in filtered_receipts_by_mmYYYY" :key="i">
+          <div class="there-is-no-receipts" v-if="!isReceipts">
+            <div class="text">There is no receipts that would satisfy filters conditions.</div>
+          </div>
+          <div id="month" v-for="(item, key, i) in sorted_receipts_by_mmYYYY" :key="i" v-if="isReceipts">
             <div class="date_title">{{ key }}</div>
             <div class="receipts">
               <ExistingReceiptItem v-for="(receipt, index) in item" :key="index"
@@ -33,53 +42,108 @@
 </template>
 
 <script>
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
 import TimePeriodItem from "@/components/AllReceipts/TimePeriodItem";
 import {mapActions} from "vuex";
 import ExistingReceiptItem from "@/components/AllReceipts/ExistingReceiptItem";
 import ReceiptView from "@/components/AllReceipts/ReceiptView";
 import PopUp from "@/components/AllReceipts/PopUp";
 import DeleteConfirmation from "@/components/UI/DeleteConfirmation";
+import PriceRangeFilter from "@/components/AllReceipts/PriceFilter/PriceRangeFilter";
 
 export default {
-  components: {PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem,DeleteConfirmation},
+  components: {PriceRangeFilter, PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem,DeleteConfirmation, DatePicker},
   layout: 'allReceiptsPage',
+  middleware: ['GET_DATA'],
   data() {
     return {
       activeReceiptID: this.$store.state.state.selected_receipt.receipt_id,
-      isConfirmationVisible: false
+      isConfirmationVisible: false,
+      timePeriod: [],
+      priceRange: [],
+      overflow: 'scroll'
     }
   },
   methods:{
-    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION','SELECT_FIRST_RECEIPT']),
+    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION','SELECT_FIRST_RECEIPT', 'GET_ALL_USER_DATA']),
     closeConfirmation(){
       this.isConfirmationVisible = !this.isConfirmationVisible
     },
     closePopUp(){
       this.SELECT_FIRST_RECEIPT()
-      this.activeReceiptID = this.$store.state.state.selected_receipt.receipt_id
+      this.activeReceiptID = this.activeReceipt()
     }
   },
-
+  // router: {
+  //   middleware:
+  // },
   created() {
-    this.SET_EXISTING_RECEIPTS_ACTION()
+    this.GET_ALL_USER_DATA()
   },
 
   computed: {
-    existing_receipts(){
-      // console.log(JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts)))
-      return JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts))
-        .sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))).reverse()
+
+    activeReceipt(){
+      return this.$store.state.state.selected_receipt.receipt_id
     },
 
-    receipts() {
-      return this.existing_receipts;
+    cssVars() {
+      return {
+        '--overflow-y': this.overflow,
+      }
     },
 
-    filtered_receipts_by_mmYYYY(){
-      let month_year = [...new Set (this.existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))]
+    isReceipts(){
+      return typeof this.$store.state.state.selected_receipt.products !== 'undefined';
+    },
+
+
+
+    filtered_existing_receipts(){
+
+      this.overflow = 'scroll'
+
+      // console.log(receipts)
+
+      let receipts = JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts))
+      receipts.map(receipt => receipt.createdAt = new Date(parseInt(receipt.createdAt + "000")))
+      receipts.map(receipt => receipt.createdAt = ('0' + receipt.createdAt.getMonth()).slice(-2) + '/' + ( '0' + receipt.createdAt.getDate()).slice(-2) + '/' + receipt.createdAt.getFullYear())
+
+      receipts = receipts.sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))).reverse()
+
+      if (typeof this.timePeriod[0] !== "undefined" && this.timePeriod[0] !== null) {
+        // console.log(this.timePeriod[0])
+        receipts = receipts.filter(receipt => new Date(receipt.createdAt) >= this.timePeriod[0] && new Date(receipt.createdAt) <= this.timePeriod[1])
+      }
+
+
+      if (receipts.length === 0) {
+        this.isThereAreReceipts = false
+        this.overflow = 'hidden'
+      }
+
+      // console.log(this.priceRange[0])
+      // console.log(receipts)
+      if (this.priceRange.length > 0 ) {
+        receipts = receipts.filter(receipt => this.priceRange[0] <= receipt.total_price && receipt.total_price <= this.priceRange[1]);
+      }
+
+      // this.$store.state.state.selected_receipt = receipts[-1]
+
+      return receipts
+    },
+
+    // receipts() {
+    //   return this.filtered_existing_receipts;
+    // },
+
+    sorted_receipts_by_mmYYYY(){
+      console.log(this.filtered_existing_receipts)
+      let month_year = [...new Set (this.filtered_existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))]
         .sort().reverse().map((item) => ({ [item]: [] }))
 
-      this.existing_receipts.map(function(receipt){
+      this.filtered_existing_receipts.map(function(receipt){
         for (let i = 0; i < month_year.length; i++) {
           let key = Object.keys(month_year[i])[0]
           if(key === receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)){
@@ -99,6 +163,7 @@ export default {
         else smt[result + ', ' + date.getFullYear()] = month_year[index][Object.keys(month_year[index])[0]]
       }
 
+
       return smt
     },
 
@@ -107,9 +172,8 @@ export default {
       let result = date.toLocaleString('en-EG', { month: 'short' })
       if (date.getFullYear() === new Date().getFullYear()) return result
       else return result + ', ' + date.getFullYear()
-    }
-
-  }
+    },
+}
 }
 </script>
 
@@ -137,13 +201,13 @@ export default {
 }
 
 .time-period {
-  display: flex;
+  //display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex: 0.9;
+  //justify-content: space-between;
+  flex: 3;
 }
 
-.time-period-content{
+.all-receipts-content{
   padding: 0 16px;
 }
 
@@ -177,7 +241,7 @@ export default {
     align-items: center;
     justify-content: flex-start;
     //flex-wrap: wrap;
-    flex: 1;
+    flex: 3;
 
     a {
       margin-right: 30px;
@@ -199,7 +263,7 @@ export default {
     //padding: 16px;
   }
 
-  .time-period-content > div {
+  .all-receipts-content > div {
     justify-content: center;
   }
 
@@ -219,6 +283,8 @@ export default {
     position: fixed;
     left: 500px;
     visibility: hidden;
+    width: fit-content;
+    max-width: 300px;
     //top: 50%
   }
 }
@@ -276,8 +342,10 @@ export default {
 }
 
 #content{
-  overflow-y: scroll;
+  overflow-y: var(--overflow-y);
   max-height: 74vh;
+  min-width: 360px;
+  width: 100%;
 }
 
 #delete-confirmation-div{
@@ -296,7 +364,7 @@ export default {
 }
 
 .delete-confirmation{
-  z-index: 4;
+  z-index: 1001;
   margin-top: 10%;
 }
 
@@ -312,6 +380,39 @@ export default {
   right:0;
   z-index: 3;
 }
+
+.date-time{
+  min-width: 290px;
+}
+
+.mx-input.mx-input{
+  background-color: #696AE9 ;
+}
+
+.filters{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.price-range-filter{
+  margin: 0 16px;
+}
+
+.there-is-no-receipts {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  vertical-align: center;
+  align-items: center;
+}
+
+.text{
+  position: absolute;
+  top: 30%;
+  vertical-align: center;
+  font-size: 20px;
+}
+
 
 
 </style>

@@ -64,6 +64,7 @@ export default {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    z-index: 1001;
     //margin-top: 40%;
   }
 

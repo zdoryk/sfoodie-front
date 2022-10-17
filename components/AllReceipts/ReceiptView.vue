@@ -1,15 +1,15 @@
 <template>
   <div class="receipt-view">
-      <div id="header">
+      <div id="header" v-if="isData">
           <div id="date">
               {{date_format}}
           </div>
       </div>
-      <div id="body">
+      <div id="body" v-if="isData">
           <div class="line"/>
           <div id="receipt-view-products">
             <div class="receipt-view-product"
-                 v-for="product in this.$store.state.state.selected_receipt.products"
+                 v-for="product in selected_receipt_products"
                  :key="product.product_id"
             >
               <div class="product-name receipt-view-product-title">
@@ -22,11 +22,10 @@
           </div>
           <div class="line"/>
       </div>
-      <div id="footer">
-
+      <div id="footer" v-if="isData">
           <div class="receipt-view-total-amount-price">
-              <div class="grey total-amount">Total {{this.$store.state.state.selected_receipt.products.length}} products</div>
-              <div class="grey total-price">${{total_price.toFixed(2)}}</div>
+              <div class="grey total-amount">Total {{total_products_amount}} products</div>
+              <div class="grey total-price">${{total_price}}</div>
           </div>
           <red-stroke-button class="delete-button" @click.native="updateVisibility">Delete</red-stroke-button>
       </div>
@@ -43,17 +42,38 @@ export default {
   name: "ReceiptView",
   components: {RedStrokeButton},
   computed: {
+    isData(){
+      return typeof this.$store.state.state.selected_receipt.products !== 'undefined';
+    },
+
     date_format() {
-      const date = new Date(this.$store.state.state.selected_receipt.createdAt)
-      // const date = new Date(this.receipt[0].createdAt)
-      let result = date.toLocaleString('en-EG', { month: 'short' }) + ' ' + date.getDate()
-      if (date.getFullYear() === new Date().getFullYear()) return result
-      else return result + ', ' + date.getFullYear()
+      if (typeof this.$store.state.state.selected_receipt.products !== 'undefined') {
+        const date = new Date(this.$store.state.state.selected_receipt.createdAt)
+        // const date = new Date(this.receipt[0].createdAt)
+        let result = date.toLocaleString('en-EG', {month: 'short'}) + ' ' + date.getDate()
+        if (date.getFullYear() === new Date().getFullYear()) return result
+        else return result + ', ' + date.getFullYear()
+      }
     },
     total_price(){
-      let before_sum = JSON.parse(JSON.stringify(this.$store.state.state.selected_receipt.products)).map(item => item.price)
-      return before_sum.reduce((partialSum, a) => partialSum + a);
+      if (typeof this.$store.state.state.selected_receipt.products !== 'undefined') {
+        let before_sum = JSON.parse(JSON.stringify(this.$store.state.state.selected_receipt.products)).map(item => item.price)
+        return before_sum.reduce((partialSum, a) => partialSum + a).toFixed(2);
+      }
     },
+    total_products_amount(){
+      if (typeof this.$store.state.state.selected_receipt.products !== 'undefined') {
+        console.log(this.$store.state.state.selected_receipt.products.length)
+        return this.$store.state.state.selected_receipt.products.length
+      }
+    },
+    selected_receipt_products(){
+      if (typeof this.$store.state.state.selected_receipt.products !== 'undefined'){
+        console.log(this.$store.state.state.selected_receipt.products)
+        return this.$store.state.state.selected_receipt.products
+      }
+    }
+
   },
   methods: {
     ...mapActions(['SELECT_FIRST_RECEIPT']),
@@ -100,6 +120,8 @@ export default {
     gap: 16px;
     z-index: 1000;
     min-width: 300px;
+    max-width: 300px;
+    min-height: 300px;
     //width: 350px;
     height: fit-content;
 

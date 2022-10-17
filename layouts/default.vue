@@ -16,6 +16,7 @@
 <script>
     import SideBar from '@/components/SideBar/SideBar.vue'
     import Burger from "@/components/SideBar/Burger";
+    import {mapActions} from "vuex";
     export default {
         components: {
           Burger,
@@ -26,6 +27,10 @@
           return {
             isActive: false,
           }
+        },
+        methods: {...mapActions(['GET_ALL_USER_DATA'])},
+        created() {
+          this.GET_ALL_USER_DATA()
         },
         computed: {
           checkState() {

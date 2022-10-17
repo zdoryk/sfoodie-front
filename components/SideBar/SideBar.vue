@@ -111,6 +111,7 @@ a.new-receipt-btn.new-receipt-btn > button{
 
 a {
   text-decoration: none;
+  color: $blue !important;
 }
 
 </style>

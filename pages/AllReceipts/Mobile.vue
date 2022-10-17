@@ -65,7 +65,7 @@ export default {
   },
 
   created() {
-    this.SET_EXISTING_RECEIPTS_ACTION()
+    // this.SET_EXISTING_RECEIPTS_ACTION()
   },
 
   computed: {

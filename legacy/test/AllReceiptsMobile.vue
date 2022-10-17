@@ -36,10 +36,10 @@ export default {
     }
   },
   methods:{
-    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION']),
+    // ...mapActions(['SET_EXISTING_RECEIPTS_ACTION']),
   },
   created() {
-    this.SET_EXISTING_RECEIPTS_ACTION()
+    // this.SET_EXISTING_RECEIPTS_ACTION()
   },
 
   computed: {
