@@ -75,6 +75,10 @@ export default {
       this.$emit('updatePriceRange', newPriceRange)
     },
 
+    clearInput(){
+      this.inputValue = ''
+    },
+
     sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }

@@ -4,6 +4,10 @@
       <div id="title">All Receipts</div>
       <div class="time-period">
         <div class="filters">
+          <div class="clear-filters" v-on:click="this.clearFilters">
+            <div class="clear-filters-text">Clear filters</div>
+            <x-icon  class="ico clear-filters-ico"/>
+          </div>
           <price-range-filter v-model="priceRange"/>
 
           <div class="date-time">
@@ -51,9 +55,13 @@ import ReceiptView from "@/components/AllReceipts/ReceiptView";
 import PopUp from "@/components/AllReceipts/PopUp";
 import DeleteConfirmation from "@/components/UI/DeleteConfirmation";
 import PriceRangeFilter from "@/components/AllReceipts/PriceFilter/PriceRangeFilter";
+import RedStrokeButton from "@/components/UI/RedStrokeButton";
+import {XIcon} from "vue-tabler-icons"
 
 export default {
-  components: {PriceRangeFilter, PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem,DeleteConfirmation, DatePicker},
+  components: {
+    RedStrokeButton,
+    PriceRangeFilter, PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem,DeleteConfirmation, DatePicker, XIcon},
   layout: 'allReceiptsPage',
   middleware: ['GET_DATA'],
   data() {
@@ -73,6 +81,12 @@ export default {
     closePopUp(){
       this.SELECT_FIRST_RECEIPT()
       this.activeReceiptID = this.activeReceipt()
+    },
+    clearFilters(){
+      console.log(this.$children[0])
+      this.timePeriod = []
+      this.priceRange = []
+      this.$children[0].clearInput()
     }
   },
   // router: {
@@ -277,6 +291,7 @@ export default {
     padding: 0;
     left:0;
     right:0;
+    z-index: 1001;
   }
 
   #receipt-view-div{
@@ -364,7 +379,7 @@ export default {
 }
 
 .delete-confirmation{
-  z-index: 1001;
+  z-index: 1002;
   margin-top: 10%;
 }
 
@@ -378,7 +393,7 @@ export default {
   padding: 0;
   left:0;
   right:0;
-  z-index: 3;
+  z-index: 1001;
 }
 
 .date-time{
@@ -413,6 +428,30 @@ export default {
   font-size: 20px;
 }
 
+.clear-filters{
+  padding: 0 6px;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  //margin-left: 20px;
+  //left: 10px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+  border-radius: 4px;
+}
 
+.clear-filters:hover{
+  box-shadow: 0px 0px 0px 1px $peach;
+  //border: 1px solid $peach;
+}
+
+.clear-filters-text{
+  align-items: center;
+  color: $peach;
+}
+
+.clear-filters-ico{
+  color: $peach
+}
 
 </style>
