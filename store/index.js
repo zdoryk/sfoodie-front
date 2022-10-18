@@ -6,6 +6,7 @@ import axios from "axios";
 export const state = () => ({
   namespaced: true,
   state: {
+    user_id: '1',
     isHamburger: false,
     isReceiptDeleteConfirmation: false,
     selected_receipt: [],
@@ -14,10 +15,10 @@ export const state = () => ({
       'Salad', 'Cereals', 'Tomato', 'Carrot',
       'Cheese', 'Eggs', 'Juice', 'Milk', 'Pineapple'],
     new_receipt_products: [
-      {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-      {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-      {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-      {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
+      {product_name: 'Bananas', price: 3.50},
+      {product_name: 'Strawberry', price: 6.43},
+      {product_name: 'Corn Flakes', price: 2.09},
+      {product_name: 'Beef', price: 11.99},
     ],
     new_receipt_date: {date: 'qwe'},
     existing_receipts: [],
@@ -260,11 +261,11 @@ export const mutations = {
     state.state.new_receipt_products.push(product);
   },
 
-  REMOVE_FROM_RECEIPT: (state, product_id) => {
-    console.log(product_id)
+  REMOVE_FROM_RECEIPT: (state, product_name) => {
+    console.log(product_name)
     state.state.new_receipt_products.splice(
       state.state.new_receipt_products.indexOf(
-        state.state.new_receipt_products.find(element => element.product_id === product_id)),1)
+        state.state.new_receipt_products.find(element => element.product_name === product_name)),1)
   },
 
   DELETE_ALL_FROM_RECEIPT: (state) => {
@@ -309,8 +310,8 @@ export const actions = {
     commit('SET_RECEIPT_PRODUCTS_STATE', product)
   },
 
-  DELETE_FROM_RECEIPT({commit}, product_id){
-    commit('REMOVE_FROM_RECEIPT', product_id)
+  DELETE_FROM_RECEIPT({commit}, product_name){
+    commit('REMOVE_FROM_RECEIPT', product_name)
   },
 
   // DELETE_EXISTING_RECEIPT({commit}, receipt){
@@ -337,8 +338,8 @@ export const actions = {
     commit('SET_EXISTING_RECEIPTS')
   },
 
-  async GET_ALL_USER_DATA({commit}){
-    return axios('http://127.0.0.1:8000/custom/1', {
+  async GET_ALL_USER_DATA({commit}, user_id){
+    return axios('http://127.0.0.1:8000/custom/' + user_id, {
       method: "GET",
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
@@ -364,7 +365,17 @@ export const actions = {
         console.log(error);
         return error;
       })
-  }
+  },
+
+  async POST_NEW_RECEIPT({commit}, products){
+    console.log(products)
+    console.log(new_receipt)
+    // axios.post('http://localhost:8080/users', {
+    //   'user_name': user.user_name,
+    //   'email': user.email,
+    //   'phone_number': user.phone_number
+    // }).then(data =>( commit('SET_USER_ID', data.data[0])));
+  },
 
   // SELECT_EXISTING_MOBILE({commit}, receipt){
   //   commit('REPLACE_SELECTED_RECEIPT_MOBILE', receipt)

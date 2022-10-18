@@ -83,7 +83,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-content: center;
-  z-index: 11;
+  z-index: 1002;
 }
 
 #logo {

@@ -12,7 +12,7 @@ export default {
   layout: 'allReceiptsPage',
   methods: {...mapActions(['GET_ALL_USER_DATA'])},
   created() {
-    this.GET_ALL_USER_DATA()
+    // this.GET_ALL_USER_DATA()
   },
   // beforeRouteEnter(){
   //   console.log('qwe')

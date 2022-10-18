@@ -30,10 +30,10 @@
       </div>
       <div class="products-container">
         <new-product
-          v-for="product in user_added_products"
-          :key="product.product_id"
-           v-bind:product_data="product"
-          />
+          v-for="(product, key, index) in user_added_products"
+          v-bind:product_data="product"
+          :key="product.product_name"
+        />
         <div id="line"></div>
         <div class="total">
           <div class="total-amount">Total {{this.$store.state.state.new_receipt_products.length}} products</div>
@@ -42,7 +42,7 @@
         </div>
         <div id="delete-save-buttons">
           <red-stroke-button @click.native="delete_all_from_receipt" class="buttons">Delete all</red-stroke-button>
-          <blue-button class="buttons">Save Receipt</blue-button>
+          <blue-button @click.native="saveReceipt" class="buttons">Save Receipt</blue-button>
         </div>
       </div>
     </div>
@@ -52,9 +52,7 @@
 
 import BlueButton from "@/components/UI/BlueButton";
 import NewProduct from "@/components/AddNewReceipt/NewProduct"
-import md5 from "md5"
 import {mapActions, mapMutations} from "vuex"
-import _ from "lodash"
 import CrossButton from "@/components/UI/CrossButton";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
 
@@ -65,7 +63,6 @@ export default {
       new_product: {
         product_name: 'Meal',
         price: 123.45,
-        product_id: ''
       },
     }
   },
@@ -84,16 +81,15 @@ export default {
 
   methods: {
     ...mapActions([
-      'ADD_PRODUCT_TO_RECEIPT_PRODUCTS',
+      'ADD_PRODUCT_TO_RECEIPT_PRODUCTS', 'POST_NEW_RECEIPT'
     ]),
     ...mapMutations([
       'DELETE_ALL_FROM_RECEIPT'
     ]),
     add_new_product() {
-      this.new_product['product_id'] = md5(this.new_product.product_name.toLowerCase())
-      // We're checking if there is product with same product_id in state.receipt_products
+      // We're checking if there is product with same product_name in state.receipt_products
       if (!JSON.parse(JSON.stringify(this.$store.state.state.new_receipt_products))
-          .map(item => item.product_id).includes(this.new_product.product_id)){
+          .map(item => item.product_name).includes(this.new_product.product_name)){
         console.log(JSON.parse(JSON.stringify(this.new_product)))
         this.ADD_PRODUCT_TO_RECEIPT_PRODUCTS(JSON.parse(JSON.stringify(this.new_product)))
       }
@@ -101,6 +97,9 @@ export default {
     },
     delete_all_from_receipt() {
       this.DELETE_ALL_FROM_RECEIPT()
+    },
+    saveReceipt(){
+      this.POST_NEW_RECEIPT(this.$store.state.state.new_receipt_products)
     }
   }
 }

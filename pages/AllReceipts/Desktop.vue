@@ -80,7 +80,7 @@ export default {
     },
     closePopUp(){
       this.SELECT_FIRST_RECEIPT()
-      this.activeReceiptID = this.activeReceipt()
+      this.activeReceiptID = this.activeReceipt
     },
     clearFilters(){
       console.log(this.$children[0])
@@ -93,10 +93,13 @@ export default {
   //   middleware:
   // },
   created() {
-    this.GET_ALL_USER_DATA()
+    this.GET_ALL_USER_DATA(this.userId)
   },
 
   computed: {
+    userId(){
+      return this.$store.state.state.user_id
+    },
 
     activeReceipt(){
       return this.$store.state.state.selected_receipt.receipt_id
@@ -272,37 +275,37 @@ export default {
 
 }
 
-@media (max-width: $phone-size){
-  .AllReceipts{
-    //padding: 16px;
-  }
-
-  .all-receipts-content > div {
-    justify-content: center;
-  }
-
-  .opacity{
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    background-color: #000000;
-    opacity: 0.5;
-    visibility: hidden;
-    padding: 0;
-    left:0;
-    right:0;
-    z-index: 1001;
-  }
-
-  #receipt-view-div{
-    position: fixed;
-    left: 500px;
-    visibility: hidden;
-    width: fit-content;
-    max-width: 300px;
-    //top: 50%
-  }
-}
+//@media (max-width: $phone-size){
+//  .AllReceipts{
+//    //padding: 16px;
+//  }
+//
+//  .all-receipts-content > div {
+//    justify-content: center;
+//  }
+//
+//  .opacity{
+//    position: absolute;
+//    width: 100%;
+//    height: 100vh;
+//    background-color: #000000;
+//    opacity: 0.5;
+//    visibility: hidden;
+//    padding: 0;
+//    left:0;
+//    right:0;
+//    z-index: 1001;
+//  }
+//
+//  #receipt-view-div{
+//    position: fixed;
+//    left: 500px;
+//    visibility: hidden;
+//    width: fit-content;
+//    max-width: 300px;
+//    //top: 50%
+//  }
+//}
 
 
 ::-webkit-scrollbar {
@@ -379,7 +382,7 @@ export default {
 }
 
 .delete-confirmation{
-  z-index: 1002;
+  z-index: 1004;
   margin-top: 10%;
 }
 
@@ -393,7 +396,7 @@ export default {
   padding: 0;
   left:0;
   right:0;
-  z-index: 1001;
+  z-index: 1003;
 }
 
 .date-time{

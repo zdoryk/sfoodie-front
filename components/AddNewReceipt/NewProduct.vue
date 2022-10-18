@@ -31,8 +31,10 @@ export default {
     ]),
 
     delete_from_receipt(){
-      console.log(this.product_data.product_id)
-      this.DELETE_FROM_RECEIPT(this.product_data.product_id)
+      // console.log(this.product_data.product_name)
+      this.DELETE_FROM_RECEIPT(this.product_data.product_name)
+      console.log(this.$store.state.state.new_receipt_products)
+
     }
   }
 }

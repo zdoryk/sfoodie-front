@@ -10,7 +10,7 @@
     </div>
     <div class="hidden" v-if="isOpened">
       <div class="receipt-line"/>
-      <div class="existing-receipt-product" v-for="product in this.existing_receipt_data.products" :key="product.product_id">
+      <div class="existing-receipt-product" v-for="product in this.existing_receipt_data.products" :key="product.product_name">
         <div class="product-name existing-receipt-product-title">
           {{product.product_name}}
         </div>

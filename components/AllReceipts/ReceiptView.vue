@@ -10,7 +10,7 @@
           <div id="receipt-view-products">
             <div class="receipt-view-product"
                  v-for="product in selected_receipt_products"
-                 :key="product.product_id"
+                 :key="product.product_name"
             >
               <div class="product-name receipt-view-product-title">
                 {{product.product_name}}

@@ -30,7 +30,7 @@
         },
         methods: {...mapActions(['GET_ALL_USER_DATA'])},
         created() {
-          this.GET_ALL_USER_DATA()
+          // this.GET_ALL_USER_DATA()
         },
         computed: {
           checkState() {

@@ -10,7 +10,7 @@
       <div id="pop-up-products">
         <div class="pop-up-product"
              v-for="product in this.$store.state.state.selected_receipt.products"
-             :key="product.product_id"
+             :key="product.product_name"
         >
           <div class="product-name pop-up-product-title">
             {{product.product_name}}
