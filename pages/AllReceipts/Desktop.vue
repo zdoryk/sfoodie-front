@@ -118,10 +118,7 @@ export default {
 
 
     filtered_existing_receipts(){
-
       this.overflow = 'scroll'
-
-      // console.log(receipts)
 
       let receipts = JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts))
       receipts.map(receipt => receipt.createdAt = new Date(parseInt(receipt.createdAt + "000")))
@@ -134,19 +131,14 @@ export default {
         receipts = receipts.filter(receipt => new Date(receipt.createdAt) >= this.timePeriod[0] && new Date(receipt.createdAt) <= this.timePeriod[1])
       }
 
-
       if (receipts.length === 0) {
         this.isThereAreReceipts = false
         this.overflow = 'hidden'
       }
 
-      // console.log(this.priceRange[0])
-      // console.log(receipts)
       if (this.priceRange.length > 0 ) {
         receipts = receipts.filter(receipt => this.priceRange[0] <= receipt.total_price && receipt.total_price <= this.priceRange[1]);
       }
-
-      // this.$store.state.state.selected_receipt = receipts[-1]
 
       return receipts
     },

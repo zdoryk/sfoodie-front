@@ -9,7 +9,7 @@
       <div class="line"/>
       <div id="pop-up-products">
         <div class="pop-up-product"
-             v-for="product in this.$store.state.state.selected_receipt.products"
+             v-for="product in selected_receipt_products"
              :key="product.product_name"
         >
           <div class="product-name pop-up-product-title">
@@ -24,7 +24,7 @@
     </div>
     <div id="footer">
       <div class="pop-up-total-amount-price">
-        <div class="grey total-amount">Total {{this.$store.state.state.selected_receipt.products.length}} products</div>
+        <div class="grey total-amount">Total {{this.total_products_amount}} products</div>
         <div class="grey total-price">${{total_price.toFixed(2)}}</div>
       </div>
       <red-stroke-button class="delete-button" @click.native="updateVisibility">Delete</red-stroke-button>
@@ -40,6 +40,18 @@ export default {
   name: "PopUp",
   components: {RedStrokeButton},
   computed: {
+    total_products_amount() {
+      if (typeof this.$store.state.state.selected_receipt.products !== 'undefined') {
+        return this.$store.state.state.selected_receipt.products.length
+      } else return 0
+    },
+
+    selected_receipt_products() {
+      if (typeof this.$store.state.state.selected_receipt.products !== 'undefined') {
+        return this.$store.state.state.selected_receipt.products;
+      } else return []
+    },
+
     date_format() {
       const date = new Date(this.$store.state.state.selected_receipt.createdAt)
       let result = date.toLocaleString('en-EG', { month: 'short' }) + ' ' + date.getDate()
@@ -47,8 +59,10 @@ export default {
       else return result + ', ' + date.getFullYear()
     },
     total_price(){
-      let before_sum = JSON.parse(JSON.stringify(this.$store.state.state.selected_receipt.products)).map(item => item.price)
-      return before_sum.reduce((partialSum, a) => partialSum + a);
+      if (typeof this.$store.state.state.selected_receipt.products !== 'undefined') {
+        let before_sum = JSON.parse(JSON.stringify(this.$store.state.state.selected_receipt.products)).map(item => item.price)
+        return before_sum.reduce((partialSum, a) => partialSum + a);
+      } else return 0
     },
 
 

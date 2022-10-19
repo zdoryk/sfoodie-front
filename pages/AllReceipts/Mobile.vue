@@ -10,7 +10,7 @@
     <div class="content">
       <div class="AllTime">
         <div id="content">
-          <div id="month" v-for="(item, key, i) in filtered_receipts_by_mmYYYY" :key="i">
+          <div id="month" v-for="(item, key, i) in sorted_receipts_by_mmYYYY" :key="i">
             <div class="date_title">{{ key }}</div>
             <div class="receipts">
               <ExistingReceiptItem v-for="(receipt, index) in item" :key="index"
@@ -27,6 +27,8 @@
     <div id="pop-up" :style="cssVars">
       <pop-up v-model="isConfirmationVisible"/>
     </div>
+<!--    <div>{{this.filtered_receipts}}</div>-->
+
 <!--    <div v-if="this.$store.state.state.isReceiptDeleteConfirmation" id="delete-confirmation">-->
     <div v-if="isConfirmationVisible" id="delete-confirmation-div" >
       <DeleteConfirmation v-model="isConfirmationVisible"/>
@@ -51,11 +53,13 @@ export default {
   data() {
     return {
       activeReceiptID: '',
-      isConfirmationVisible: false
+      isConfirmationVisible: false,
+      timePeriod: [],
+      priceRange: [],
     }
   },
   methods:{
-    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION']),
+    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION', 'GET_ALL_USER_DATA']),
     closeConfirmation(){
       this.isConfirmationVisible = !this.isConfirmationVisible
     },
@@ -65,26 +69,45 @@ export default {
   },
 
   created() {
-    // this.SET_EXISTING_RECEIPTS_ACTION()
+    this.GET_ALL_USER_DATA("1")
   },
 
   computed: {
-    existing_receipts(){
-      // console.log(JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts)))
-      return JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts))
-        .sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))).reverse()
+    filtered_existing_receipts(){
+      let receipts = JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts))
+      console.log(receipts)
+      receipts.map(receipt => receipt.createdAt = new Date(parseInt(receipt.createdAt + "000")))
+      receipts.map(receipt => receipt.createdAt = ('0' + receipt.createdAt.getMonth()).slice(-2) + '/' + ( '0' + receipt.createdAt.getDate()).slice(-2) + '/' + receipt.createdAt.getFullYear())
+
+      receipts = receipts.sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))).reverse()
+
+      if (typeof this.timePeriod[0] !== "undefined" && this.timePeriod[0] !== null) {
+        // console.log(this.timePeriod[0])
+        receipts = receipts.filter(receipt => new Date(receipt.createdAt) >= this.timePeriod[0] && new Date(receipt.createdAt) <= this.timePeriod[1])
+      }
+
+      if (receipts.length === 0) {
+        this.isThereAreReceipts = false
+        this.overflow = 'hidden'
+      }
+
+      if (this.priceRange.length > 0 ) {
+        receipts = receipts.filter(receipt => this.priceRange[0] <= receipt.total_price && receipt.total_price <= this.priceRange[1]);
+      }
+
+      return receipts
     },
 
     receipts() {
-      return this.existing_receipts;
+      return this.filtered_existing_receipts;
     },
 
-    filtered_receipts_by_mmYYYY(){
-      let month_year = [...new Set (this.existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))].sort().reverse().map((item) => ({ [item]: [] }))
+    sorted_receipts_by_mmYYYY(){
+      console.log(this.filtered_existing_receipts)
+      let month_year = [...new Set (this.filtered_existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))]
+        .sort().reverse().map((item) => ({ [item]: [] }))
 
-      // console.log(month_year)
-
-      this.existing_receipts.map(function(receipt){
+      this.filtered_existing_receipts.map(function(receipt){
         for (let i = 0; i < month_year.length; i++) {
           let key = Object.keys(month_year[i])[0]
           if(key === receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)){
@@ -92,28 +115,21 @@ export default {
           }
         }
       });
-      // console.log(Object.keys(month_year[0])[0])
-      // console.log(month_year)
-      // month_year.sort()
-      // console.log(month_year)
+
       let smt = {}
 
       for (let index in month_year) {
         const date = new Date(Object.keys(month_year[index])[0].substring(0,3) + '01/20' + Object.keys(month_year[index])[0].substring(5))
         // console.log(date)
         let result = date.toLocaleString('en-EG', { month: 'short' })
-        // console.log(month_year[index][Object.keys(month_year[index])[0]])
+
         if (date.getFullYear() === new Date().getFullYear()) smt[result] = month_year[index][Object.keys(month_year[index])[0]]
         else smt[result + ', ' + date.getFullYear()] = month_year[index][Object.keys(month_year[index])[0]]
       }
 
-      // let allMonths = ['Jan','Feb','Mar', 'Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-      // smt.sort(function(a,b){
-      //   return allMonths.indexOf(a) > allMonths.indexOf(b);
-      // });
-      // console.log(smt)
       return smt
+      // return 1
     },
 
     date_format(raw_date) {
@@ -125,7 +141,10 @@ export default {
 
     translate_height(){
       // console.log(height)
-      if(this.activeReceiptID === "") return 204 + this.$store.state.state.selected_receipt.products.length * 40
+      if (typeof this.$store.state.state.selected_receipt.products !== 'undefined') {
+        if (this.activeReceiptID === "") return 204 + this.$store.state.state.selected_receipt.products.length * 40
+        else return "0"
+      }
       else return "0"
     },
 

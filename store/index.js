@@ -367,9 +367,9 @@ export const actions = {
       })
   },
 
-  async POST_NEW_RECEIPT({commit}, products){
-    console.log(products)
-    console.log(new_receipt)
+  async POST_NEW_RECEIPT({commit}, receipt){
+    console.log(receipt)
+    // console.log(new_receipt)
     // axios.post('http://localhost:8080/users', {
     //   'user_name': user.user_name,
     //   'email': user.email,

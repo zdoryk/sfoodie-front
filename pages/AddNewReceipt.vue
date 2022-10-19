@@ -99,7 +99,13 @@ export default {
       this.DELETE_ALL_FROM_RECEIPT()
     },
     saveReceipt(){
-      this.POST_NEW_RECEIPT(this.$store.state.state.new_receipt_products)
+      let new_receipt = {
+        user_id: this.$store.state.state.user_id,
+        createdAt: Math.floor(Date.now() / 1000),
+        products: this.$store.state.state.new_receipt_products,
+        total_price: this.total_price.toFixed(2)
+      }
+      this.POST_NEW_RECEIPT(new_receipt)
     }
   }
 }
