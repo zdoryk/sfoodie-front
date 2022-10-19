@@ -4,7 +4,15 @@
     <div class="navigation-bar">
       <div id="title">All Receipts</div>
       <div class="filters">
-        <div>* Filters in future *</div>
+<!--        <div>* Filters in future *</div>-->
+        <div class="first-row">
+          <price-range-filter id="mobile-price-range-filter" v-model="priceRange"/>
+<!--          <price-range-filter id="mobile-categories-filter"/>-->
+        </div>
+        <div class="second-row">
+          <date-picker id="mobile-date-picker" v-model="timePeriod" range format="MMM DD, YYYY"/>
+          <cross-button @click.native="clearFilters()"/>
+        </div>
       </div>
     </div>
     <div class="content">
@@ -13,7 +21,8 @@
           <div id="month" v-for="(item, key, i) in sorted_receipts_by_mmYYYY" :key="i">
             <div class="date_title">{{ key }}</div>
             <div class="receipts">
-              <ExistingReceiptItem v-for="(receipt, index) in item" :key="index"
+              <ExistingReceiptItem class="mobile-receipt"
+                                   v-for="(receipt, index) in item" :key="index"
                                    v-bind:existing_receipt_data="receipt"
                                    v-model="activeReceiptID"
               />
@@ -46,9 +55,14 @@ import ExistingReceiptItem from "@/components/AllReceipts/ExistingReceiptItem";
 import ReceiptView from "@/components/AllReceipts/ReceiptView";
 import PopUp from "@/components/AllReceipts/PopUp";
 import DeleteConfirmation from "@/components/UI/DeleteConfirmation";
+import priceRangeFilter from "@/components/AllReceipts/PriceFilter/PriceRangeFilter";
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import crossButton from "@/components/UI/CrossButton";
+
 
 export default {
-  components: {PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem, DeleteConfirmation},
+  components: {crossButton ,PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem, DeleteConfirmation, priceRangeFilter, DatePicker},
   layout: 'allReceiptsPage',
   data() {
     return {
@@ -65,7 +79,15 @@ export default {
     },
     closePopUp(){
       this.activeReceiptID = ''
+    },
+
+    clearFilters(){
+      // console.log(this.$children[0])
+      this.timePeriod = []
+      this.priceRange = []
+      this.$children[0].clearInput()
     }
+
   },
 
   created() {
@@ -184,7 +206,7 @@ export default {
 
 .navigation-bar {
   display: flex;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   flex-wrap: wrap;
   padding: 16px 16px 0;
 }
@@ -266,6 +288,7 @@ export default {
     padding: 0;
     left:0;
     right:0;
+    z-index: 3;
   }
 
 }
@@ -324,6 +347,17 @@ export default {
   max-height: 74vh;
 }
 
+@media (max-width: 380px){
+  #content {
+    padding: 0 16px;
+    max-height: 67vh;
+  }
+  .mobile-receipt{
+    min-width: 270px;
+  }
+
+}
+
 
 #pop-up {
   position: absolute;
@@ -333,6 +367,7 @@ export default {
   visibility: var(--visibility);
   transform: translateY(var(--height));
   transition: transform ease-in-out 0.3s;
+  z-index: 3;
 }
 //
 //.test{
@@ -357,13 +392,45 @@ export default {
 
 
 .delete-confirmation{
-  z-index: 4;
+  z-index: 5;
   margin-top: 50%;
 }
 
 .confirmation-opacity{
-  z-index: 3;
+  z-index: 4;
 }
+
+
+.filters{
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.first-row{
+  display: flex;
+  //justify-content: space-between;
+  justify-content: flex-end;
+}
+
+.second-row {
+  margin-top: 12px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#mobile-price-range-filter, #mobile-categories-filter{
+  width: 48%;
+}
+
+#mobile-date-picker{
+  width: 88%
+}
+
+
+
 
 
 </style>

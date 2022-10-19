@@ -89,9 +89,7 @@ export default {
       this.$children[0].clearInput()
     }
   },
-  // router: {
-  //   middleware:
-  // },
+
   created() {
     this.GET_ALL_USER_DATA(this.userId)
   },

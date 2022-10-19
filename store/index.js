@@ -369,12 +369,10 @@ export const actions = {
 
   async POST_NEW_RECEIPT({commit}, receipt){
     console.log(receipt)
-    // console.log(new_receipt)
-    // axios.post('http://localhost:8080/users', {
-    //   'user_name': user.user_name,
-    //   'email': user.email,
-    //   'phone_number': user.phone_number
-    // }).then(data =>( commit('SET_USER_ID', data.data[0])));
+    axios.post('http://localhost:8000/receipts/post_user_receipt', receipt)
+      .then(data =>(
+        console.log(data)
+      ));
   },
 
   // SELECT_EXISTING_MOBILE({commit}, receipt){
