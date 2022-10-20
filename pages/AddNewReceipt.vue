@@ -28,7 +28,26 @@
           <div>Add</div>
         </blue-button>
       </div>
-      <div class="products-container">
+      <div class="there-is-no-products" v-if="user_added_products.length === 0">
+        <div class="first">
+          <img :src="fruits"/>
+        </div>
+        <div class="second">
+          <img :src="dairy"/>
+          <img :src="drinks"/>
+        </div>
+        <div class="third">
+          <div class="text">Add your products!</div>
+        </div>
+        <div class="fourth">
+          <img :src="vegetables"/>
+          <img :src="meat"/>
+        </div>
+        <div class="fifth">
+          <img :src="snacks"/>
+        </div>
+      </div>
+      <div class="products-container" v-if="user_added_products.length !== 0">
         <new-product
           v-for="(product, key, index) in user_added_products"
           v-bind:product_data="product"
@@ -55,6 +74,7 @@ import NewProduct from "@/components/AddNewReceipt/NewProduct"
 import {mapActions, mapMutations} from "vuex"
 import CrossButton from "@/components/UI/CrossButton";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
+// import dairy from '@/assets/svgs_desktop/dairy.svg';
 
 export default {
   components: {RedStrokeButton, CrossButton, BlueButton, NewProduct},
@@ -64,6 +84,12 @@ export default {
         product_name: 'Meal',
         price: 123.45,
       },
+      dairy: require('@/assets/svgs_desktop/dairy.svg'),
+      drinks: require('@/assets/svgs_desktop/drinks.svg'),
+      fruits: require('@/assets/svgs_desktop/fruits.svg'),
+      meat: require('@/assets/svgs_desktop/meat.svg'),
+      snacks: require('@/assets/svgs_desktop/snacks.svg'),
+      vegetables: require('@/assets/svgs_desktop/vegetables.svg')
     }
   },
   computed: {
@@ -114,16 +140,58 @@ export default {
 <style scoped lang="scss">
 @import "assets/variables";
 
-.first-row, .products-container {
+
+
+.first-row, .products-container, .there-is-no-products{
   max-width: 560px;
 }
 
-.products-container {
+.products-container{
   margin-top: 16px;
   padding: 40px;
   background: $grey-background;
   box-shadow: 0px -4px 40px $black-shadow;
   border-radius: 8px;
+}
+
+.there-is-no-products{
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  padding: 40px;
+  border-radius: 8px;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
+.first, .fifth{
+  display: flex;
+  justify-content: center;
+}
+
+.third{
+  justify-content: center;
+  margin: 25px 0;
+}
+
+.text{
+  display: flex;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.second,.fourth{
+  display: flex;
+  justify-content: space-between;
+}
+
+.second{
+  margin-top: 10px;
+}
+
+.fourth{
+  margin-bottom: 10px;
 }
 
 
@@ -265,6 +333,28 @@ input[type=number] {
   .NewProduct{
     margin-bottom: 20px;
   }
+
+  .there-is-no-products{
+    margin-top: 40px;
+    padding: 0;
+  }
+
+  .text{
+    font-size: 24px;
+  }
+
+  .second{
+    margin-top: 0;
+  }
+
+  .fourth{
+    margin-bottom: 0;
+  }
+
+  .third{
+    margin: 15px 0;
+  }
+
 
 }
 
