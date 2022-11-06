@@ -10,6 +10,12 @@ export const state = () => ({
     isHamburger: false,
     isReceiptDeleteConfirmation: false,
     selected_receipt: [],
+    selected_category: {
+      category_name: "Fruits",
+      products: [2, 4, 5],
+      ico: "apple",
+      color: "#fff"
+    },
     products: ['Bread', 'Chicken', 'Salmon',
       'Pasta', 'Rice', 'Oil', 'Ketchup',
       'Salad', 'Cereals', 'Tomato', 'Carrot',
@@ -22,6 +28,19 @@ export const state = () => ({
     ],
     new_receipt_date: {date: 'qwe'},
     existing_receipts: [],
+    existing_categories: [
+      {
+        category_name: "All Products",
+        products: [1, 2, 3, 4, 5, 6],
+        ico: "milk",
+        color: "grey"
+      },
+      {
+        category_name: "Fruits",
+        products: [2, 4, 5],
+        ico: "apple",
+        color: "#b11515"
+      }],
     new_user: false
     },
 });
@@ -32,209 +51,8 @@ export const getters = {
 
 export const mutations = {
   SET_EXISTING_RECEIPTS: (state, receipts) => {
-    // console.log(receipts)
-    // if (typeof receipts !== "undefined") {
-    //   let test = receipts.map(receipt => new Date(receipt.createdAt + '000'))
-    //   console.log(test)
-    // }
-
-    // state.state.existing_receipts = products
-
-    // console.log(receipts)
 
     state.state.existing_receipts = receipts
-
-    // state.state.existing_receipts = [
-    //   {
-    //     createdAt: "02/07/2022",
-    //     receipt_id: '7',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //       {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-    //       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-    //       {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-    //       {product_name: 'Ham', price: 3.39, product_id: md5('Ham'.toLowerCase())},
-    //       {product_name: 'Juice', price: 6.19, product_id: md5('Juice'.toLowerCase())},
-    //       {product_name: 'Snickers', price: 0.99, product_id: md5('Snickers'.toLowerCase())},
-    //       {product_name: 'Lasagne', price: 7.99, product_id: md5('Lasagne'.toLowerCase())},
-    //       {product_name: 'Ketchup', price: 0.59, product_id: md5('Ketchup'.toLowerCase())},
-    //       {product_name: 'Pineapple', price: 4.99, product_id: md5('Pineapple'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "08/21/2022",
-    //     receipt_id: '13',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       // {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "12/16/2022",
-    //     receipt_id: '19',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-    //       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "02/09/2022",
-    //     receipt_id: '6',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-    //       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-    //       {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "08/25/2022",
-    //     receipt_id: '12',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //       {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "12/19/2022",
-    //     receipt_id: '18',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "02/10/2022",
-    //     receipt_id: '5',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //       {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-    //       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-    //       {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "08/20/2022",
-    //     receipt_id: '11',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "12/15/2022",
-    //     receipt_id: '17',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //       {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-    //       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-    //       {product_name: 'Butter', price: 2.09, product_id: md5('Butter'.toLowerCase())},
-    //       {product_name: 'Wine', price: 11.99, product_id: md5('Wine'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "02/16/2022",
-    //     receipt_id: '4',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //       {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-    //       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-    //       {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "08/10/2022",
-    //     receipt_id: '10',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "12/04/2022",
-    //     receipt_id: '16',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //       {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-    //       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "02/25/2022",
-    //     receipt_id: '3',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //       {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-    //       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-    //       {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "08/03/2022",
-    //     receipt_id: '9',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "12/22/2022",
-    //     receipt_id: '15',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //       {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-    //       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "02/27/2022",
-    //     receipt_id: '2',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //       {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-    //       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-    //       {product_name: 'Pizza', price: 4.99, product_id: md5('Pizza'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "08/16/2022",
-    //     receipt_id: '8',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "12/25/2022",
-    //     receipt_id: '14',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //       {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-    //       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-    //     ]
-    //   },
-    //   {
-    //     createdAt: "02/01/2021",
-    //     receipt_id: '1',
-    //     products: [
-    //       {product_name: 'Bananas', price: 3.50, product_id: md5('Bananas'.toLowerCase())},
-    //       {product_name: 'Strawberry', price: 6.43, product_id: md5('Strawberry'.toLowerCase())},
-    //       {product_name: 'Corn Flakes', price: 2.09, product_id: md5('Corn Flakes'.toLowerCase())},
-    //       {product_name: 'Beef', price: 11.99, product_id: md5('Beef'.toLowerCase())},
-    //     ]
-    //   },
-    // ]
 
     let a = JSON.parse(JSON.stringify(state.state.existing_receipts))
       .sort((a, b) => Number(new Date(parseInt(a.createdAt+"000",10))) - Number(new Date(parseInt(b.createdAt+"000",10)))).reverse()
@@ -290,6 +108,15 @@ export const mutations = {
     // state.state.selected_receipt_desktop = receipt
   },
 
+  SET_SELECTED_CATEGORY: (state, category) => {
+    state.state.selected_category = category
+  },
+
+  SET_EXISTING_CATEGORIES: (state, categories) => {
+    state.state.existing_categories = categories
+    state.state.selected_category = state.state.existing_categories[0]
+  },
+
   SET_FIRST_RECEIPT(state) {
     let a = JSON.parse(JSON.stringify(state.state.existing_receipts))
       .sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))).reverse()
@@ -298,6 +125,7 @@ export const mutations = {
       state.state.existing_receipts.find(item => item.receipt_id === a[0].receipt_id))
     )
   },
+
 
   // REPLACE_SELECTED_RECEIPT_MOBILE: (state, receipt) => {
   //   state.state.selected_receipt_mobile = receipt
@@ -338,26 +166,55 @@ export const actions = {
     commit('SET_EXISTING_RECEIPTS')
   },
 
+  SELECT_EXISTING_CATEGORY ({commit}, category){
+    commit('SET_SELECTED_CATEGORY', category)
+  },
+
   async GET_ALL_USER_DATA({commit}, user_id){
     return axios('http://127.0.0.1:8000/custom/' + user_id, {
       method: "GET",
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
       .then((products) => {
+        console.log(products.data)
         commit('SET_NEW_USER_VALUE', products.data.new_user)
         // commit('SET_PRODUCTS_STATE', products);
-        let test = products.data.receipts
-        // console.log(typeof(test))
-        // console.log(test.length)
-        let testArr = []
+        let receipts = products.data.receipts
 
-        for (const t in test) {
-          testArr.push(test[t])
+        // console.log(test.length)
+        let receiptsArr = []
+
+        for (const t in receipts) {
+          receiptsArr.push(receipts[t])
         }
+        commit('SET_EXISTING_RECEIPTS', receiptsArr)
+
+
+        // CATEGORIES
+
+        let categories = products.data.categories
+        delete categories.user_id
+        let some_array = []
+        console.log(categories)
+        for (const [key, value] of Object.entries(categories)) {
+          let temp_object = {}
+          for (const [k, v] of Object.entries(value)){
+            temp_object[k] = v
+          }
+          some_array.push({
+            "category_name": key,
+            "ico": temp_object.ico,
+            "color": temp_object.color,
+            "products": temp_object.products,
+          })
+        }
+
+        console.log(some_array)
+
+        commit('SET_EXISTING_CATEGORIES', some_array)
 
         // console.log(testArr)
 
-        commit('SET_EXISTING_RECEIPTS', testArr)
         // console.log(products.data)
         return products.data;
       })
@@ -375,8 +232,21 @@ export const actions = {
       ));
   },
 
-  // SELECT_EXISTING_MOBILE({commit}, receipt){
-  //   commit('REPLACE_SELECTED_RECEIPT_MOBILE', receipt)
-  // },
+  async DELETE_RECEIPT_REQUEST ({commit}, receipt_and_user_ids){
+    console.log(receipt_and_user_ids)
+    axios.delete(`http://localhost:8000/receipts/delete_user_receipt`, receipt_and_user_ids)
+      .then(response => {
+        return response
+      }).catch(error => {
+        return error
+      })
+
+  },
+
+  SELECT_EXISTING_MOBILE({commit}, receipt){
+    commit('REPLACE_SELECTED_RECEIPT_MOBILE', receipt)
+  },
+
+
 
 }

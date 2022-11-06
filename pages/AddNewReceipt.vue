@@ -86,10 +86,10 @@ export default {
       },
       dairy: require('@/assets/svgs_desktop/dairy.svg'),
       drinks: require('@/assets/svgs_desktop/drinks.svg'),
-      fruits: require('@/assets/svgs_desktop/fruits.svg'),
+      fruits: require('assets/svgs_desktop/fruits.svg'),
       meat: require('@/assets/svgs_desktop/meat.svg'),
       snacks: require('@/assets/svgs_desktop/snacks.svg'),
-      vegetables: require('@/assets/svgs_desktop/vegetables.svg')
+      vegetables: require('assets/svgs_desktop/vegetables.svg')
     }
   },
   computed: {

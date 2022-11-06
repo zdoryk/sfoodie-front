@@ -36,7 +36,14 @@ export default {
     },
 
     deleteSelectedReceipt(){
-      this.DELETE_SELECTED_RECEIPT()
+      console.log(this.DELETE_RECEIPT_REQUEST(
+        {
+          user_id: this.$store.state.state.user_id,
+          receipt_id: this.$store.state.state.selected_receipt.receipt_id
+        })
+      )
+
+      // this.DELETE_SELECTED_RECEIPT()
       this.$emit('updateConfirmationVisibility', !this.isConfirmationVisible)
       this.$parent.closePopUp()
     },
@@ -44,7 +51,7 @@ export default {
 
     ...mapActions(
       [
-        'DELETE_SELECTED_RECEIPT', 'SELECT_FIRST_RECEIPT'
+        'DELETE_SELECTED_RECEIPT', 'SELECT_FIRST_RECEIPT', 'DELETE_RECEIPT_REQUEST'
       ]
     ),
   },
