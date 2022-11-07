@@ -11,7 +11,7 @@
         ● {{ this.product.product_category}}
       </div>
       <div class="buttons">
-
+        <edit-icon/>
       </div>
     </div>
 
