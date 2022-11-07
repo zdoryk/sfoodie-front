@@ -39,13 +39,34 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "../../assets/variables";
+
     #category-view{
       flex: 3;
       /*max-width: 460px;*/
       min-width: 300px;
-      height: 300px;
+      max-height: 70vh;
+      min-height: 20vh;
       /*background-color: #696AE9;*/
-      border: 1px white solid;
+      //border: 1px white solid;
+      overflow-y: scroll;
+      padding-right: 5px;
     }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: $grey-input-background;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: $blue;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: $blue;
+    }
+
 </style>

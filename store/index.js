@@ -194,13 +194,31 @@ export const actions = {
 
         let categories = products.data.categories
         delete categories.user_id
+        let all_products = {
+          "category_name": "All Products",
+          "ico": "cafes",
+          "color": "black",
+          "products": []
+        }
         let some_array = []
         console.log(categories)
         for (const [key, value] of Object.entries(categories)) {
           let temp_object = {}
-          for (const [k, v] of Object.entries(value)){
+          for (let [k, v] of Object.entries(value)){
             temp_object[k] = v
+            if (k === 'products'){
+              temp_object[k] = v.map(function (product){
+                const temp_product = {
+                  "product_name": product,
+                  "product_category": key,
+                  "color": value.color
+                }
+                all_products.products.push(temp_product)
+                return temp_product
+              })
+            }
           }
+
           some_array.push({
             "category_name": key,
             "ico": temp_object.ico,
@@ -208,8 +226,11 @@ export const actions = {
             "products": temp_object.products,
           })
         }
+        some_array.unshift(all_products)
 
         console.log(some_array)
+
+
 
         commit('SET_EXISTING_CATEGORIES', some_array)
 

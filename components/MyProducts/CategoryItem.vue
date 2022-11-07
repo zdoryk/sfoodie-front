@@ -133,6 +133,7 @@ export default {
   img {
     height: 24px;
     width: 24px;
+    fill: #FFFFFF;
   }
 
   .category-style{
