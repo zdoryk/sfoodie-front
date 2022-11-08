@@ -44,6 +44,20 @@
 
 <style lang="scss">
     @import "assets/variables";
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: $grey-input-background;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: $blue;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: $blue;
+    }
 
     #main-window {
         min-height: 100vh;

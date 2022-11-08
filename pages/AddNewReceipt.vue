@@ -150,7 +150,7 @@ export default {
   margin-top: 16px;
   padding: 40px;
   background: $grey-background;
-  box-shadow: 0px -4px 40px $black-shadow;
+  //box-shadow: 0px -4px 40px $black-shadow;
   border-radius: 8px;
 }
 

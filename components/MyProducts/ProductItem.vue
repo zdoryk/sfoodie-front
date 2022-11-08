@@ -10,18 +10,50 @@
       <div class="product-category" :style="{'color': this.product.color}">
         ● {{ this.product.product_category}}
       </div>
-      <div class="buttons">
-        <edit-icon/>
-      </div>
     </div>
-
+    <div class="buttons">
+      <blue-stroke-button @click.native="edit">
+        <edit-icon size="18"/>
+      </blue-stroke-button>
+      <red-stroke-button>
+        <x-icon size="18"/>
+      </red-stroke-button>
+    </div>
+    <edit-product-pop-up :style="display" :product_data="product"/>
   </div>
 </template>
 
 <script>
+import {EditIcon, XIcon} from "vue-tabler-icons"
+import BlueStrokeButton from "@/components/UI/BlueStrokeButton";
+import RedStrokeButton from "@/components/UI/RedStrokeButton";
+import EditProductPopUp from "@/components/MyProducts/EditProductPopUp";
+
 export default {
   name: "ProductItem",
   props: ['product'],
+  data () {
+    return {
+      display: {"display": "none"}
+    }
+  },
+  components: {RedStrokeButton, EditIcon, BlueStrokeButton, XIcon, EditProductPopUp},
+  methods: {
+    edit () {
+      if (this.display.display === "none"){
+        this.display.display = "flex"
+      } else {
+        this.display.display = "none"
+      }
+    },
+
+    delete_product () {
+
+    },
+    hide(){
+      this.display.display = 'none'
+    }
+  }
 }
 </script>
 
@@ -34,8 +66,8 @@ export default {
       /*flex-direction: row;*/
       align-items: center;
       padding: 4px 0;
-      padding-bottom: 14px;
-      margin-bottom: 10px;
+      padding-bottom: 16px;
+      margin-bottom: 12px;
       gap: 8px;
 
       //width: 552px;
@@ -43,18 +75,18 @@ export default {
 
       /* Inside auto layout */
 
-      flex: none;
       order: 0;
       align-self: stretch;
       flex-grow: 0;
       border-bottom: #3A3C4C 1px solid;
+      justify-content: space-between;
     }
 
     .product-name{
       //min-width: 80px;
       //max-width: 150px;
       position: relative;
-      width: 170px
+      width: 180px
     }
 
     .long {
@@ -69,7 +101,7 @@ export default {
       padding: 10px 15px;
       position: absolute;
       text-align: center;
-      z-index: 999;
+      z-index: 2;
       width: 150px;
     }
 
@@ -106,6 +138,24 @@ export default {
 
     .name-category{
       display: flex;
+    }
+
+
+    .buttons{
+      display: flex;
+      gap: 8px;
+      flex: 1;
+      justify-content: flex-end;
+    }
+
+    .blue-stroke-button{
+      padding: 7px;
+      color: $blue;
+      border-color: $blue;
+    }
+
+    .red-stroke-button{
+      padding: 7px;
     }
 
 

@@ -126,7 +126,7 @@ export default {
     height: fit-content;
 
     background: $grey-background;
-    box-shadow: 0 -4px 40px $receipt-view-shadow;
+    //box-shadow: 0 -4px 40px $receipt-view-shadow;
     border-radius: 8px;
 
     margin-right: 24px;
