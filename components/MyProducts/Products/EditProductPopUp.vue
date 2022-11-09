@@ -77,7 +77,7 @@ export default {
 
 
 <style scoped lang="scss">
-@import "../../assets/variables";
+@import "../../../assets/variables";
 
   .edit-product-pop-up{
     display: none;

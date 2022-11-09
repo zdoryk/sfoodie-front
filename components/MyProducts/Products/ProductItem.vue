@@ -14,21 +14,23 @@
     </div>
     <div class="buttons">
       <blue-stroke-button @click.native="edit">
-        <edit-icon size="18"/>
+          Edit
+        <edit-icon class="ico" size="18"/>
       </blue-stroke-button>
-      <red-stroke-button>
-        <x-icon size="18"/>
-      </red-stroke-button>
+      <blue-stroke-button>
+        Move to other
+        <arrow-bar-right-icon class="ico" size="18"/>
+      </blue-stroke-button>
       <edit-product-pop-up :style="display" :product_data="product"/>
     </div>
   </div>
 </template>
 
 <script>
-import {EditIcon, XIcon} from "vue-tabler-icons"
+import {EditIcon, XIcon, ArrowBarRightIcon} from "vue-tabler-icons"
 import BlueStrokeButton from "@/components/UI/BlueStrokeButton";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
-import EditProductPopUp from "@/components/MyProducts/EditProductPopUp";
+import EditProductPopUp from "@/components/MyProducts/Products/EditProductPopUp";
 
 export default {
   name: "ProductItem",
@@ -39,7 +41,7 @@ export default {
       isPopUpVisible: 'hidden'
     }
   },
-  components: {RedStrokeButton, EditIcon, BlueStrokeButton, XIcon, EditProductPopUp},
+  components: {RedStrokeButton, EditIcon, BlueStrokeButton, XIcon, EditProductPopUp, ArrowBarRightIcon},
   methods: {
     edit () {
       // if (this.display.display === "none"){
@@ -65,7 +67,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../assets/variables";
+@import "../../../assets/variables";
 
     .opacity{
       position: absolute;
@@ -97,6 +99,7 @@ export default {
       flex-grow: 0;
       border-bottom: #3A3C4C 1px solid;
       justify-content: space-between;
+      transition: opacity 0.2s ease-in-out;
     }
 
     .product-name{
@@ -157,22 +160,34 @@ export default {
       display: flex;
     }
 
+    .product-item:hover {
+      .buttons{
+        opacity: 1;
+      }
+    }
 
     .buttons{
       display: flex;
       gap: 8px;
       flex: 1;
       justify-content: flex-end;
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
     }
 
     .blue-stroke-button{
       padding: 7px;
+      padding-left: 10px;
       color: $blue;
       border-color: $blue;
     }
 
     .red-stroke-button{
       padding: 7px;
+    }
+
+    .ico{
+      margin-left: 5px;
     }
 
 

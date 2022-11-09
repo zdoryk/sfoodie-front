@@ -19,8 +19,8 @@
 <script>
 import BlueButton from "@/components/UI/BlueButton";
 import {PlusIcon} from 'vue-tabler-icons'
-import CategoryView from "@/components/MyProducts/CategoryView";
-import ProductView from "@/components/MyProducts/ProductView";
+import CategoryView from "@/components/MyProducts/Categories/CategoryView";
+import ProductView from "@/components/MyProducts/Products/ProductView";
 
 export default {
   name: 'MyProducts',

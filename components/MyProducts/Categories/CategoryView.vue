@@ -11,36 +11,32 @@
 </template>
 
 <script>
-import CategoryItem from "@/components/MyProducts/CategoryItem";
+import CategoryItem from "@/components/MyProducts/Categories/CategoryItem";
 
 export default {
   name: "CategoryView",
   components: {CategoryItem},
   data () {
     return {
-      // category_items: [
-      //   {
-      //     category_name: "All Products",
-      //     products: [1, 2, 3, 4, 5, 6]
-      //   },
-      //   {
-      //     category_name: "Fruits",
-      //     products: [2, 4, 5]
-      //   }
-      // ],
       activeCategory: this.$store.state.state.selected_category.category_name
     }
   },
   computed: {
     categories () {
-      return this.$store.state.state.existing_categories
+      let categories = Array.from(this.$store.state.state.existing_categories)
+      categories.sort((a,b) => b.products.length - a.products.length)
+      const other = categories.find(category => category.category_name === 'Other')
+      categories.splice(categories.findIndex(category => category.category_name === 'Other'), 1);
+      categories.splice(categories.length, 0, other);
+
+      return categories
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-@import "../../assets/variables";
+@import "../../../assets/variables";
 
     #category-view{
       flex: 3;

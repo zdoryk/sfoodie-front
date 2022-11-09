@@ -27,7 +27,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../assets/variables";
+@import "../../../assets/variables";
 
   #product-view{
     flex: 4;
