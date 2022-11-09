@@ -87,10 +87,10 @@ export default {
     height: 360px;
     padding: 40px;
     gap: 40px;
-    box-shadow: 0 0 10px 5px $black;
+    //box-shadow: 0 0 10px 5px $black;
     background-color: $grey-background;
     border-radius: 8px;
-    z-index: 4;
+    z-index: 1004;
     left: 50%;
     transform: translate(-50%, -50%);
     top: 50%;

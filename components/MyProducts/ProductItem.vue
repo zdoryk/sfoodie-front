@@ -1,5 +1,6 @@
 <template>
   <div class="product-item">
+    <div class="opacity" :style="{'visibility': this.isPopUpVisible}"/>
     <div class="name-category" >
       <div class="product-name" v-if="product.product_name.length < 20">
         {{ this.product.product_name }}
@@ -18,8 +19,8 @@
       <red-stroke-button>
         <x-icon size="18"/>
       </red-stroke-button>
+      <edit-product-pop-up :style="display" :product_data="product"/>
     </div>
-    <edit-product-pop-up :style="display" :product_data="product"/>
   </div>
 </template>
 
@@ -34,17 +35,22 @@ export default {
   props: ['product'],
   data () {
     return {
-      display: {"display": "none"}
+      display: {"display": "none"},
+      isPopUpVisible: 'hidden'
     }
   },
   components: {RedStrokeButton, EditIcon, BlueStrokeButton, XIcon, EditProductPopUp},
   methods: {
     edit () {
-      if (this.display.display === "none"){
-        this.display.display = "flex"
-      } else {
-        this.display.display = "none"
-      }
+      // if (this.display.display === "none"){
+      //   this.display.display = "flex"
+      //   this.isPopUpVisible = true
+      // } else {
+      //   this.display.display = "none"
+      //   this.isPopUpVisible = false
+      // }
+      this.display.display = "flex"
+      this.isPopUpVisible = 'visible'
     },
 
     delete_product () {
@@ -52,6 +58,7 @@ export default {
     },
     hide(){
       this.display.display = 'none'
+      this.isPopUpVisible = 'hidden'
     }
   }
 }
@@ -60,6 +67,16 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/variables";
 
+    .opacity{
+      position: absolute;
+      width: 100%;
+      height: 100vh;
+      background-color: #000000;
+      opacity: 0.5;
+      left:0;
+      top: 0;
+      z-index: 1003;
+    }
 
     .product-item{
       display: flex;

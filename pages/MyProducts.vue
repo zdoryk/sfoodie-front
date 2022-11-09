@@ -24,7 +24,7 @@ import ProductView from "@/components/MyProducts/ProductView";
 
 export default {
   name: 'MyProducts',
-  components: {ProductView, CategoryView, BlueButton, PlusIcon}
+  components: {ProductView, CategoryView, BlueButton, PlusIcon},
 }
 </script>
 
