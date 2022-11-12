@@ -1,7 +1,11 @@
 <template>
   <div class="delete-confirmation">
     <div class="header">
-      <div class="text">Do you really want to delete this receipt?</div>
+      <div class="text">
+        <slot>
+
+        </slot>
+      </div>
     </div>
     <div class="footer">
 <!--      <div>{{this.isConfirmationVisible}}</div>-->
