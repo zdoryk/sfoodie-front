@@ -82,7 +82,7 @@ export default {
     return {
       new_product: {
         product_name: 'Meal',
-        price: 123.45,
+        price: 123.45
       },
       dairy: require('@/assets/svgs_desktop/dairy.svg'),
       drinks: require('@/assets/svgs_desktop/drinks.svg'),
@@ -116,8 +116,12 @@ export default {
       // We're checking if there is product with same product_name in state.receipt_products
       if (!JSON.parse(JSON.stringify(this.$store.state.state.new_receipt_products))
           .map(item => item.product_name).includes(this.new_product.product_name)){
+        const product = {
+          product_name: this.new_product.product_name,
+          price: parseFloat(this.new_product.price)
+        }
         console.log(JSON.parse(JSON.stringify(this.new_product)))
-        this.ADD_PRODUCT_TO_RECEIPT_PRODUCTS(JSON.parse(JSON.stringify(this.new_product)))
+        this.ADD_PRODUCT_TO_RECEIPT_PRODUCTS(JSON.parse(JSON.stringify(product)))
       }
       else alert(`The receipt already contains a product with the name: "${this.new_product.product_name}"`);
     },
@@ -129,7 +133,7 @@ export default {
         user_id: this.$store.state.state.user_id,
         createdAt: Math.floor(Date.now() / 1000),
         products: this.$store.state.state.new_receipt_products,
-        total_price: this.total_price.toFixed(2)
+        total_price: parseFloat(this.total_price).toFixed(2)
       }
       this.POST_NEW_RECEIPT(new_receipt)
     }
