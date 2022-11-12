@@ -17,13 +17,13 @@
           Edit
         <edit-icon class="ico" size="18"/>
       </blue-stroke-button>
-      <blue-stroke-button @click.native="isPopUpVisible = 'visible'">
+      <blue-stroke-button @click.native="move">
         Move to other
         <arrow-bar-right-icon class="ico" size="18"/>
       </blue-stroke-button>
       <edit-product-pop-up :style="display" :product_data="product"/>
     </div>
-    <move-confirmation v-if="isPopUpVisible === 'visible'">Do you really want to move this product to other?</move-confirmation>
+    <move-confirmation v-if="isMovePopUpVisible === 'visible'">Do you really want to move this product to other?</move-confirmation>
   </div>
 </template>
 
@@ -66,14 +66,11 @@ export default {
   },
   methods: {
     edit () {
-      // if (this.display.display === "none"){
-      //   this.display.display = "flex"
-      //   this.isPopUpVisible = true
-      // } else {
-      //   this.display.display = "none"
-      //   this.isPopUpVisible = false
-      // }
       this.display.display = "flex"
+      this.isPopUpVisible = 'visible'
+    },
+    move() {
+      this.isMovePopUpVisible = 'visible'
       this.isPopUpVisible = 'visible'
     },
 
@@ -83,6 +80,7 @@ export default {
     hide(){
       this.display.display = 'none'
       this.isPopUpVisible = 'hidden'
+      this.isMovePopUpVisible = 'hidden'
     }
   }
 }

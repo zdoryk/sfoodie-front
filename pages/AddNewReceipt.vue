@@ -149,7 +149,7 @@ export default {
 .products-container{
   margin-top: 16px;
   padding: 40px;
-  background: $grey-background;
+  background-color: $grey-background;
   //box-shadow: 0px -4px 40px $black-shadow;
   border-radius: 8px;
 }
@@ -277,10 +277,6 @@ input[type=number] {
   flex: 1;
   justify-content: flex-end;
   margin-right: 32px;
-}
-
-#blank {
-  visibility: hidden;
 }
 
 #delete-save-buttons {
