@@ -1,12 +1,15 @@
 <template>
-  <div id="category-view">
+  <div id="category-view" v-if="categories[0] !== null">
     <category-item
       v-for="(value, key, index) in categories"
       :key="index"
-      :category_data="value"
+      :category_data="value || 'undefined'"
       v-model="activeCategory"
     />
-
+<!--    {{categories}}-->
+<!--    <div v-if="categories[0] !== null">-->
+<!--      {{ categories[0] }}-->
+<!--    </div>-->
   </div>
 </template>
 
@@ -23,13 +26,15 @@ export default {
   },
   computed: {
     categories () {
-      let categories = Array.from(this.$store.state.state.existing_categories)
-      categories.sort((a,b) => b.products.length - a.products.length)
-      const other = categories.find(category => category.category_name === 'Other')
-      categories.splice(categories.findIndex(category => category.category_name === 'Other'), 1);
-      categories.splice(categories.length, 0, other);
+      if (this.$store.state.state.existing_categories !== 'undefined') {
+        let categories = Array.from(this.$store.state.state.existing_categories)
+        categories.sort((a, b) => b.products.length - a.products.length)
+        const other = categories.find(category => category.category_name === 'Other')
+        categories.splice(categories.findIndex(category => category.category_name === 'Other'), 1);
+        categories.splice(categories.length, 0, other);
 
-      return categories
+        return categories
+      } else return []
     }
   }
 }

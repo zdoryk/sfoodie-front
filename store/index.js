@@ -10,12 +10,7 @@ export const state = () => ({
     isHamburger: false,
     isReceiptDeleteConfirmation: false,
     selected_receipt: [],
-    selected_category: {
-      category_name: "Fruits",
-      products: [2, 4, 5],
-      ico: "apple",
-      color: "#fff"
-    },
+    selected_category: {},
     products: ['Bread', 'Chicken', 'Salmon',
       'Pasta', 'Rice', 'Oil', 'Ketchup',
       'Salad', 'Cereals', 'Tomato', 'Carrot',
@@ -28,19 +23,7 @@ export const state = () => ({
     ],
     new_receipt_date: {date: 'qwe'},
     existing_receipts: [],
-    existing_categories: [
-      {
-        category_name: "All Products",
-        products: [1, 2, 3, 4, 5, 6],
-        ico: "milk",
-        color: "grey"
-      },
-      {
-        category_name: "Fruits",
-        products: [2, 4, 5],
-        ico: "apple",
-        color: "#b11515"
-      }],
+    existing_categories: [],
     new_user: false
     },
 });

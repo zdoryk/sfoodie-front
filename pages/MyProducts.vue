@@ -21,10 +21,17 @@ import BlueButton from "@/components/UI/BlueButton";
 import {PlusIcon} from 'vue-tabler-icons'
 import CategoryView from "@/components/MyProducts/Categories/CategoryView";
 import ProductView from "@/components/MyProducts/Products/ProductView";
+import {mapActions} from "vuex";
 
 export default {
   name: 'MyProducts',
   components: {ProductView, CategoryView, BlueButton, PlusIcon},
+  methods: {
+    ...mapActions(['GET_ALL_USER_DATA'])
+  },
+  created() {
+    this.GET_ALL_USER_DATA(1)
+  }
 }
 </script>
 

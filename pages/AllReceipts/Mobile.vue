@@ -41,8 +41,9 @@
 
 <!--    <div v-if="this.$store.state.state.isReceiptDeleteConfirmation" id="delete-confirmation">-->
     <div v-if="isConfirmationVisible" id="delete-confirmation-div" >
-      <DeleteConfirmation v-model="isConfirmationVisible"/>
-<!--      <DeleteConfirmation/>-->
+      <DeleteConfirmation v-model="isConfirmationVisible">
+        Do you really want to delete this receipt?
+      </DeleteConfirmation>
       <div class="opacity confirmation-opacity" @click="closeConfirmation"></div>
     </div>
 <!--    <div class="test" :style="cssVars">qweqwe</div>-->

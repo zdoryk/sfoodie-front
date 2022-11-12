@@ -2,14 +2,14 @@
   <div class="product-item">
     <div class="opacity" :style="{'visibility': this.isPopUpVisible}"/>
     <div class="name-category" >
-      <div class="product-name" v-if="product.product_name.length < 20">
-        {{ this.product.product_name }}
+      <div class="product-name" v-if="product_name.length < 20">
+        {{ product_name }}
       </div>
-      <div class="product-name long" v-if="product.product_name.length >= 20" :style='{"--content": JSON.stringify(this.product.product_name)}'>
-        {{ this.product.product_name.substring(0,20) }}...
+      <div class="product-name long" v-if="product_name.length >= 20" :style='{"--content": JSON.stringify(product_name)}'>
+        {{ product_name.substring(0,20) }}...
       </div>
-      <div class="product-category" :style="{'color': this.product.color}">
-        ● {{ this.product.product_category}}
+      <div class="product-category" :style="{'color': product_color}">
+        ● {{ product_category }}
       </div>
     </div>
     <div class="buttons">
@@ -17,12 +17,13 @@
           Edit
         <edit-icon class="ico" size="18"/>
       </blue-stroke-button>
-      <blue-stroke-button>
+      <blue-stroke-button @click.native="isPopUpVisible = 'visible'">
         Move to other
         <arrow-bar-right-icon class="ico" size="18"/>
       </blue-stroke-button>
       <edit-product-pop-up :style="display" :product_data="product"/>
     </div>
+    <move-confirmation v-if="isPopUpVisible === 'visible'">Do you really want to move this product to other?</move-confirmation>
   </div>
 </template>
 
@@ -31,6 +32,7 @@ import {EditIcon, XIcon, ArrowBarRightIcon} from "vue-tabler-icons"
 import BlueStrokeButton from "@/components/UI/BlueStrokeButton";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
 import EditProductPopUp from "@/components/MyProducts/Products/EditProductPopUp";
+import MoveConfirmation from "@/components/MyProducts/Products/MoveConfirmation";
 
 export default {
   name: "ProductItem",
@@ -38,10 +40,30 @@ export default {
   data () {
     return {
       display: {"display": "none"},
-      isPopUpVisible: 'hidden'
+      isPopUpVisible: 'hidden',
+      isMovePopUpVisible: 'hidden'
     }
   },
-  components: {RedStrokeButton, EditIcon, BlueStrokeButton, XIcon, EditProductPopUp, ArrowBarRightIcon},
+  components: {
+    MoveConfirmation,
+    RedStrokeButton,
+    EditIcon,
+    BlueStrokeButton,
+    XIcon,
+    EditProductPopUp,
+    ArrowBarRightIcon
+  },
+  computed: {
+    product_name() {
+      if (this.product !== 'undefined') return this.product.product_name
+    },
+    product_color() {
+      if (this.product !== 'undefined') return this.product.color
+    },
+    product_category() {
+      if (this.product !== 'undefined') return this.product.product_category
+    }
+  },
   methods: {
     edit () {
       // if (this.display.display === "none"){
@@ -68,6 +90,10 @@ export default {
 
 <style scoped lang="scss">
 @import "../../../assets/variables";
+
+    .move-confirmation{
+      position: absolute;
+    }
 
     .opacity{
       position: absolute;

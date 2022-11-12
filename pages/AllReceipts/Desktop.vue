@@ -23,7 +23,7 @@
 <!--        </div>-->
         <div id="content" :style="cssVars">
           <div v-if="isConfirmationVisible" id="delete-confirmation-div">
-            <delete-confirmation v-model="isConfirmationVisible"/>
+            <delete-confirmation v-model="isConfirmationVisible">Do you really want to delete this receipt?</delete-confirmation>
             <div class="opacity" @click="closeConfirmation"></div>
           </div>
           <div class="there-is-no-receipts" v-if="!isReceipts">

@@ -1,18 +1,19 @@
 <template>
   <div
     class="category-item"
-    :class="{'active' : this.activeCategory === category_name}"
     tabindex="0"
     @click="updateActivePlan"
+    :class="{'active' : this.activeCategory === category_name}"
   >
     <div class="category-style" :style="cssVars">
-      <img :src="icon" alt="qwe">
+      <img :src="icon">
     </div>
     <div class="title">
       {{ category_name }}
     </div>
     <div class="products-chevron">
       <div class="product-amount">
+<!--        {{ category_data.products.length }} products-->
         {{ product_amount }} products
       </div>
       <div>
@@ -30,7 +31,16 @@ import * as icons from "assets/categories_svgs";
 export default {
   name: "CategoryItem",
   components: {ChevronRightIcon, AppleIcon},
-  props: ["category_data", "activeCategory"],
+  // props: ["category_data", "activeCategory"],
+  props: {
+    category_data: {
+      // products: {
+      //   type: Array,
+      //   default: []
+      // }
+    },
+    activeCategory: String
+  },
   model: {
     prop: 'activeCategory',
     event: 'onUpdatePlan'
@@ -41,7 +51,6 @@ export default {
         'SELECT_EXISTING_CATEGORY',
       ]
     ),
-
     // delete_this_receipt(){
     //   console.log(this.existing_receipt_data)
     //   this.DELETE_EXISTING_RECEIPT(this.existing_receipt_data)
@@ -53,15 +62,27 @@ export default {
       this.SELECT_EXISTING_CATEGORY(this.category_data)
     },
   },
+  created() {
+    console.log('created')
+    console.log(this.category_data)
+    console.log(this.activeCategory)
+  },
   computed: {
+    // test() {
+    //   if (this.category_data !== 'undefined'){
+    //     console.log('test')
+    //     console.log(this.category_data)
+    //     return this.category_data.ico
+    //   }
+    // },
     product_amount () {
-      return this.category_data.products.length
+      if (this.category_data !== 'undefined') return this.category_data.products.length
     },
     category_name () {
-      return this.category_data.category_name
+      if (this.category_data !== 'undefined') return this.category_data.category_name
     },
     icon() {
-      return icons[this.category_data.ico]
+      if (this.category_data !== 'undefined') return icons[this.category_data.ico]
     },
     cssVars () {
       return {

@@ -5,7 +5,7 @@
     <product-item
       v-for="(value, key, index) in products_from_selected_category"
       :key="index"
-      :product="value"
+      :product="value || 'undefined'"
     />
   </div>
 </template>
