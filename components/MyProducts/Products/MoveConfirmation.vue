@@ -9,8 +9,8 @@
     </div>
     <div class="footer">
       <!--      <div>{{this.isConfirmationVisible}}</div>-->
-      <red-button  class="delete-button">Move to other</red-button>
-      <blue-stroke-button class="cancel-button" @click.native="hide">Cancel</blue-stroke-button>
+      <red-stroke-button  class="delete-button" @click.native="hide">Cancel</red-stroke-button>
+      <blue-button class="cancel-button">Move to other</blue-button>
     </div>
   </div>
 </template>
@@ -19,11 +19,14 @@
 import BlueStrokeButton from "@/components/UI/BlueStrokeButton";
 import RedButton from "@/components/UI/RedButton";
 import {mapActions} from "vuex";
+import RedStrokeButton from "@/components/UI/RedStrokeButton";
+import BlueButton from "@/components/UI/BlueButton";
 
 export default {
   name: "MoveConfirmation",
   components: {
-    BlueStrokeButton, RedButton
+    RedStrokeButton,
+    BlueStrokeButton, RedButton, BlueButton
   },
   methods: {
     // ...mapActions([]),
