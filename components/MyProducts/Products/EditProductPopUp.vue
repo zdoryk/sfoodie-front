@@ -5,11 +5,8 @@
     </div>
     <div class="edit-content" >
       <div class="edit-product-name-input">
-        <input placeholder="product_data" id="product-name-input" type="text" v-model="this.product_name">
+        <input placeholder="Product name" id="product-name-input" type="text" v-model="product_name" autocomplete="off">
       </div>
-<!--      <div class="edit-product-category-select">-->
-<!--        <vue-select :options="some_list" class="style-chooser" placeholder="Choose a Styling Option"/>-->
-<!--      </div>-->
       <div class="some-input">
         <custom-select :product="product_data"/>
       </div>
@@ -17,7 +14,7 @@
         <red-stroke-button id="cancel" @click.native="hide">
           Cancel
         </red-stroke-button>
-        <blue-button id="confirm">
+        <blue-button id="confirm" @click.native="confirm">
           Confirm
         </blue-button>
       </div>
@@ -32,6 +29,7 @@ import CustomSelect from "@/components/MyProducts/CustomSelect";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
 import BlueButton from "@/components/UI/BlueButton";
 import Vue from "vue";
+import {mapActions} from "vuex";
 
 
 Vue.directive('click-outside', {
@@ -55,20 +53,37 @@ export default {
   components: {CustomSelect, VueSelect, RedStrokeButton, BlueButton},
   data() {
     return {
-      some_list: ["Odin","Dwa","Three", "Odin","Dwa","Three", "Odin","Dwa","Three", "Odin","Dwa","Three"],
+      // some_list: ["Odin","Dwa","Three", "Odin","Dwa","Three", "Odin","Dwa","Three", "Odin","Dwa","Three"],
       product_name: '',
-      display: 'none'
+      new_category_name: '',
+      display: 'none',
     }
   },
   props: ['product_data'],
   created() {
-    this.product_name = this.product_data.product_name
+    this.product_name = (' ' + this.product_data.product_name).slice(1)
+    this.new_category_name = '● ' + this.product_data.product_category
   },
   computed: {
   },
   methods: {
+    ...mapActions(['EDIT_PRODUCT', 'GET_ALL_USER_DATA']),
     hide () {
       this.$parent.hide()
+    },
+    confirm() {
+      this.EDIT_PRODUCT({
+        user_id: this.$store.state.state.user_id,
+        old_category: this.product_data.product_category,
+        new_category: this.new_category_name.split(' ')[1],
+        old_product_name: this.product_data.product_name,
+        new_product_name: this.product_name
+      })
+      this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
+      this.hide()
+    },
+    change_category_name(category_name) {
+      this.new_category_name = category_name
     }
   }
 }

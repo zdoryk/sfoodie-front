@@ -10,7 +10,7 @@
     <div class="footer">
       <!--      <div>{{this.isConfirmationVisible}}</div>-->
       <red-stroke-button  class="delete-button" @click.native="hide">Cancel</red-stroke-button>
-      <blue-button class="cancel-button">Move to other</blue-button>
+      <blue-button class="cancel-button" @click.native="accepted">Move to other</blue-button>
     </div>
   </div>
 </template>
@@ -30,6 +30,10 @@ export default {
   },
   methods: {
     // ...mapActions([]),
+    accepted(){
+      console.log("accepted")
+      this.$parent.move_to_other_accepted()
+    },
 
     hide(){
       console.log('qwe')

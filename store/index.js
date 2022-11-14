@@ -269,8 +269,23 @@ export const actions = {
       })
   },
 
-  SELECT_EXISTING_MOBILE({commit}, receipt){
-    commit('REPLACE_SELECTED_RECEIPT_MOBILE', receipt)
+
+  async MOVE_TO_OTHER({commit, dispatch}, data_for_update){
+    console.log(data_for_update)
+    axios.put('http://localhost:8000/products/replace_user_product_category', data_for_update)
+      .then(function(data){
+        dispatch('GET_ALL_USER_DATA', data_for_update.user_id)  // THERE NEED TO BE ANOTHER ACTION THAT WILL NOT FETCH ALL THE DATA ONLY THAT WE NEED TO
+        console.log(data)
+      });
+  },
+
+  async EDIT_PRODUCT({commit, dispatch}, data_for_update){
+    console.log(data_for_update)
+    axios.put('http://localhost:8000/products/update_user_product', data_for_update)
+      .then(function(data){
+        dispatch('GET_ALL_USER_DATA', data_for_update.user_id)  // THERE NEED TO BE ANOTHER ACTION THAT WILL NOT FETCH ALL THE DATA ONLY THAT WE NEED TO
+        console.log(data)
+      });
   },
 
 

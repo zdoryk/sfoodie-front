@@ -56,12 +56,13 @@ export default {
     }
   },
   created() {
-    this.category_name = this.product.product_category
+    this.category_name = '● ' + this.product.product_category
     this.category_color = this.product.color
   },
   methods: {
     change_category (value) {
       this.category_name = value.category_name
+      this.$parent.change_category_name(this.category_name)
       this.category_color = value.category_color
       this.expanded = !this.expanded
     },

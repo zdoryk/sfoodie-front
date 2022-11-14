@@ -33,6 +33,7 @@ import BlueStrokeButton from "@/components/UI/BlueStrokeButton";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
 import EditProductPopUp from "@/components/MyProducts/Products/EditProductPopUp";
 import MoveConfirmation from "@/components/MyProducts/Products/MoveConfirmation";
+import {mapActions} from "vuex";
 
 export default {
   name: "ProductItem",
@@ -65,6 +66,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['MOVE_TO_OTHER', 'GET_ALL_USER_DATA']),
     edit () {
       this.display.display = "flex"
       this.isPopUpVisible = 'visible'
@@ -74,8 +76,16 @@ export default {
       this.isPopUpVisible = 'visible'
     },
 
-    delete_product () {
-
+    move_to_other_accepted () {
+      console.log("move accepted")
+      this.MOVE_TO_OTHER({
+        "user_id": this.$store.state.state.user_id,
+        "old_category": this.product_category,
+        "new_category": "Other",
+        "product_name": this.product_name
+      })
+      // TEMPORARY
+      this.$forceUpdate()
     },
     hide(){
       this.display.display = 'none'
