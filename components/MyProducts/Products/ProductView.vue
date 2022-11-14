@@ -4,7 +4,7 @@
 <!--    {{ // this.$store.state.state.selected_category }}-->
     <product-item
       v-for="(value, key, index) in products_from_selected_category"
-      :key="index"
+      :key="value.product_name"
       :product="value || 'undefined'"
     />
   </div>

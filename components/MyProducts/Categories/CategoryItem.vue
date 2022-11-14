@@ -13,7 +13,6 @@
     </div>
     <div class="products-chevron">
       <div class="product-amount">
-<!--        {{ category_data.products.length }} products-->
         {{ product_amount }} products
       </div>
       <div>
@@ -33,12 +32,7 @@ export default {
   components: {ChevronRightIcon, AppleIcon},
   // props: ["category_data", "activeCategory"],
   props: {
-    category_data: {
-      // products: {
-      //   type: Array,
-      //   default: []
-      // }
-    },
+    category_data: [],
     activeCategory: String
   },
   model: {
@@ -51,30 +45,13 @@ export default {
         'SELECT_EXISTING_CATEGORY',
       ]
     ),
-    // delete_this_receipt(){
-    //   console.log(this.existing_receipt_data)
-    //   this.DELETE_EXISTING_RECEIPT(this.existing_receipt_data)
-    // },
     updateActivePlan() {
-      // console.log('HI' + this.category_data.category_name)
       this.$emit('onUpdatePlan', this.category_name)
-      // console.log('HI' + this.existing_receipt_data.receipt_id)
       this.SELECT_EXISTING_CATEGORY(this.category_data)
+      console.log(this.$store.state.state.selected_category)
     },
   },
-  created() {
-    console.log('created')
-    console.log(this.category_data)
-    console.log(this.activeCategory)
-  },
   computed: {
-    // test() {
-    //   if (this.category_data !== 'undefined'){
-    //     console.log('test')
-    //     console.log(this.category_data)
-    //     return this.category_data.ico
-    //   }
-    // },
     product_amount () {
       if (this.category_data !== 'undefined') return this.category_data.products.length
     },

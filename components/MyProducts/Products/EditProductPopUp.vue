@@ -61,7 +61,7 @@ export default {
   },
   props: ['product_data'],
   created() {
-    this.product_name = (' ' + this.product_data.product_name).slice(1)
+    this.product_name = this.product_data.product_name
     this.new_category_name = '● ' + this.product_data.product_category
   },
   computed: {
