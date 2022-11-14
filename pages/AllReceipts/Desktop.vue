@@ -19,7 +19,7 @@
     <div class="all-receipts-content">
       <div class="AllTime">
 <!--        <div id="receipt-view-div">-->
-          <receipt-view id="receipt-view" v-model="isConfirmationVisible" />
+        <receipt-view :key="receiptViewKey" id="receipt-view" v-model="isConfirmationVisible" />
 <!--        </div>-->
         <div id="content" :style="cssVars">
           <div v-if="isConfirmationVisible" id="delete-confirmation-div">
@@ -32,7 +32,7 @@
           <div id="month" v-for="(item, key, i) in sorted_receipts_by_mmYYYY" :key="i" v-if="isReceipts">
             <div class="date_title">{{ key }}</div>
             <div class="receipts">
-              <ExistingReceiptItem v-for="(receipt, index) in item" :key="index"
+              <ExistingReceiptItem v-for="(receipt, key, index) in item" :key="index"
                                    v-bind:existing_receipt_data="receipt"
                                    v-model="activeReceiptID"
               />
@@ -70,7 +70,8 @@ export default {
       isConfirmationVisible: false,
       timePeriod: [],
       priceRange: [],
-      overflow: 'scroll'
+      overflow: 'scroll',
+      receiptViewKey: 0
     }
   },
   methods:{
@@ -79,7 +80,8 @@ export default {
       this.isConfirmationVisible = !this.isConfirmationVisible
     },
     closePopUp(){
-      this.SELECT_FIRST_RECEIPT()
+      // this.SELECT_FIRST_RECEIPT()
+      this.receiptViewKey += 1
       this.activeReceiptID = this.activeReceipt
     },
     clearFilters(){
@@ -119,8 +121,10 @@ export default {
       this.overflow = 'scroll'
 
       let receipts = JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts))
-      receipts.map(receipt => receipt.createdAt = new Date(parseInt(receipt.createdAt + "000")))
-      receipts.map(receipt => receipt.createdAt = ('0' + receipt.createdAt.getMonth()).slice(-2) + '/' + ( '0' + receipt.createdAt.getDate()).slice(-2) + '/' + receipt.createdAt.getFullYear())
+      receipts.map(function (receipt){
+        receipt.createdAt = new Date(receipt.createdAt * 1000)
+      })
+      receipts.map(receipt => receipt.createdAt = ('0' + (receipt.createdAt.getMonth() + 1)).slice(-2) + '/' + ( '0' + receipt.createdAt.getDate()).slice(-2) + '/' + receipt.createdAt.getFullYear())
 
       receipts = receipts.sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))).reverse()
 
@@ -146,7 +150,6 @@ export default {
     // },
 
     sorted_receipts_by_mmYYYY(){
-      console.log(this.filtered_existing_receipts)
       let month_year = [...new Set (this.filtered_existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))]
         .sort().reverse().map((item) => ({ [item]: [] }))
 
@@ -161,6 +164,7 @@ export default {
 
       let smt = {}
 
+
       for (let index in month_year) {
         const date = new Date(Object.keys(month_year[index])[0].substring(0,3) + '01/20' + Object.keys(month_year[index])[0].substring(5))
         // console.log(date)
@@ -169,7 +173,6 @@ export default {
         if (date.getFullYear() === new Date().getFullYear()) smt[result] = month_year[index][Object.keys(month_year[index])[0]]
         else smt[result + ', ' + date.getFullYear()] = month_year[index][Object.keys(month_year[index])[0]]
       }
-
 
       return smt
     },

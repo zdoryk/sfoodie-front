@@ -28,7 +28,7 @@
           <div>Add</div>
         </blue-button>
       </div>
-      <div class="there-is-no-products" v-if="user_added_products.length === 0">
+      <div class="there-is-no-products" v-show="user_added_products.length === 0">
         <div class="first">
           <img :src="fruits"/>
         </div>

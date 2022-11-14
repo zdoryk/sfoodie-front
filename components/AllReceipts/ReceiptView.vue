@@ -48,9 +48,18 @@ export default {
 
     date_format() {
       if (typeof this.$store.state.state.selected_receipt.products !== 'undefined') {
-        const date = new Date(this.$store.state.state.selected_receipt.createdAt)
+        let date = ''
+        if (typeof this.$store.state.state.selected_receipt.createdAt === 'string'){
+          // console.log(this.$store.state.state.selected_receipt)
+          // console.log('string')
+          date = new Date(this.$store.state.state.selected_receipt.createdAt)
+        } else {
+          // console.log(this.$store.state.state.selected_receipt)
+          date = new Date(this.$store.state.state.selected_receipt.createdAt * 1000)
+        }
         // const date = new Date(this.receipt[0].createdAt)
         let result = date.toLocaleString('en-EG', {month: 'short'}) + ' ' + date.getDate()
+        // console.log(result)
         if (date.getFullYear() === new Date().getFullYear()) return result
         else return result + ', ' + date.getFullYear()
       }

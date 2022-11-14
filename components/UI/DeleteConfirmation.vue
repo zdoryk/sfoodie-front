@@ -27,6 +27,11 @@ import {mapActions} from "vuex";
 export default {
   name: "DeleteConfirmation",
   components: {RedButton, BlueStrokeButton},
+  data (){
+    return {
+      test: {}
+    }
+  },
   model: {
     prop: 'isConfirmationVisible',
     event: 'updateConfirmationVisibility',
@@ -40,13 +45,18 @@ export default {
     },
 
     deleteSelectedReceipt(){
-      console.log(this.DELETE_RECEIPT_REQUEST(
+      // console.log({
+      //   user_id: this.$store.state.state.user_id,
+      //   receipt_id: this.$store.state.state.selected_receipt.receipt_id
+      // })
+      this.DELETE_RECEIPT_REQUEST(
         {
-          user_id: this.$store.state.state.user_id,
+          user_id: parseInt(this.$store.state.state.user_id),
           receipt_id: this.$store.state.state.selected_receipt.receipt_id
         })
-      )
-
+      // this.SELECT_FIRST_RECEIPT()
+      // this.SELECT_EXISTING_RECEIPT(this.$store.state.state.existing_receipts.at(-1))
+      // this.SELECT_FIRST_RECEIPT()
       // this.DELETE_SELECTED_RECEIPT()
       this.$emit('updateConfirmationVisibility', !this.isConfirmationVisible)
       this.$parent.closePopUp()
@@ -55,7 +65,7 @@ export default {
 
     ...mapActions(
       [
-        'DELETE_SELECTED_RECEIPT', 'SELECT_FIRST_RECEIPT', 'DELETE_RECEIPT_REQUEST'
+        'DELETE_SELECTED_RECEIPT', 'SELECT_FIRST_RECEIPT', 'DELETE_RECEIPT_REQUEST', 'SELECT_EXISTING_RECEIPT'
       ]
     ),
   },

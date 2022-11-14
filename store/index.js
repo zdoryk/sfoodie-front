@@ -6,7 +6,7 @@ import axios from "axios";
 export const state = () => ({
   namespaced: true,
   state: {
-    user_id: '1',
+    user_id: 1,
     isHamburger: false,
     isReceiptDeleteConfirmation: false,
     selected_receipt: [],
@@ -21,7 +21,7 @@ export const state = () => ({
       {product_name: 'Corn Flakes', price: 2.09},
       {product_name: 'Beef', price: 11.99},
     ],
-    new_receipt_date: {date: 'qwe'},
+    // new_receipt_date: {date: 'qwe'},
     existing_receipts: [],
     existing_categories: [],
     new_user: false
@@ -38,14 +38,14 @@ export const mutations = {
     state.state.existing_receipts = receipts
 
     let a = JSON.parse(JSON.stringify(state.state.existing_receipts))
-      .sort((a, b) => Number(new Date(parseInt(a.createdAt+"000",10))) - Number(new Date(parseInt(b.createdAt+"000",10)))).reverse()
+      .sort((a, b) => Number(new Date(a.createdAt * 1000)) - Number(new Date(b.createdAt * 1000))).reverse()
 
     state.state.selected_receipt = JSON.parse(JSON.stringify(
       state.state.existing_receipts.find(item => item.receipt_id === a[0].receipt_id))
     )
 
-    state.state.selected_receipt.createdAt = new Date(parseInt(state.state.selected_receipt.createdAt+"000",10))
-    state.state.selected_receipt.createdAt = ('0' + state.state.selected_receipt.createdAt.getMonth()).slice(-2) + '/'
+    state.state.selected_receipt.createdAt = new Date(state.state.selected_receipt.createdAt * 1000)
+    state.state.selected_receipt.createdAt = ('0' + (state.state.selected_receipt.createdAt.getMonth()+ 1)).slice(-2) + '/'
       + ( '0' + state.state.selected_receipt.createdAt.getDate()).slice(-2)
       + '/' + state.state.selected_receipt.createdAt.getFullYear()
 
@@ -87,6 +87,7 @@ export const mutations = {
   },
 
   REPLACE_SELECTED_RECEIPT: (state, receipt) => {
+    console.log(receipt)
     state.state.selected_receipt = receipt
     // state.state.selected_receipt_desktop = receipt
   },
@@ -104,9 +105,12 @@ export const mutations = {
     let a = JSON.parse(JSON.stringify(state.state.existing_receipts))
       .sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))).reverse()
 
-    state.state.selected_receipt = JSON.parse(JSON.stringify(
-      state.state.existing_receipts.find(item => item.receipt_id === a[0].receipt_id))
-    )
+    console.log(a)
+    // state.state.selected_receipt = JSON.parse(JSON.stringify(
+    //   state.state.existing_receipts.find(item => item.receipt_id === a[0].receipt_id))
+    // )
+    state.state.selected_receipt = a[0]
+    console.log(state.state.selected_receipt)
   },
 
 
@@ -138,6 +142,7 @@ export const actions = {
   },
 
   SELECT_EXISTING_RECEIPT({commit}, receipt){
+    console.log(receipt)
     commit('REPLACE_SELECTED_RECEIPT', receipt)
   },
 
@@ -154,7 +159,7 @@ export const actions = {
   },
 
   async GET_ALL_USER_DATA({commit}, user_id){
-    return axios('http://127.0.0.1:8000/custom/' + user_id, {
+    await axios('http://127.0.0.1:8000/custom/' + user_id, {
       method: "GET",
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
@@ -228,6 +233,20 @@ export const actions = {
       })
   },
 
+  async GET_ALL_USER_RECEIPTS({commit}, user_id){
+    await axios('http://127.0.0.1:8000/receipts/' + user_id, {
+      method: "GET",
+      // headers: {'X-Requested-With': 'XMLHttpRequest'},
+    })
+      .then((products) => {
+        return products;
+      })
+      .catch((error) => {
+        console.log(error);
+        return error;
+      })
+  },
+
   async POST_NEW_RECEIPT({commit}, receipt){
     console.log(receipt)
     axios.post('http://localhost:8000/receipts/post_user_receipt', receipt)
@@ -237,14 +256,17 @@ export const actions = {
   },
 
   async DELETE_RECEIPT_REQUEST ({commit}, receipt_and_user_ids){
-    console.log(receipt_and_user_ids)
-    axios.delete(`http://localhost:8000/receipts/delete_user_receipt`, receipt_and_user_ids)
+    axios.delete(`http://localhost:8000/receipts/delete_user_receipt`, {data: receipt_and_user_ids})
       .then(response => {
+        if (response.data.Status === 'OK'){
+          commit('DELETE_SELECTED_RECEIPT_FROM_EXISTING')
+          commit('SET_FIRST_RECEIPT')
+          // commit('REPLACE_SELECTED_RECEIPT', new_receipt)
+        }
         return response
       }).catch(error => {
-        return error
+        console.log(error)
       })
-
   },
 
   SELECT_EXISTING_MOBILE({commit}, receipt){
