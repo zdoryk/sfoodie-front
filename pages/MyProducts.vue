@@ -10,8 +10,9 @@
       </div>
     </div>
     <div class="content">
-      <category-view />
-      <product-view />
+<!--      <category-view />-->
+<!--      <product-view />-->
+      <create-new-category />
     </div>
   </div>
 </template>
@@ -22,10 +23,16 @@ import {PlusIcon} from 'vue-tabler-icons'
 import CategoryView from "@/components/MyProducts/Categories/CategoryView";
 import ProductView from "@/components/MyProducts/Products/ProductView";
 import {mapActions} from "vuex";
+import CreateNewCategory from "@/components/MyProducts/CreateNewCategory";
 
 export default {
   name: 'MyProducts',
-  components: {ProductView, CategoryView, BlueButton, PlusIcon},
+  components: {CreateNewCategory, ProductView, CategoryView, BlueButton, PlusIcon},
+  data(){
+    return{
+      activeColor: 1
+    }
+  },
   methods: {
     ...mapActions(['GET_ALL_USER_DATA'])
   },

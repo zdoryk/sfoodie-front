@@ -24,7 +24,26 @@ export const state = () => ({
     // new_receipt_date: {date: 'qwe'},
     existing_receipts: [],
     existing_categories: [],
-    new_user: false
+    new_user: false,
+    color_palette: [
+      "#E7C074",
+      // "#78909C",
+      "#8D6E63",
+      "#00ACC1",
+      "#FF7043",
+      "#B388FF",
+      "#9E9E9E",
+      "#66BB6A",
+      "#536DFE",
+      // "#0288D1",
+      "#7CB342",
+      // "#C0CA33",
+      "#FFA726",
+      "#FF4081",
+      "#BA68C8",
+      "#FF5252",
+      "#26A69A"
+    ]
     },
 });
 
