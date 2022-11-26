@@ -32,8 +32,7 @@ export default {
   #product-view{
     flex: 4;
     /*max-width: 460px;*/
-    min-width: 300px;
-    margin-left: 40px;
+    min-width: 305px;
     color: white;
     padding: 16px 24px;
     padding-top: 20px;

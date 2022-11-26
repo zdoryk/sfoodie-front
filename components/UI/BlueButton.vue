@@ -28,7 +28,6 @@ export default {
     transition: 0.3s ease-out;
     box-shadow: 0 0 20px $blue-shadow;
     background-color: $blue-dark;
-    border-radius: 4px;
   }
 
 </style>

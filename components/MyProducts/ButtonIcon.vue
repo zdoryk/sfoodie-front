@@ -44,8 +44,12 @@ export default {
   img{
     width: 32px;
     height: 32px;
-    opacity: 0.7;
+    opacity: 0.5;
     transition: 0.1s ease-in-out;
+  }
+
+  img:hover{
+    opacity: 1;
   }
 
   .button-icon{

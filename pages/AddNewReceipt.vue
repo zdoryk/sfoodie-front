@@ -144,7 +144,9 @@ export default {
 <style scoped lang="scss">
 @import "assets/variables";
 
-
+.first-row{
+  margin-top: 18px;
+}
 
 .first-row, .products-container, .there-is-no-products{
   max-width: 560px;
@@ -296,6 +298,7 @@ input[type=number] {
 .bttn{
   padding: 0;
 }
+
 
 @media (max-width: $phone-size){
   .first-row{

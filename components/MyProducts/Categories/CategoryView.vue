@@ -51,8 +51,18 @@ export default {
       min-height: 20vh;
       /*background-color: #696AE9;*/
       //border: 1px white solid;
+      margin-right: 40px;
       overflow-y: scroll;
       padding-right: 5px;
+    }
+
+    @media (max-width: $tab-size) {
+      #category-view{
+        min-width: 250px;
+        margin-right: 20px;
+
+      }
+
     }
 
     ::-webkit-scrollbar {

@@ -25,7 +25,7 @@ export const state = () => ({
     existing_receipts: [],
     existing_categories: [],
     new_user: false,
-    color_palette: [
+    color_palette:    [
       "#E7C074",
       // "#78909C",
       "#8D6E63",
@@ -43,7 +43,8 @@ export const state = () => ({
       "#BA68C8",
       "#FF5252",
       "#26A69A"
-    ]
+    ],
+    icons: ['cafes', 'drinks','fish', 'greens', 'pizza', 'snacks', 'wine','apple', 'carrot', 'milk', 'drumstick', 'baguette', 'bowl', 'candy']
     },
 });
 
@@ -307,6 +308,13 @@ export const actions = {
       });
   },
 
+  async POST_NEW_CATEGORY({commit}, category) {
+    console.log(category)
+    axios.post('http://localhost:8000/products/post_new_user_category', category)
+      .then(data => (
+        console.log(data)
+      ))
+  }
 
 
 }

@@ -14,13 +14,18 @@
     </div>
     <div class="buttons">
       <blue-stroke-button @click.native="edit">
+        <div class="btn-text" v-if="windowWidth > 860">
           Edit
+        </div>
+        <div class="btn-text" v-if="windowWidth <= 860">
+        </div>
         <edit-icon class="ico" size="18"/>
       </blue-stroke-button>
-      <blue-stroke-button @click.native="move">
-        Move to other
-        <arrow-bar-right-icon class="ico" size="18"/>
-      </blue-stroke-button>
+<!--      <blue-stroke-button @click.native="move">-->
+<!--        Move to other-->
+<!--        <arrow-bar-right-icon class="ico" size="18"/>-->
+<!--      </blue-stroke-button>-->
+      {{ this.window_width }}
       <edit-product-pop-up :style="display" :product_data="product"/>
     </div>
     <move-confirmation v-if="isMovePopUpVisible === 'visible'">Do you really want to move this product to other?</move-confirmation>
@@ -42,7 +47,8 @@ export default {
     return {
       display: {"display": "none"},
       isPopUpVisible: 'hidden',
-      isMovePopUpVisible: 'hidden'
+      isMovePopUpVisible: 'hidden',
+      windowWidth: window.innerWidth
     }
   },
   components: {
@@ -54,6 +60,14 @@ export default {
     EditProductPopUp,
     ArrowBarRightIcon
   },
+  mounted() {
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize);
+    })
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onResize);
+  },
   computed: {
     product_name() {
       if (this.product !== 'undefined') return this.product.product_name
@@ -63,7 +77,8 @@ export default {
     },
     product_category() {
       if (this.product !== 'undefined') return this.product.product_category
-    }
+    },
+
   },
   methods: {
     ...mapActions(['MOVE_TO_OTHER', 'GET_ALL_USER_DATA']),
@@ -75,7 +90,9 @@ export default {
       this.isMovePopUpVisible = 'visible'
       this.isPopUpVisible = 'visible'
     },
-
+    onResize() {
+      this.windowHeight = window.innerHeight
+    },
     move_to_other_accepted () {
       console.log("move accepted")
       this.MOVE_TO_OTHER({
@@ -220,9 +237,24 @@ export default {
       padding: 7px;
     }
 
-    .ico{
-      margin-left: 5px;
+    .btn-text{
+      margin-right: 5px;
     }
 
+
+    @media (max-width: $tab-size) {
+      .product-item{
+        .buttons{
+          opacity: 1;
+        }
+        .btn-text{
+          margin-right: 0;
+        }
+        .ico{
+          margin-right: 3px;
+        }
+      }
+
+    }
 
 </style>

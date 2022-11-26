@@ -30,7 +30,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "assets/variables";
   .menu-toggle{
     /*align-self: end;*/
     /*position: absolute;*/
@@ -87,7 +88,7 @@ export default {
   }
 
 
-  @media (max-width: 800px){
+  @media (max-width: $tab-size){
     .menu-toggle{
       display: block;
     }
@@ -96,8 +97,8 @@ export default {
       /*align-self: end;*/
       /*position: absolute;*/
       /*position: fixed;*/
-      top: 33.5px;
-      right: 11%;
+      top: 50px;
+      right: 45px;
       width: 26px;
       height: 26px;
       /*border-radius: 99px;*/

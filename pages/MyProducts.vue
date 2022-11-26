@@ -3,38 +3,47 @@
     <div class="navigation-bar">
       <div id="title">My Products</div>
       <div class="button">
-        <blue-button id="create-category">
+        <blue-button id="create-category" @click.native="isNewCategory = !isNewCategory">
           <plus-icon class="ico"/>
           Create category
         </blue-button>
+        <red-stroke-button id="create-product" @click.native="isNewCategory = !isNewCategory">
+          <apple-icon class="ico"/>
+          New Product
+        </red-stroke-button>
       </div>
     </div>
     <div class="content">
-<!--      <category-view />-->
-<!--      <product-view />-->
-      <create-new-category />
+      <category-view />
+      <product-view />
     </div>
+    <div class="opacity" v-if="isNewCategory" @click="isNewCategory = !isNewCategory"/>
+    <create-new-category v-show="isNewCategory" />
   </div>
 </template>
 
 <script>
 import BlueButton from "@/components/UI/BlueButton";
-import {PlusIcon} from 'vue-tabler-icons'
+import {PlusIcon, AppleIcon} from 'vue-tabler-icons'
 import CategoryView from "@/components/MyProducts/Categories/CategoryView";
 import ProductView from "@/components/MyProducts/Products/ProductView";
 import {mapActions} from "vuex";
 import CreateNewCategory from "@/components/MyProducts/CreateNewCategory";
+import RedStrokeButton from "@/components/UI/RedStrokeButton";
 
 export default {
   name: 'MyProducts',
-  components: {CreateNewCategory, ProductView, CategoryView, BlueButton, PlusIcon},
+  components: {RedStrokeButton, CreateNewCategory, ProductView, CategoryView, BlueButton, PlusIcon, AppleIcon},
   data(){
     return{
-      activeColor: 1
+      isNewCategory: false
     }
   },
   methods: {
-    ...mapActions(['GET_ALL_USER_DATA'])
+    ...mapActions(['GET_ALL_USER_DATA']),
+    hide_category_creation () {
+      this.isNewCategory = !this.isNewCategory
+    }
   },
   created() {
     this.GET_ALL_USER_DATA(1)
@@ -42,7 +51,20 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "assets/variables";
+
+.opacity{
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: #000000;
+  opacity: 0.5;
+  padding: 0;
+  left:0;
+  top: 0;
+  z-index: 1003;
+}
 
 .MyProducts{
   width: 100%;
@@ -64,14 +86,37 @@ export default {
 
 #create-category{
   padding: 8px 10px;
+  translate: (-15px);
+
+}
+
+#create-product{
+  padding: 6px 10px;
+}
+
+.ico{
+  margin-right: 5px;
 }
 
 .content{
   padding: 0 16px;
   width: 100%;
   display: flex;
-
-
 }
+
+.button{
+  display: flex;
+}
+
+  @media (max-width: $tab-size) {
+    #title {
+      flex: 0.8;
+    }
+
+    #create-category {
+      translate: (-4%);
+    }
+
+  }
 
 </style>

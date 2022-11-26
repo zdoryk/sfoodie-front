@@ -15,7 +15,7 @@
       <div class="product-amount">
         {{ product_amount }} products
       </div>
-      <div>
+      <div class="chevron-icon">
         <chevron-right-icon />
       </div>
     </div>
@@ -143,6 +143,20 @@ export default {
     //background-color: #696AE9;
     border-radius: 4px;
     background-color: var(--back-color);
+  }
+
+  @media (max-width: $tab-size) {
+    .products-chevron{
+      display: none;
+    }
+
+  }
+
+  @media (max-width: 1350px) {
+    .products-chevron{
+      display: none;
+    }
+
   }
 
 </style>
