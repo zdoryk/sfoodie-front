@@ -123,12 +123,12 @@ export default {
       this.$parent.hide_category_creation()
     },
     create_new(){
-      // this.POST_NEW_CATEGORY({
-      //   user_id: this.$store.state.state.user_id,
-      //   new_icon_name: this.activeIcon,
-      //   new_color_name: this.activeColor,
-      //   new_category_name: this.category_name
-      // })
+      this.POST_NEW_CATEGORY({
+        user_id: this.$store.state.state.user_id,
+        new_icon_name: this.activeIcon,
+        new_color_name: this.activeColor,
+        new_category_name: this.category_name
+      })
       console.log({
         user_id: this.$store.state.state.user_id,
         new_icon_name: this.activeIcon,

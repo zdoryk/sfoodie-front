@@ -314,7 +314,14 @@ export const actions = {
       .then(data => (
         console.log(data)
       ))
-  }
+  },
 
+  async POST_NEW_PRODUCT({commit}, product) {
+    console.log(product)
+    axios.post('http://localhost:8000/products/post_new_user_product', product)
+      .then(data => (
+        console.log(data)
+      ))
+  }
 
 }

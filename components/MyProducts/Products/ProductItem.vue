@@ -21,11 +21,10 @@
         </div>
         <edit-icon class="ico" size="18"/>
       </blue-stroke-button>
-<!--      <blue-stroke-button @click.native="move">-->
+<!--      <blue-stroke-button @click.native ="move">-->
 <!--        Move to other-->
 <!--        <arrow-bar-right-icon class="ico" size="18"/>-->
 <!--      </blue-stroke-button>-->
-      {{ this.window_width }}
       <edit-product-pop-up :style="display" :product_data="product"/>
     </div>
     <move-confirmation v-if="isMovePopUpVisible === 'visible'">Do you really want to move this product to other?</move-confirmation>

@@ -7,7 +7,7 @@
           <plus-icon class="ico"/>
           Create category
         </blue-button>
-        <red-stroke-button id="create-product" @click.native="isNewCategory = !isNewCategory">
+        <red-stroke-button id="create-product" @click.native="isNewProduct = !isNewProduct">
           <apple-icon class="ico"/>
           New Product
         </red-stroke-button>
@@ -17,7 +17,9 @@
       <category-view />
       <product-view />
     </div>
+    <create-new-product v-if="isNewProduct"></create-new-product>
     <div class="opacity" v-if="isNewCategory" @click="isNewCategory = !isNewCategory"/>
+    <div class="opacity" v-if="isNewProduct" @click="isNewProduct = !isNewProduct"/>
     <create-new-category v-show="isNewCategory" />
   </div>
 </template>
@@ -30,19 +32,24 @@ import ProductView from "@/components/MyProducts/Products/ProductView";
 import {mapActions} from "vuex";
 import CreateNewCategory from "@/components/MyProducts/CreateNewCategory";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
+import CreateNewProduct from "@/components/MyProducts/CreateNewProduct";
 
 export default {
   name: 'MyProducts',
-  components: {RedStrokeButton, CreateNewCategory, ProductView, CategoryView, BlueButton, PlusIcon, AppleIcon},
+  components: {
+    CreateNewProduct,
+    RedStrokeButton, CreateNewCategory, ProductView, CategoryView, BlueButton, PlusIcon, AppleIcon},
   data(){
     return{
-      isNewCategory: false
+      isNewCategory: false,
+      isNewProduct: false,
     }
   },
   methods: {
     ...mapActions(['GET_ALL_USER_DATA']),
     hide_category_creation () {
-      this.isNewCategory = !this.isNewCategory
+      this.isNewCategory = false
+      this.isNewProduct = false
     }
   },
   created() {
