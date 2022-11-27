@@ -57,12 +57,10 @@ export default {
     }
 
     @media (max-width: $tab-size) {
-      #category-view{
+      #category-view {
         min-width: 250px;
         margin-right: 20px;
-
       }
-
     }
 
     ::-webkit-scrollbar {

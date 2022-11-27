@@ -67,10 +67,17 @@ export default {
 
   .active-color{
     border-radius: 6px;
-    box-shadow: 0 0 0 2px #696AE9;
+    box-shadow: 0 0 0 2px $blue;
 
     img{
       opacity: 1;
+    }
+  }
+
+  @media (max-width: $phone-size) {
+    img{
+      height: 26px;
+      width: 26px;
     }
   }
 

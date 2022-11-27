@@ -168,4 +168,10 @@ export default {
   .category-item:hover{
     background-color: #3A3C4C;
   }
+
+  @media (max-width: $phone-size) {
+    .content-wrapper{
+      width: 86%;
+    }
+  }
 </style>

@@ -165,9 +165,15 @@ export default {
     //padding: 12px 0;
   }
 
-  #confirm{
-
+  @media (max-width: $phone-size) {
+    .edit-product-pop-up.edit-product-pop-up{
+      width: 90%;
+      padding: 30px 24px;
+      height: fit-content;
+      z-index: 2000;
+    }
   }
+
 
  //.style-chooser{
  //  margin-top: 30px;

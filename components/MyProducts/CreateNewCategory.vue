@@ -269,6 +269,16 @@ export default {
     background-color: var(--back-color);
   }
 
+  @media (max-width: $phone-size) {
+    .button-color,.button-icon{
+      width: 30px;
+      height: 30px;
+    }
+
+
+
+  }
+
 
 
 </style>

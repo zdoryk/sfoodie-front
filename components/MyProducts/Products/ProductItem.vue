@@ -13,7 +13,7 @@
       </div>
     </div>
     <div class="buttons">
-      <blue-stroke-button @click.native="edit">
+      <blue-stroke-button class="edit-button" @click.native="edit">
         <div class="btn-text" v-if="windowWidth > 860">
           Edit
         </div>
@@ -27,7 +27,7 @@
 <!--      </blue-stroke-button>-->
       <edit-product-pop-up :style="display" :product_data="product"/>
     </div>
-    <move-confirmation v-if="isMovePopUpVisible === 'visible'">Do you really want to move this product to other?</move-confirmation>
+<!--    <move-confirmation v-if="isMovePopUpVisible === 'visible'">Do you really want to move this product to other?</move-confirmation>-->
   </div>
 </template>
 
@@ -46,7 +46,7 @@ export default {
     return {
       display: {"display": "none"},
       isPopUpVisible: 'hidden',
-      isMovePopUpVisible: 'hidden',
+      // isMovePopUpVisible: 'hidden',
       windowWidth: window.innerWidth
     }
   },
@@ -84,13 +84,14 @@ export default {
     edit () {
       this.display.display = "flex"
       this.isPopUpVisible = 'visible'
+      // this.$parent.$parent.show_hide_opacity()
     },
-    move() {
-      this.isMovePopUpVisible = 'visible'
-      this.isPopUpVisible = 'visible'
-    },
+    // move() {
+    //   this.isMovePopUpVisible = 'visible'
+    //   this.isPopUpVisible = 'visible'
+    // },
     onResize() {
-      this.windowHeight = window.innerHeight
+      this.windowWidth = window.innerWidth
     },
     move_to_other_accepted () {
       console.log("move accepted")
@@ -106,7 +107,7 @@ export default {
     hide(){
       this.display.display = 'none'
       this.isPopUpVisible = 'hidden'
-      this.isMovePopUpVisible = 'hidden'
+      // this.isMovePopUpVisible = 'hidden'
     }
   }
 }
@@ -127,7 +128,7 @@ export default {
       opacity: 0.5;
       left:0;
       top: 0;
-      z-index: 1003;
+      z-index: 1004;
     }
 
     .product-item{
@@ -253,7 +254,12 @@ export default {
           margin-right: 3px;
         }
       }
+    }
 
+    @media (max-width: $phone-size) {
+      .edit-button {
+        border: none;
+      }
     }
 
 </style>

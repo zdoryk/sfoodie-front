@@ -1,5 +1,5 @@
 <template>
-  <div id="product-view">
+  <div ref="product-view" id="product-view" >
 <!--    Products-->
 <!--    {{ // this.$store.state.state.selected_category }}-->
     <product-item
@@ -7,6 +7,9 @@
       :key="value.product_name"
       :product="value || 'undefined'"
     />
+    <div class="test" style="visibility: hidden">
+      {{ isProductsHeightBigger   }}
+    </div>
   </div>
 </template>
 
@@ -21,6 +24,22 @@ export default {
   computed: {
     products_from_selected_category () {
       return this.$store.state.state.selected_category.products
+    },
+
+    // I WAS TRYING TO SET OVERFLOW HIDDEN WHEN THERE IS NOT ENOUGH PRODUCTS TO OVERFLOW
+
+    isProductsHeightBigger(){
+      console.log(this.products_from_selected_category)
+      if( this.$store.state.state.selected_category.products !== undefined) {
+        console.log(this.products_from_selected_category.length * 40 < 480)
+        // return this.products_from_selected_category.length * 40 < 480
+        if (typeof this.$refs["product-view"] !== 'undefined') {
+          if (this.products_from_selected_category.length * 40 < 480) {
+            this.$refs["product-view"].style.overflowY = 'hidden'
+          } else this.$refs["product-view"].style.overflowY = 'scroll'
+        }
+      }
+      return 1
     }
   }
 }
@@ -44,6 +63,8 @@ export default {
     border-radius: 8px;
     overflow-y: scroll;
   }
+
+
 
   ::-webkit-scrollbar {
     width: 6px;

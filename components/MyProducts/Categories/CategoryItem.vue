@@ -48,7 +48,7 @@ export default {
     updateActivePlan() {
       this.$emit('onUpdatePlan', this.category_name)
       this.SELECT_EXISTING_CATEGORY(this.category_data)
-      console.log(this.$store.state.state.selected_category)
+      this.$parent.$parent.change_translate()
     },
   },
   computed: {
