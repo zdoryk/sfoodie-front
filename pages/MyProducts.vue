@@ -186,15 +186,6 @@ export default {
 }
 
 @media (max-width: $phone-size){
-  .content{
-    overflow-y: hidden;
-    overflow-x: hidden;
-  }
-
-  .MyProducts{
-    overflow-x: hidden;
-    overflow-y: hidden;
-  }
 
   .buttons{
     translate: var(--category-translate);

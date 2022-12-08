@@ -117,6 +117,7 @@ export default {
       // TEMP UNTIL I DO NEW ENDPOINTS AND ACTION FOR EVERY OCASSion
       this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
       this.hide()
+      this.$parent.show_hide_opacity()
       // console.log({
       //   user_id: this.$store.state.state.user_id,
       //   new_category_name: this.category_name,

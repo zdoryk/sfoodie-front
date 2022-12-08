@@ -23,6 +23,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '@/plugins/local-storage',
+    '~/plugins/axios'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -49,7 +51,7 @@ export default {
   },
 
   router: {
-    middleware: ['GET_DATA']
+    // middleware: ['GET_DATA']
   },
 
   // module: {

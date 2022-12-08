@@ -1,6 +1,9 @@
 // import getters from './getters';
 import md5 from "md5"
 import axios from "axios";
+import jwt from 'vue-jwt-decode'
+import Cookies from 'js-cookie'
+
 
 
 export const state = () => ({
@@ -44,15 +47,49 @@ export const state = () => ({
       "#FF5252",
       "#26A69A"
     ],
-    icons: ['cafes', 'drinks','fish', 'greens', 'pizza', 'snacks', 'wine','apple', 'carrot', 'milk', 'drumstick', 'baguette', 'bowl', 'candy']
-    },
+    icons: ['cafes', 'drinks','fish', 'greens', 'pizza', 'snacks', 'wine','apple', 'carrot', 'milk', 'drumstick', 'baguette', 'bowl', 'candy'],
+    access_token: null, // JWT access token
+    refresh_token: null, // JWT refresh token
+    id: null, // user id
+    email_address: null, // user email address
+    tree_map_data: []
+  },
 });
 
 export const getters = {
-
+  isAuthenticated: (state) => {
+    if (new Date < new Date(jwt.decode(state.state.access_token)['exp'] * 1000)){
+      // return state.state.access_token && state.state.access_token !== ''
+      return true
+    } else return ''
+  },
 }
 
 export const mutations = {
+  // AUTH_MUTATIONS_SET_USER: (state, { id, email_address }) =>{
+  AUTH_MUTATIONS_SET_USER: (state, email_address ) =>{
+    // state.id = id
+    state.state.email_address = email_address
+  },
+
+  // store new or updated token fields in the state
+  // AUTH_MUTATIONS_SET_PAYLOAD : (state, { access_token, refresh_token = null }) => {
+  AUTH_MUTATIONS_SET_PAYLOAD : (state, access_token) => {
+    state.state.access_token = access_token
+    // refresh token is optional, only set it if present
+    // if (refresh_token) {
+    //   state.state.refresh_token = refresh_token
+    // }
+  },
+
+  // clear our the state, essentially logging out the user
+  AUTH_MUTATIONS_LOGOUT : (state)  =>{
+    state.id = null
+    state.email_address = null
+    state.access_token = null
+    state.refresh_token = null
+  },
+
   SET_EXISTING_RECEIPTS: (state, receipts) => {
 
     state.state.existing_receipts = receipts
@@ -133,6 +170,10 @@ export const mutations = {
     console.log(state.state.selected_receipt)
   },
 
+  SET_TREE_MAP_DATA(state, data) {
+    state.state.tree_map_data = data
+  }
+
 
   // REPLACE_SELECTED_RECEIPT_MOBILE: (state, receipt) => {
   //   state.state.selected_receipt_mobile = receipt
@@ -141,6 +182,80 @@ export const mutations = {
 
 
 export const actions = {
+  async LOGIN ({ commit, dispatch }, {email, password}) {
+    // make an API call to login the user with an email address and password
+    axios.post('http://localhost:8000/token', "username=" + email + "&password=" + password,
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      })
+      .then(function (data) {
+        const access_token = data.data.access_token
+        const decoded = jwt.decode(access_token)
+        console.log(data)
+        console.log(access_token)
+        console.log(decoded)
+        commit('AUTH_MUTATIONS_SET_USER', decoded.sub)
+        commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
+        console.log(Cookies.get(['authentication-cookies']))
+      })
+    // const { data: { data: { user, payload } } } = await this.$axios.post(
+    //   '/api/auth/login',
+    //   { email_address, password }
+    // )
+
+    // commit the user and tokens to the state
+    // commit(AUTH_MUTATIONS_SET_USER, user, )
+    // commit(AUTH_MUTATIONS_SET_PAYLOAD, payload)
+  },
+
+  async register ({ commit }, { email_addr, password }) {
+    // make an API call to register the user
+    const { data: { data: { user, payload } } } = await this.$axios.post(
+      '/api/auth/register',
+      { email_address, password }
+    )
+
+    // commit the user and tokens to the state
+    // commit(AUTH_MUTATIONS.SET_USER, user)
+    // commit(AUTH_MUTATIONS.SET_PAYLOAD, payload)
+  },
+
+  // given the current refresh token, refresh the user's access token to prevent expiry
+  // async refresh ({ commit, state }) {
+  //   const { refresh_token } = state
+  //
+  //   // make an API call using the refresh token to generate a new access token
+  //   const { data: { data: { payload } } } = await this.$axios.post(
+  //     '/api/auth/refresh',
+  //     { refresh_token }
+  //   )
+  //
+  //   commit(AUTH_MUTATIONS.SET_PAYLOAD, payload)
+  // },
+
+  // logout the user
+  // logout ({ commit, state }) {
+  //   commit(AUTH_MUTATIONS.LOGOUT)
+  // },
+
+  async GET_ME ({},token){
+    console.log('Bearer ' + token)
+    await this.$axios.get('http://127.0.0.1:8000/users/me',
+      // {
+      //   headers: {'Authorization': 'Bearer ' + token},
+      // }
+    )
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((error) => {
+        console.log(error);
+        return error;
+      })
+  },
+
   ADD_PRODUCT_TO_RECEIPT_PRODUCTS({commit}, product){
     commit('SET_RECEIPT_PRODUCTS_STATE', product)
   },
@@ -179,7 +294,7 @@ export const actions = {
   },
 
   async GET_ALL_USER_DATA({commit}, user_id){
-    await axios('http://127.0.0.1:8000/custom/' + user_id, {
+    await this.$axios('http://127.0.0.1:8000/custom/' + user_id, {
       method: "GET",
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
@@ -254,7 +369,7 @@ export const actions = {
   },
 
   async GET_ALL_USER_RECEIPTS({commit}, user_id){
-    await axios('http://127.0.0.1:8000/receipts/' + user_id, {
+    await this.$axios('http://127.0.0.1:8000/receipts/' + user_id, {
       method: "GET",
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
@@ -269,14 +384,14 @@ export const actions = {
 
   async POST_NEW_RECEIPT({commit}, receipt){
     console.log(receipt)
-    axios.post('http://localhost:8000/receipts/post_user_receipt', receipt)
+    this.$axios.post('http://localhost:8000/receipts/post_user_receipt', receipt)
       .then(data =>(
         console.log(data)
       ));
   },
 
   async DELETE_RECEIPT_REQUEST ({commit}, receipt_and_user_ids){
-    axios.delete(`http://localhost:8000/receipts/delete_user_receipt`, {data: receipt_and_user_ids})
+    this.$axios.delete(`http://localhost:8000/receipts/delete_user_receipt`, {data: receipt_and_user_ids})
       .then(response => {
         if (response.data.Status === 'OK'){
           commit('DELETE_SELECTED_RECEIPT_FROM_EXISTING')
@@ -292,7 +407,7 @@ export const actions = {
 
   async MOVE_TO_OTHER({commit, dispatch}, data_for_update){
     console.log(data_for_update)
-    axios.put('http://localhost:8000/products/replace_user_product_category', data_for_update)
+    this.$axios.put('http://localhost:8000/products/replace_user_product_category', data_for_update)
       .then(function(data){
         dispatch('GET_ALL_USER_DATA', data_for_update.user_id)  // THERE NEED TO BE ANOTHER ACTION THAT WILL NOT FETCH ALL THE DATA ONLY THAT WE NEED TO
         console.log(data)
@@ -301,7 +416,7 @@ export const actions = {
 
   async EDIT_PRODUCT({commit, dispatch}, data_for_update){
     console.log(data_for_update)
-    axios.put('http://localhost:8000/products/update_user_product', data_for_update)
+    this.$axios.put('http://localhost:8000/products/update_user_product', data_for_update)
       .then(function(data){
         dispatch('GET_ALL_USER_DATA', data_for_update.user_id)  // THERE NEED TO BE ANOTHER ACTION THAT WILL NOT FETCH ALL THE DATA ONLY THAT WE NEED TO
         console.log(data)
@@ -310,7 +425,7 @@ export const actions = {
 
   async POST_NEW_CATEGORY({commit}, category) {
     console.log(category)
-    axios.post('http://localhost:8000/products/post_new_user_category', category)
+    this.$axios.post('http://localhost:8000/products/post_new_user_category', category)
       .then(data => (
         console.log(data)
       ))
@@ -318,10 +433,26 @@ export const actions = {
 
   async POST_NEW_PRODUCT({commit}, product) {
     console.log(product)
-    axios.post('http://localhost:8000/products/post_new_user_product', product)
+    this.$axios.post('http://localhost:8000/products/post_new_user_product', product)
       .then(data => (
         console.log(data)
       ))
-  }
+  },
+
+  async GET_TREEMAP_DATA({commit}, user_id){
+    await this.$axios('http://127.0.0.1:8000/custom/tree_map_chart/' + user_id, {
+      method: "GET",
+      // headers: {'X-Requested-With': 'XMLHttpRequest'},
+    })
+      .then((data) => {
+        console.log(data.data)
+        commit('SET_TREE_MAP_DATA', data.data)
+      })
+      .catch((error) => {
+        console.log(error);
+        return error;
+      })
+  },
+
 
 }

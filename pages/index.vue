@@ -4,9 +4,14 @@
 <script>
   import Vue from 'vue';
   import VueTablerIcons from "vue-tabler-icons";
+  // import VueApexCharts from 'vue-apexcharts'
+
   import {mapActions} from "vuex";
 
   Vue.use(VueTablerIcons);
+  // Vue.use(VueApexCharts)
+  //
+  // Vue.component('apexchart', VueApexCharts)
 
 
 

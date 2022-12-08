@@ -63,7 +63,7 @@ export default {
     RedStrokeButton,
     PriceRangeFilter, PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem,DeleteConfirmation, DatePicker, XIcon},
   layout: 'allReceiptsPage',
-  middleware: ['GET_DATA'],
+  // middleware: ['GET_DATA'],
   data() {
     return {
       activeReceiptID: this.$store.state.state.selected_receipt.receipt_id,
