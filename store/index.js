@@ -52,7 +52,13 @@ export const state = () => ({
     refresh_token: null, // JWT refresh token
     id: null, // user id
     email_address: null, // user email address
-    tree_map_data: []
+    tree_map_data: [],
+    stacked_bar_data: [],
+    charts_shared: {
+      selected_category: 'None',
+      isChartCategoryData: false,
+      colors: []
+    }
   },
 });
 
@@ -172,6 +178,83 @@ export const mutations = {
 
   SET_TREE_MAP_DATA(state, data) {
     state.state.tree_map_data = data
+  },
+
+  SET_STACKED_BAR_DATA(state){
+    // Create a list of all possible product names and days of the week
+    const productNames = [];
+    const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    for (const receipt of state.state.existing_receipts) {
+      for (const product of receipt.products) {
+        productNames.push(product.product_name);
+      }
+    }
+
+    // Make sure the product names and days of the week are unique
+    const uniqueProductNames = new Set(productNames);
+    const uniqueDaysOfWeek = new Set(daysOfWeek);
+
+    // Create a dictionary with all possible combinations of product names and days of the week
+    // and initialize the values to 0
+
+
+    const categoryMap = {};
+    for (const category of state.state.existing_categories) {
+      for (const product of category.products) {
+        categoryMap[product.product_name] = category.category_name;
+      }
+    }
+
+    const productSums = {};
+    const categorySums = {};
+
+    for (const productName of uniqueProductNames) {
+      for (const dayOfWeek of uniqueDaysOfWeek) {
+        productSums[`${productName},${dayOfWeek}`] = 0;
+        if(categoryMap[productName] !== undefined) categorySums[`${categoryMap[productName]},${dayOfWeek}`] = 0
+      }
+    }
+
+    // Iterate over the receipts
+
+    for (const receipt of state.state.existing_receipts) {
+      // Calculate the day of the week for the receipt using the Date object
+      const date = new Date(receipt.createdAt * 1000);
+      const dayOfWeek = date.toLocaleString("en-US", {weekday: "long"});
+
+      // Get the list of products for the receipt
+      const products = receipt.products;
+
+      // Iterate over the products
+      for (const product of products) {
+        const productName = product.product_name;
+        const productPrice = product.price;
+        const categoryName = categoryMap[productName];
+        // Temporary
+        if(categoryName !== undefined) categorySums[`${categoryName},${dayOfWeek}`] += productPrice;
+        // Update the value in the dictionary by adding the product price
+        productSums[`${productName},${dayOfWeek}`] += productPrice;
+      }
+    }
+
+
+    // Print the product sums
+    state.state.stacked_bar_data = {
+      'categories': categorySums,
+      'products': productSums,
+      'category_map_products': categoryMap
+    }
+    console.log(state.state.stacked_bar_data)
+
+  },
+
+  SET_CATEGORY_CHART_DATA(state, data){
+    state.state.charts_shared.selected_category = data.selected_category
+    state.state.charts_shared.isChartCategoryData = data.isChartCategoryData
+  },
+
+  SET_SHARED_CHART_COLORS(state, data){
+    state.state.charts_shared.colors = data
   }
 
 
@@ -182,6 +265,13 @@ export const mutations = {
 
 
 export const actions = {
+  SET_CATEGORY_CHART_DATA_ACTION({commit},{selected_category, isChartCategoryData}) {
+    commit('SET_CATEGORY_CHART_DATA', {selected_category, isChartCategoryData})
+  },
+  SET_SHARED_CHART_COLORS_ACTION({commit},colors) {
+    commit('SET_SHARED_CHART_COLORS', colors)
+  },
+
   async LOGIN ({ commit, dispatch }, {email, password}) {
     // make an API call to login the user with an email address and password
     axios.post('http://localhost:8000/token', "username=" + email + "&password=" + password,
@@ -299,7 +389,7 @@ export const actions = {
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
       .then((products) => {
-        console.log(products.data)
+        // console.log(products.data)
         commit('SET_NEW_USER_VALUE', products.data.new_user)
         // commit('SET_PRODUCTS_STATE', products);
         let receipts = products.data.receipts
@@ -324,7 +414,7 @@ export const actions = {
           "products": []
         }
         let some_array = []
-        console.log(categories)
+        // console.log(categories)
         for (const [key, value] of Object.entries(categories)) {
           let temp_object = {}
           for (let [k, v] of Object.entries(value)){
@@ -439,7 +529,7 @@ export const actions = {
       ))
   },
 
-  async GET_TREEMAP_DATA({commit}, user_id){
+  async GET_TREEMAP_DATA({commit, state}, user_id){
     await this.$axios('http://127.0.0.1:8000/custom/tree_map_chart/' + user_id, {
       method: "GET",
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -447,6 +537,7 @@ export const actions = {
       .then((data) => {
         console.log(data.data)
         commit('SET_TREE_MAP_DATA', data.data)
+        commit('SET_STACKED_BAR_DATA')
       })
       .catch((error) => {
         console.log(error);

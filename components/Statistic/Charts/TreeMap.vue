@@ -1,7 +1,7 @@
 <template>
   <div class="tree-map">
     <client-only>
-      <div class="rofl" @click="back"><--</div>
+      <blue-button class="back-button" @click.native="back" v-if="this.$store.state.state.charts_shared.isChartCategoryData">< Back</blue-button>
       <apexchart ref="tree_map_chart" type="treemap" height="350" :options="chartOptions" :series="series" ></apexchart>
     </client-only>
   </div>
@@ -11,41 +11,34 @@
 // import VueApexCharts from "vue-apexcharts";
 
 import {mapActions} from "vuex";
+import BlueButton from "@/components/UI/BlueButton";
+import Vue from "vue";
 
 export default {
   name: "TreeMap",
-  components: { [process.browser && 'apexchart']: () => import('vue-apexcharts'),},
+  components: {BlueButton, [process.browser && 'apexchart']: () => import('vue-apexcharts'),},
   mounted() {
     this.chartOptions.colors = this.$store.state.state.tree_map_data.colors
     this.series = [this.categories_agg]
-    // }
+  },
+  beforeDestroy(){
+    console.log('Leave')
+    this.SET_CATEGORY_CHART_DATA_ACTION({selected_category: 'None', isChartCategoryData: false})
+    this.$parent.$destroy()
   },
   updated() {
-    // let menu = document.querySelector('.apexcharts-menu')
-    // if (menu){
-    //   menu.style.background = '#282932'
-    //   menu.style.border = 'none'
-    // }
-    // let menu_items = document.querySelectorAll('.apexcharts-menu-item')
-    // if (menu_items){
-    //   for (const item of menu_items){
-    //     item.addEventListener("mouseover", function() {
-    //       this.style.background = "#3A3C4C";
-    //     });
-    //     item.addEventListener("mouseout", function() {
-    //       this.style.background = "#282932";
-    //     });
-    //   }
-    // }
-    let element = document.querySelector(".apexcharts-title-text");
-    if (element){
-      document.querySelector(".rofl").style.top =  element.getBoundingClientRect().top + window.pageYOffset + 'px';
-    }
+    // const element = document.querySelector(".apexcharts-title-text");
+    let back_button = document.querySelector(".back-button")
     let rects = document.querySelectorAll('g.apexcharts-treemap-series .apexcharts-treemap-rect')
+    if (back_button){
+      back_button.style.top =  rects[0].getBoundingClientRect().top + 10 + 'px';
+      back_button.style.left =  rects[0].getBoundingClientRect().left + 10 + 'px';
+    }
+    let index
     for (const rect of rects) {
       rect.addEventListener('click', () => {
-        if(!this.isCategoryData){
-          const index = rect.getAttribute('j');
+        if(!this.$store.state.state.charts_shared.isChartCategoryData){
+          index = rect.getAttribute('j');
           this.series = [this.tree_map_data.at(index)]
           this.chartOptions = {...this.chartOptions, ...{
               colors: [this.$store.state.state.tree_map_data.colors.at(index)],
@@ -56,137 +49,34 @@ export default {
                 }
               }
             }}
-          this.isCategoryData = true
+          this.SET_CATEGORY_CHART_DATA_ACTION({selected_category: this.tree_map_data.at(index).name, isChartCategoryData: true})
         }
       })
       rect.style.stroke = '#282932'
-      // rect.style.borderRadius = '10px'
     }
   },
+  // watch: {
+  //   test: function(newValue, oldValue) {
+  //     // console.log(`myVariable changed from ${oldValue} to ${newValue}`);
+  //     if(this.$store.state.state.charts_shared.isChartCategoryData) {
+  //           let rects = document.querySelectorAll('g.apexcharts-treemap-series .apexcharts-treemap-rect')
+  //           const colors = []
+  //           for (const rect of rects){
+  //             colors.push(rect.getAttribute('fill'))
+  //           }
+  //           console.log(colors)
+  //           this.SET_CATEGORY_CHART_DATA_ACTION({
+  //             selected_category: this.$store.state.state.charts_shared.selected_category,
+  //             isChartCategoryData: true,
+  //             Nodes: colors
+  //           })
+  //         }
+  //         console.log("removed")
+  //   }
+  // },
   data(){
     return {
-      // raw_data: [],
-      // category_data: [],
-      // category_color: {},
-      // colors: [],
-      // series: [
-      //   {
-      //     name: 'Desktops',
-      //     data: [
-      //       {
-      //         x: 'ABC',
-      //         y: 10
-      //       },
-      //       {
-      //         x: 'DEF',
-      //         y: 60
-      //       },
-      //       {
-      //         x: 'XYZ',
-      //         y: 41
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     name: 'Mobile',
-      //     data: [
-      //       {
-      //         x: 'ABCD',
-      //         y: 10
-      //       },
-      //       {
-      //         x: 'DEFG',
-      //         y: 20
-      //       },
-      //       {
-      //         x: 'WXYZ',
-      //         y: 51
-      //       },
-      //       {
-      //         x: 'PQR',
-      //         y: 30
-      //       },
-      //       {
-      //         x: 'MNO',
-      //         y: 20
-      //       },
-      //       {
-      //         x: 'CDE',
-      //         y: 30
-      //       }
-      //     ]
-      //   }
-      // ],
-      // series: [
-      //   {
-      //     name: "Fruits",
-      //     data: [
-      //       {
-      //         x: "Bananas",
-      //         y: 24.5
-      //       },
-      //       {
-      //         x: "Pineapple",
-      //         y: 54.89
-      //       },
-      //       {
-      //         x: "Strawberry",
-      //         y: 64.3
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     name: "Meat",
-      //     data: [
-      //       {
-      //         x: "Beef",
-      //         y: 107.91
-      //       },
-      //       {
-      //         x: "Ham",
-      //         y: 37.29
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     name: "Drinks",
-      //     data: [
-      //       {
-      //         x: "Juice",
-      //         y: 12.38
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     name: "Semi-finished products",
-      //     data: [
-      //       {
-      //         x: "Lasagne",
-      //         y: 63.92
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     name: "Snacks",
-      //     data: [
-      //       {
-      //         x: "Snickers",
-      //         y: 1.98
-      //       }
-      //     ]
-      //   },
-      //   {
-      //     name: "Other",
-      //     data: [
-      //       {
-      //         x: "string",
-      //         y: 10
-      //       }
-      //     ]
-      //   },
-      // ],
       series: [],
-      isCategoryData: false,
       chartOptions: {
         labels: {
           formatter: function (value) {
@@ -202,23 +92,24 @@ export default {
           toolbar: {
             show: false
             // theme: {mode: 'dark'}
-          }
-          // events: {
-          //   dataPointSelection: function(event, chartContext, config) {
-          //     console.log(this.$store.state.state.tree_map_data.tree_map_data)
-          //     console.log(this.tree_map_data[config.dataPointIndex])
-          //   }
-          // }
-        },
-        title: {
-          text: 'Expenses on each category and each product',
-          align: 'center',
-          style: {
-            fontFamily: 'Poppins',
-            fontSize: 20,
-            color: '#edefff'
+          },
+          foreColor: '#edefff',
+
+          events: {
+            updated: (chartContext, options) => {
+              this.update_colors()
+            }
           }
         },
+        // title: {
+        //   text: 'Expenses on each category and each product',
+        //   align: 'center',
+        //   style: {
+        //     fontFamily: 'Poppins',
+        //     fontSize: 20,
+        //     color: '#edefff'
+        //   }
+        // },
         dataLabels: {
           style: {
             fontSize: '14px',
@@ -239,13 +130,22 @@ export default {
           treemap: {
             distributed: true,
             enableShades: false
-          }
+          },
         }
       },
 
     }
   },
   methods: {
+    update_colors(){
+      let rects = document.querySelectorAll('g.apexcharts-treemap-series .apexcharts-treemap-rect')
+      const colors = []
+      for (const rect of rects){
+        colors.push(rect.getAttribute('fill'))
+      }
+      this.SET_SHARED_CHART_COLORS_ACTION(colors)
+    },
+    ...mapActions(['SET_CATEGORY_CHART_DATA_ACTION', 'SET_SHARED_CHART_COLORS_ACTION']),
     back(){
       this.series = [this.categories_agg]
       this.chartOptions = {...this.chartOptions, ...{
@@ -257,7 +157,7 @@ export default {
             }
           }
         }}
-      this.isCategoryData = false
+      this.SET_CATEGORY_CHART_DATA_ACTION({selected_category: '', isChartCategoryData: false})
     }
   },
   computed: {
@@ -273,12 +173,6 @@ export default {
         return this.$store.state.state.tree_map_data.colors
       }
     },
-    // color_category(){
-    //   let category_color
-    //   for (let i = 0; i < this.tree_map_data.length; i++) {
-    //     category_color[this.tree_map_data[i].name] = this.colors[i]
-    //   }
-    // },
   }
 }
 </script>
@@ -288,8 +182,8 @@ export default {
       stroke: none !important;
   }
 
-  .rofl{
-    transform: translateY(5px);
+  .back-button{
+    //transform: translateY(5px);
     position: absolute;
     z-index: 3;
     cursor: pointer;
