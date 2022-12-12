@@ -51,7 +51,11 @@ export default {
   },
 
   router: {
-    // middleware: ['GET_DATA']
+    // middleware: ['index']
+  },
+  server: {
+    host: '10.9.179.156', // default: localhost
+    port: 8000 // default: 3000
   },
 
   // module: {

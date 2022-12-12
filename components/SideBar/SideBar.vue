@@ -11,35 +11,35 @@
       <path d="M545.426 22.2567V34.1645H568.874V49.5929H545.426V62.7433H572V79H525V6H572V22.2567H545.426Z" fill="#EDEFFF"/>
     </svg>
 
-    <nuxt-link class="sidebar-link" active-class="new-receipt-btn" to="/AddNewReceipt">
+    <nuxt-link class="sidebar-link" active-class="new-receipt-btn" to="/program/AddNewReceipt">
       <add-new-product-button id="add-new" >
         <file-plus-icon class="ico menu-item-icon" />
         New Receipt
       </add-new-product-button>
     </nuxt-link>
 
-    <nuxt-link class="sidebar-link" active-class="active" to="/AllReceiptsRedirection">
+    <nuxt-link class="sidebar-link" active-class="active" to="/program/AllReceiptsRedirection">
       <menu-item class="menu-item">
         <receipt-icon class="ico menu-item-icon" />
         All Receipts
       </menu-item>
     </nuxt-link>
 
-    <nuxt-link class="sidebar-link" active-class="active" to="/MyProducts">
+    <nuxt-link class="sidebar-link" active-class="active" to="/program/MyProducts">
       <menu-item class="menu-item">
         <apple-icon class="ico menu-item-icon" />
         My Products
       </menu-item>
     </nuxt-link>
 
-    <nuxt-link class="sidebar-link" active-class="active" to="/Statistic">
+    <nuxt-link class="sidebar-link" active-class="active" to="/program/Statistic">
       <menu-item class="menu-item">
         <chart-infographic-icon class="ico menu-item-icon" />
         Statistic
       </menu-item>
     </nuxt-link>
 
-    <nuxt-link class="sidebar-link" active-class="active" to="/Info">
+    <nuxt-link class="sidebar-link" active-class="active" to="/program/Info">
       <menu-item class="menu-item">
         <info-circle-icon class="ico menu-item-icon" />
         Info

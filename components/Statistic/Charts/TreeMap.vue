@@ -2,7 +2,7 @@
   <div class="tree-map">
     <client-only>
       <blue-button class="back-button" @click.native="back" v-if="this.$store.state.state.charts_shared.isChartCategoryData">< Back</blue-button>
-      <apexchart ref="tree_map_chart" type="treemap" height="350" :options="chartOptions" :series="series" ></apexchart>
+      <apexchart ref="tree_map_chart" type="treemap" height="300" :options="chartOptions" :series="series" ></apexchart>
     </client-only>
   </div>
 </template>
@@ -53,6 +53,7 @@ export default {
         }
       })
       rect.style.stroke = '#282932'
+      rect.style.cursor = 'pointer'
     }
   },
   // watch: {
@@ -87,7 +88,7 @@ export default {
           show: false
         },
         chart: {
-          height: 350,
+          height: 300,
           type: 'treemap',
           toolbar: {
             show: false
@@ -184,6 +185,7 @@ export default {
 
   .back-button{
     //transform: translateY(5px);
+    padding: 8px 12px;
     position: absolute;
     z-index: 3;
     cursor: pointer;

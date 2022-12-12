@@ -1,6 +1,7 @@
 import createPersistedState from 'vuex-persistedstate'
 import Cookies from 'js-cookie'
 import cookie from 'cookie'
+import jwt from 'vue-jwt-decode'
 
 // access the store, http request and environment from the Nuxt context
 // https://nuxtjs.org/api/context/
@@ -14,8 +15,8 @@ export default ({ store, req, isDev }) => {
     ],
     storage: {
       // if on the browser, parse the cookies using js-cookie otherwise parse from the raw http request
-      // getItem: key => process.client ? Cookies.getJSON(key) : cookie.parse(req.headers.cookie || '')[key],
-      getItem: key => Cookies.get(key),
+      getItem: key => process.client ? Cookies.getJSON(key) : cookie.parse(req.headers.cookie || '')[key],
+      // getItem: key => Cookies.get(key),
       // getItem: function (key){
       //   console.log(Cookies.get(key))
       //   return Cookies.get(key)

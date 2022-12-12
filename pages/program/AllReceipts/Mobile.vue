@@ -1,38 +1,29 @@
 <template>
   <div class="AllReceipts">
+    <div class="opacity" :style="cssVars" v-on:click="activeReceiptID = ''"/>
     <div class="navigation-bar">
       <div id="title">All Receipts</div>
-      <div class="time-period">
-        <div class="filters">
-          <div class="clear-filters" v-on:click="this.clearFilters">
-            <div class="clear-filters-text">Clear filters</div>
-            <x-icon  class="ico clear-filters-ico"/>
-          </div>
-          <price-range-filter v-model="priceRange"/>
-
-          <div class="date-time">
-            <date-picker v-model="timePeriod" range format="MMM DD, YYYY"></date-picker>
-          </div>
+      <div class="filters">
+<!--        <div>* Filters in future *</div>-->
+        <div class="first-row">
+          <price-range-filter id="mobile-price-range-filter" v-model="priceRange"/>
+<!--          <price-range-filter id="mobile-categories-filter"/>-->
+        </div>
+        <div class="second-row">
+          <date-picker id="mobile-date-picker" v-model="timePeriod" range format="MMM DD, YYYY"/>
+          <cross-button @click.native="clearFilters()"/>
         </div>
       </div>
     </div>
-    <div class="all-receipts-content">
+
+    <div class="content">
       <div class="AllTime">
-<!--        <div id="receipt-view-div">-->
-        <receipt-view :key="receiptViewKey" id="receipt-view" v-model="isConfirmationVisible" />
-<!--        </div>-->
-        <div id="content" :style="cssVars">
-          <div v-if="isConfirmationVisible" id="delete-confirmation-div">
-            <delete-confirmation v-model="isConfirmationVisible">Do you really want to delete this receipt?</delete-confirmation>
-            <div class="opacity" @click="closeConfirmation"></div>
-          </div>
-          <div class="there-is-no-receipts" v-if="!isReceipts">
-            <div class="text">There is no receipts that would satisfy filters conditions.</div>
-          </div>
-          <div id="month" v-for="(item, key, i) in sorted_receipts_by_mmYYYY" :key="i" v-if="isReceipts">
+        <div id="content">
+          <div id="month" v-for="(item, key, i) in sorted_receipts_by_mmYYYY" :key="i">
             <div class="date_title">{{ key }}</div>
             <div class="receipts">
-              <ExistingReceiptItem v-for="(receipt, key, index) in item" :key="index"
+              <ExistingReceiptItem class="mobile-receipt"
+                                   v-for="(receipt, index) in item" :key="index"
                                    v-bind:existing_receipt_data="receipt"
                                    v-model="activeReceiptID"
               />
@@ -42,89 +33,78 @@
         </div>
       </div>
     </div>
+
+    <div id="pop-up" :style="cssVars">
+      <pop-up v-model="isConfirmationVisible"/>
+    </div>
+<!--    <div>{{this.filtered_receipts}}</div>-->
+
+<!--    <div v-if="this.$store.state.state.isReceiptDeleteConfirmation" id="delete-confirmation">-->
+    <div v-if="isConfirmationVisible" id="delete-confirmation-div" >
+      <DeleteConfirmation v-model="isConfirmationVisible">
+        Do you really want to delete this receipt?
+      </DeleteConfirmation>
+      <div class="opacity confirmation-opacity" @click="closeConfirmation"></div>
+    </div>
+<!--    <div class="test" :style="cssVars">qweqwe</div>-->
   </div>
 </template>
 
 <script>
-import DatePicker from 'vue2-datepicker';
-import 'vue2-datepicker/index.css';
 import TimePeriodItem from "@/components/AllReceipts/TimePeriodItem";
 import {mapActions} from "vuex";
 import ExistingReceiptItem from "@/components/AllReceipts/ExistingReceiptItem";
 import ReceiptView from "@/components/AllReceipts/ReceiptView";
 import PopUp from "@/components/AllReceipts/PopUp";
 import DeleteConfirmation from "@/components/UI/DeleteConfirmation";
-import PriceRangeFilter from "@/components/AllReceipts/PriceFilter/PriceRangeFilter";
-import RedStrokeButton from "@/components/UI/RedStrokeButton";
-import {XIcon} from "vue-tabler-icons"
+import priceRangeFilter from "@/components/AllReceipts/PriceFilter/PriceRangeFilter";
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+import crossButton from "@/components/UI/CrossButton";
+
 
 export default {
-  components: {
-    RedStrokeButton,
-    PriceRangeFilter, PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem,DeleteConfirmation, DatePicker, XIcon},
+  components: {crossButton ,PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem, DeleteConfirmation, priceRangeFilter, DatePicker},
   layout: 'allReceiptsPage',
-  // middleware: ['GET_DATA'],
   data() {
     return {
-      activeReceiptID: this.$store.state.state.selected_receipt.receipt_id,
+      activeReceiptID: '',
       isConfirmationVisible: false,
       timePeriod: [],
       priceRange: [],
-      overflow: 'scroll',
-      receiptViewKey: 0
     }
   },
   methods:{
-    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION','SELECT_FIRST_RECEIPT', 'GET_ALL_USER_DATA']),
+    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION', 'GET_ALL_USER_DATA']),
     closeConfirmation(){
       this.isConfirmationVisible = !this.isConfirmationVisible
     },
     closePopUp(){
-      // this.SELECT_FIRST_RECEIPT()
-      this.receiptViewKey += 1
-      this.activeReceiptID = this.activeReceipt
+      this.activeReceiptID = ''
     },
+
     clearFilters(){
-      console.log(this.$children[0])
+      // console.log(this.$children[0])
       this.timePeriod = []
       this.priceRange = []
       this.$children[0].clearInput()
-    }
+    },
+    clear_price_range(){
+      this.priceRange = []
+    },
+
   },
 
   created() {
-    this.GET_ALL_USER_DATA(this.userId)
+    this.GET_ALL_USER_DATA("1")
   },
 
   computed: {
-    userId(){
-      return this.$store.state.state.user_id
-    },
-
-    activeReceipt(){
-      return this.$store.state.state.selected_receipt.receipt_id
-    },
-
-    cssVars() {
-      return {
-        '--overflow-y': this.overflow,
-      }
-    },
-
-    isReceipts(){
-      return typeof this.$store.state.state.selected_receipt.products !== 'undefined';
-    },
-
-
-
     filtered_existing_receipts(){
-      this.overflow = 'scroll'
-
       let receipts = JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts))
-      receipts.map(function (receipt){
-        receipt.createdAt = new Date(receipt.createdAt * 1000)
-      })
-      receipts.map(receipt => receipt.createdAt = ('0' + (receipt.createdAt.getMonth() + 1)).slice(-2) + '/' + ( '0' + receipt.createdAt.getDate()).slice(-2) + '/' + receipt.createdAt.getFullYear())
+      console.log(receipts)
+      receipts.map(receipt => receipt.createdAt = new Date(parseInt(receipt.createdAt + "000")))
+      receipts.map(receipt => receipt.createdAt = ('0' + receipt.createdAt.getMonth()).slice(-2) + '/' + ( '0' + receipt.createdAt.getDate()).slice(-2) + '/' + receipt.createdAt.getFullYear())
 
       receipts = receipts.sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))).reverse()
 
@@ -145,11 +125,12 @@ export default {
       return receipts
     },
 
-    // receipts() {
-    //   return this.filtered_existing_receipts;
-    // },
+    receipts() {
+      return this.filtered_existing_receipts;
+    },
 
     sorted_receipts_by_mmYYYY(){
+      console.log(this.filtered_existing_receipts)
       let month_year = [...new Set (this.filtered_existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))]
         .sort().reverse().map((item) => ({ [item]: [] }))
 
@@ -164,7 +145,6 @@ export default {
 
       let smt = {}
 
-
       for (let index in month_year) {
         const date = new Date(Object.keys(month_year[index])[0].substring(0,3) + '01/20' + Object.keys(month_year[index])[0].substring(5))
         // console.log(date)
@@ -174,7 +154,9 @@ export default {
         else smt[result + ', ' + date.getFullYear()] = month_year[index][Object.keys(month_year[index])[0]]
       }
 
+
       return smt
+      // return 1
     },
 
     date_format(raw_date) {
@@ -183,12 +165,36 @@ export default {
       if (date.getFullYear() === new Date().getFullYear()) return result
       else return result + ', ' + date.getFullYear()
     },
-}
+
+    translate_height(){
+      // console.log(height)
+      if (typeof this.$store.state.state.selected_receipt.products !== 'undefined') {
+        if (this.activeReceiptID === "") return 204 + this.$store.state.state.selected_receipt.products.length * 40
+        else return "0"
+      }
+      else return "0"
+    },
+
+    isVisible(){
+      if (this.activeReceiptID === "") return 'hidden'
+      else return 'visible'
+    },
+
+
+    cssVars() {
+      return {
+        // '--bg-color': this.bgColor,
+        '--height': this.translate_height + 'px',
+        '--visibility': this.isVisible,
+        '--delete-confirmation-visibility': this.isConfirmationVisible
+      }
+    }
+  }
 }
 </script>
 
-<style scoped lang="scss">
-@import "../../assets/variables";
+<style scoped lang="scss" >
+@import "../../../assets/variables";
 
 .AllReceipts{
   width: 100%;
@@ -205,25 +211,25 @@ export default {
 
 .navigation-bar {
   display: flex;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   flex-wrap: wrap;
   padding: 16px 16px 0;
 }
 
-.time-period {
-  //display: flex;
+.filters {
+  display: flex;
   align-items: center;
-  //justify-content: space-between;
-  flex: 3;
+  justify-content: space-between;
+  flex: 0.9;
 }
 
-.all-receipts-content{
+.content{
   padding: 0 16px;
 }
 
 
 @media (max-width: $desktop-m){
-  .time-period {
+  .filters {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -245,13 +251,13 @@ export default {
     display: block;
   }
 
-  .time-period {
+  .filters {
     margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     //flex-wrap: wrap;
-    flex: 3;
+    flex: 1;
 
     a {
       margin-right: 30px;
@@ -268,37 +274,29 @@ export default {
 
 }
 
-//@media (max-width: $phone-size){
-//  .AllReceipts{
-//    //padding: 16px;
-//  }
-//
-//  .all-receipts-content > div {
-//    justify-content: center;
-//  }
-//
-//  .opacity{
-//    position: absolute;
-//    width: 100%;
-//    height: 100vh;
-//    background-color: #000000;
-//    opacity: 0.5;
-//    visibility: hidden;
-//    padding: 0;
-//    left:0;
-//    right:0;
-//    z-index: 1001;
-//  }
-//
-//  #receipt-view-div{
-//    position: fixed;
-//    left: 500px;
-//    visibility: hidden;
-//    width: fit-content;
-//    max-width: 300px;
-//    //top: 50%
-//  }
-//}
+@media (max-width: $phone-size){
+  .AllReceipts{
+    //padding: 16px;
+  }
+
+  .content > div {
+    justify-content: center;
+  }
+
+  .opacity{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    background-color: #000000;
+    opacity: 0.5;
+    visibility: var(--visibility);
+    padding: 0;
+    left:0;
+    right:0;
+    z-index: 3;
+  }
+
+}
 
 
 ::-webkit-scrollbar {
@@ -319,6 +317,7 @@ export default {
 
 .AllTime{
   display: flex;
+  /*flex-wrap: wrap;*/
 }
 
 .receipts{
@@ -327,10 +326,6 @@ export default {
   flex-wrap: wrap;
   flex: 2;
   width: 100%;
-}
-
-#receipt-view-div{
-  flex: 1
 }
 
 
@@ -353,11 +348,36 @@ export default {
 }
 
 #content{
-  overflow-y: var(--overflow-y);
+  overflow-y: scroll;
   max-height: 74vh;
-  min-width: 360px;
-  width: 100%;
 }
+
+@media (max-width: 380px){
+  #content {
+    padding: 0 16px;
+    max-height: 67vh;
+  }
+  .mobile-receipt{
+    min-width: 270px;
+  }
+
+}
+
+
+#pop-up {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  visibility: var(--visibility);
+  transform: translateY(var(--height));
+  transition: transform ease-in-out 0.3s;
+  z-index: 3;
+}
+//
+//.test{
+//  height: var(--height);
+//}
 
 #delete-confirmation-div{
   position: absolute;
@@ -374,80 +394,48 @@ export default {
   justify-content: center;
 }
 
+
+
 .delete-confirmation{
-  z-index: 1004;
-  margin-top: 10%;
+  z-index: 5;
+  margin-top: 50%;
 }
 
-.opacity{
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  background-color: #000000;
-  opacity: 0.5;
-  visibility: var(--visibility);
-  padding: 0;
-  left:0;
-  right:0;
-  z-index: 1003;
+.confirmation-opacity{
+  z-index: 4;
 }
 
-.date-time{
-  min-width: 290px;
-}
-
-.mx-input.mx-input{
-  background-color: #696AE9 ;
-}
 
 .filters{
   display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.first-row{
+  display: flex;
+  //justify-content: space-between;
   justify-content: flex-end;
 }
 
-.price-range-filter{
-  margin: 0 16px;
-}
-
-.there-is-no-receipts {
-  display: flex;
-  justify-content: center;
+.second-row {
+  margin-top: 12px;
   width: 100%;
-  vertical-align: center;
-  align-items: center;
-}
-
-.text{
-  position: absolute;
-  top: 30%;
-  vertical-align: center;
-  font-size: 20px;
-}
-
-.clear-filters{
-  padding: 0 6px;
-  padding-left: 10px;
   display: flex;
   align-items: center;
-  //margin-left: 20px;
-  //left: 10px;
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
-  border-radius: 4px;
+  justify-content: space-between;
 }
 
-.clear-filters:hover{
-  box-shadow: 0px 0px 0px 1px $peach;
-  //border: 1px solid $peach;
+#mobile-price-range-filter, #mobile-categories-filter{
+  width: 48%;
 }
 
-.clear-filters-text{
-  align-items: center;
-  color: $peach;
+#mobile-date-picker{
+  width: 88%
 }
 
-.clear-filters-ico{
-  color: $peach
-}
+
+
+
 
 </style>

@@ -103,7 +103,7 @@ export default {
   methods: {
     ...mapActions(['POST_NEW_PRODUCT','GET_ALL_USER_DATA']),
     hide(){
-      this.$parent.hide_category_creation()
+      this.$parent.show_hide_opacity()
     },
     change_category_name(name){
       this.category_name = name.slice(2)

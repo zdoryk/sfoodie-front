@@ -22,8 +22,10 @@ export default {
   components: {StackedBar, TreeMap},
   methods: {...mapActions(['GET_TREEMAP_DATA', 'GET_ALL_USER_DATA'])},
   created() {
-    this.GET_ALL_USER_DATA(1)
-    this.GET_TREEMAP_DATA(1)
+    this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
+    // this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
+    this.GET_TREEMAP_DATA(this.$store.state.state.user_id)
+    // this.GET_TREEMAP_DATA(this.$store.state.state.user_id)
   },
 }
 </script>

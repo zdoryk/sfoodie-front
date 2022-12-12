@@ -68,6 +68,12 @@ export default {
       }
     },
 
+    clear_price_range(){
+      this.$parent.clear_price_range()
+      this.clearInput()
+      this.hide()
+    },
+
     updateParentPriceRange(){
       let newPriceRange = this.inputValue.split('~').map(item => item.trim().substring(1, item.length))
       // newPriceRange = newPriceRange.map(item => item.substring(1, item.length))

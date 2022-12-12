@@ -1,6 +1,9 @@
 <template>
   <div id="stacked">
     <client-only>
+      <div class="title">
+        Lorem ipsum
+      </div>
       <div class="chart">
         <apexchart ref="chart" type="bar"  width="95%" :options="chartOptions" :series="data_series" ></apexchart>
       </div>
@@ -108,10 +111,6 @@ export default {
       })
     },
 
-    svgBalancer(minHeight) {
-      let cols = document.querySelector("${this.$el} .apexcharts-bar-area");
-
-    }
   },
   data() {
     return {
@@ -133,6 +132,8 @@ export default {
               formatter: (seriesValue) => seriesValue.toFixed(2),
             },
           },
+          events: {
+          }
         },
         theme: {
           mode: 'dark',
@@ -182,8 +183,9 @@ export default {
           title: {
             text: undefined
           },
+          // decimalsInFloat: true
           labels: {
-            formatter: (value) => value.toFixed(0)
+            formatter: (value) => value.toFixed(2)
           }
         },
         fill: {
@@ -226,5 +228,14 @@ export default {
   .chart{
     background-color: $grey-background;
     border-radius: 4px;
+  }
+
+  .title{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    margin-bottom: 10px;
+    margin-top: 16px;
   }
 </style>

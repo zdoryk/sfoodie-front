@@ -56,10 +56,6 @@ export default {
   },
   methods: {
     ...mapActions(['GET_ALL_USER_DATA']),
-    hide_category_creation () {
-      this.isNewCategory = false
-      this.isNewProduct = false
-    },
     change_translate () {
       if (this.difference === 0){
         this.difference = this.translate
@@ -106,7 +102,7 @@ export default {
     }
   },
   created() {
-    this.GET_ALL_USER_DATA(1)
+    this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
     if (process.browser){
       this.translate = window.innerWidth
     }
@@ -115,7 +111,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "assets/variables";
+@import "../../assets/variables";
 
 .opacity{
   position: absolute;

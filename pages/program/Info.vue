@@ -8,8 +8,12 @@
       <input type="text" v-model="email_address">
       <div class="pass">password</div>
       <input type="text" v-model="password">
-      <blue-button @click.native="authentificate">Click</blue-button>
-      <red-stroke-button @click.native="get_me"> Click </red-stroke-button>
+      <div class="buttons">
+        <blue-button @click.native="authentificate">Login</blue-button>
+        <red-stroke-button @click.native="get_me"> Get me </red-stroke-button>
+        <red-button @click.native="log_out">Log out</red-button>
+      </div>
+
     </div>
 
 </template>
@@ -18,9 +22,10 @@
 import BlueButton from "@/components/UI/BlueButton";
 import {mapActions} from "vuex";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
+import RedButton from "@/components/UI/RedButton";
 export default {
   name: 'Info',
-  components: {RedStrokeButton, BlueButton},
+  components: {RedButton, RedStrokeButton, BlueButton},
   data(){
     return{
       email_address: "nice.zdorik@gmail.com",
@@ -28,13 +33,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['LOGIN', 'GET_ME']),
+    ...mapActions(['LOGIN', 'GET_ME', 'LOGOUT']),
     authentificate(){
       this.LOGIN({email: this.email_address, password: this.password})
     },
     get_me () {
       console.log(this.$store.state.state.access_token)
       this.GET_ME(this.$store.state.state.access_token)
+    },
+    log_out(){
+      this.LOGOUT()
     }
 
   }
@@ -43,9 +51,17 @@ export default {
 
 <style scoped>
 
-h1{
-  font-size: 25px;
-  font-weight: bold;
-  padding-bottom: 15px;
-}
+  h1{
+    font-size: 25px;
+    font-weight: bold;
+    padding-bottom: 15px;
+  }
+
+  .buttons{
+    display: flex;
+    /*width: 300px;*/
+    /*justify-content: space-between;*/
+    margin-top: 10px;
+    gap: 10px;
+  }
 </style>

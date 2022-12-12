@@ -4,12 +4,13 @@ import axios from "axios";
 import jwt from 'vue-jwt-decode'
 import Cookies from 'js-cookie'
 
+const back_link = 'http://10.9.179.156:8080'
 
 
 export const state = () => ({
   namespaced: true,
   state: {
-    user_id: 1,
+    user_id: '',
     isHamburger: false,
     isReceiptDeleteConfirmation: false,
     selected_receipt: [],
@@ -19,10 +20,10 @@ export const state = () => ({
       'Salad', 'Cereals', 'Tomato', 'Carrot',
       'Cheese', 'Eggs', 'Juice', 'Milk', 'Pineapple'],
     new_receipt_products: [
-      {product_name: 'Bananas', price: 3.50},
-      {product_name: 'Strawberry', price: 6.43},
-      {product_name: 'Corn Flakes', price: 2.09},
-      {product_name: 'Beef', price: 11.99},
+      // {product_name: 'Bananas', price: 3.50},
+      // {product_name: 'Strawberry', price: 6.43},
+      // {product_name: 'Corn Flakes', price: 2.09},
+      // {product_name: 'Beef', price: 11.99},
     ],
     // new_receipt_date: {date: 'qwe'},
     existing_receipts: [],
@@ -73,9 +74,10 @@ export const getters = {
 
 export const mutations = {
   // AUTH_MUTATIONS_SET_USER: (state, { id, email_address }) =>{
-  AUTH_MUTATIONS_SET_USER: (state, email_address ) =>{
+  AUTH_MUTATIONS_SET_USER: (state, data ) =>{
     // state.id = id
-    state.state.email_address = email_address
+    state.state.email_address = data.email
+    state.state.user_id = data.user_id
   },
 
   // store new or updated token fields in the state
@@ -90,10 +92,14 @@ export const mutations = {
 
   // clear our the state, essentially logging out the user
   AUTH_MUTATIONS_LOGOUT : (state)  =>{
-    state.id = null
-    state.email_address = null
-    state.access_token = null
-    state.refresh_token = null
+    state.state.user_id = null
+    state.state.email_address = null
+    state.state.access_token = null
+    // state.refresh_token = null
+  },
+
+  DELETE_NEW_RECEIPT_PRODUCTS: (state) =>{
+    state.state.new_receipt_products = []
   },
 
   SET_EXISTING_RECEIPTS: (state, receipts) => {
@@ -207,11 +213,17 @@ export const mutations = {
 
     const productSums = {};
     const categorySums = {};
+    const productCounts = {};
+    const categoryCounts = {};
 
     for (const productName of uniqueProductNames) {
       for (const dayOfWeek of uniqueDaysOfWeek) {
         productSums[`${productName},${dayOfWeek}`] = 0;
-        if(categoryMap[productName] !== undefined) categorySums[`${categoryMap[productName]},${dayOfWeek}`] = 0
+        productCounts[`${productName},${dayOfWeek}`] = 0;
+        if(categoryMap[productName] !== undefined) {
+          categorySums[`${categoryMap[productName]},${dayOfWeek}`] = 0
+          categoryCounts[`${categoryMap[productName]},${dayOfWeek}`] = 0;
+        }
       }
     }
 
@@ -231,20 +243,54 @@ export const mutations = {
         const productPrice = product.price;
         const categoryName = categoryMap[productName];
         // Temporary
-        if(categoryName !== undefined) categorySums[`${categoryName},${dayOfWeek}`] += productPrice;
+        if(categoryName !== undefined) {
+          categorySums[`${categoryName},${dayOfWeek}`] += productPrice;
+          categoryCounts[`${categoryName},${dayOfWeek}`] += 1;
+        }
         // Update the value in the dictionary by adding the product price
         productSums[`${productName},${dayOfWeek}`] += productPrice;
+        productCounts[`${productName},${dayOfWeek}`] += 1;
       }
     }
 
+    const productAverages = {};
+    const categoryAverages = {};
+
+
+    for (const productName of uniqueProductNames) {
+      for (const dayOfWeek of uniqueDaysOfWeek) {
+        if (productCounts[`${productName},${dayOfWeek}`] === 0) productAverages[`${productName},${dayOfWeek}`] = 0
+        else productAverages[`${productName},${dayOfWeek}`] = productSums[`${productName},${dayOfWeek}`] / productCounts[`${productName},${dayOfWeek}`];
+        const categoryName = categoryMap[productName];
+        if (categoryName !== undefined) {
+          if (categoryCounts[`${categoryName},${dayOfWeek}`] === 0) categoryAverages[`${categoryName},${dayOfWeek}`] = 0
+          else categoryAverages[`${categoryName},${dayOfWeek}`] = categorySums[`${categoryName},${dayOfWeek}`] / categoryCounts[`${categoryName},${dayOfWeek}`];
+        }
+      }
+    }
+
+    // console.group()
+    // console.log(categorySums)
+    // console.log(categoryCounts)
+    // console.log(categoryAverages)
+    // console.groupEnd()
+    // console.group()
+    // console.log(productSums)
+    // console.log(productCounts)
+    // console.log(productAverages)
+    // console.groupEnd()
 
     // Print the product sums
     state.state.stacked_bar_data = {
-      'categories': categorySums,
-      'products': productSums,
+      // 'categories': categoryAverages,
+      'categories': categoryCounts,
+      // 'categories': categorySums,
+      "products": productCounts,
+      // 'products': productAverages,
+      // 'products': productSums ,
       'category_map_products': categoryMap
     }
-    console.log(state.state.stacked_bar_data)
+    // console.log(state.state.stacked_bar_data)
 
   },
 
@@ -272,9 +318,9 @@ export const actions = {
     commit('SET_SHARED_CHART_COLORS', colors)
   },
 
-  async LOGIN ({ commit, dispatch }, {email, password}) {
+  async LOGIN ({ commit, dispatch, context }, {email, password}) {
     // make an API call to login the user with an email address and password
-    axios.post('http://localhost:8000/token', "username=" + email + "&password=" + password,
+    axios.post(back_link+'/token', "username=" + email + "&password=" + password,
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
@@ -283,12 +329,14 @@ export const actions = {
       .then(function (data) {
         const access_token = data.data.access_token
         const decoded = jwt.decode(access_token)
-        console.log(data)
-        console.log(access_token)
-        console.log(decoded)
-        commit('AUTH_MUTATIONS_SET_USER', decoded.sub)
-        commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
-        console.log(Cookies.get(['authentication-cookies']))
+        if (decoded) {
+          console.log(data)
+          console.log(access_token)
+          console.log(decoded)
+          commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, email: decoded.sub})
+          commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
+          $nuxt.$router.push('/program/AddNewReceipt')
+        }
       })
     // const { data: { data: { user, payload } } } = await this.$axios.post(
     //   '/api/auth/login',
@@ -300,12 +348,28 @@ export const actions = {
     // commit(AUTH_MUTATIONS_SET_PAYLOAD, payload)
   },
 
-  async register ({ commit }, { email_addr, password }) {
+  async SIGN_UP ({ commit }, { email_address, password }) {
     // make an API call to register the user
-    const { data: { data: { user, payload } } } = await this.$axios.post(
-      '/api/auth/register',
-      { email_address, password }
-    )
+    console.log("username=" + email_address + "&password=" + password)
+    axios.post(
+      back_link + '/token/register',
+      "username=" + email_address + "&password=" + password,
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      }).then(function (data) {
+      const access_token = data.data.access_token
+      const decoded = jwt.decode(access_token)
+      if (decoded) {
+        console.log(data)
+        console.log(access_token)
+        console.log(decoded)
+        commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, email: decoded.sub})
+        commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
+        $nuxt.$router.push('/program/AddNewReceipt')
+      }
+    })
 
     // commit the user and tokens to the state
     // commit(AUTH_MUTATIONS.SET_USER, user)
@@ -326,13 +390,14 @@ export const actions = {
   // },
 
   // logout the user
-  // logout ({ commit, state }) {
-  //   commit(AUTH_MUTATIONS.LOGOUT)
-  // },
+  LOGOUT ({ commit, state }) {
+    commit('AUTH_MUTATIONS_LOGOUT')
+    $nuxt.$router.push('/Login')
+  },
 
   async GET_ME ({},token){
     console.log('Bearer ' + token)
-    await this.$axios.get('http://127.0.0.1:8000/users/me',
+    await this.$axios.get(back_link + '/users/me',
       // {
       //   headers: {'Authorization': 'Bearer ' + token},
       // }
@@ -384,7 +449,7 @@ export const actions = {
   },
 
   async GET_ALL_USER_DATA({commit}, user_id){
-    await this.$axios('http://127.0.0.1:8000/custom/' + user_id, {
+    this.$axios(back_link + '/custom/' + user_id, {
       method: "GET",
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
@@ -459,7 +524,7 @@ export const actions = {
   },
 
   async GET_ALL_USER_RECEIPTS({commit}, user_id){
-    await this.$axios('http://127.0.0.1:8000/receipts/' + user_id, {
+    await this.$axios(back_link + '/receipts/' + user_id, {
       method: "GET",
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
@@ -474,14 +539,15 @@ export const actions = {
 
   async POST_NEW_RECEIPT({commit}, receipt){
     console.log(receipt)
-    this.$axios.post('http://localhost:8000/receipts/post_user_receipt', receipt)
+    this.$axios.post(back_link + '/receipts/post_user_receipt', receipt)
       .then(data =>(
         console.log(data)
       ));
+    commit('DELETE_NEW_RECEIPT_PRODUCTS')
   },
 
   async DELETE_RECEIPT_REQUEST ({commit}, receipt_and_user_ids){
-    this.$axios.delete(`http://localhost:8000/receipts/delete_user_receipt`, {data: receipt_and_user_ids})
+    this.$axios.delete(back_link + '/receipts/delete_user_receipt', {data: receipt_and_user_ids})
       .then(response => {
         if (response.data.Status === 'OK'){
           commit('DELETE_SELECTED_RECEIPT_FROM_EXISTING')
@@ -497,7 +563,7 @@ export const actions = {
 
   async MOVE_TO_OTHER({commit, dispatch}, data_for_update){
     console.log(data_for_update)
-    this.$axios.put('http://localhost:8000/products/replace_user_product_category', data_for_update)
+    this.$axios.put(back_link + '/products/replace_user_product_category', data_for_update)
       .then(function(data){
         dispatch('GET_ALL_USER_DATA', data_for_update.user_id)  // THERE NEED TO BE ANOTHER ACTION THAT WILL NOT FETCH ALL THE DATA ONLY THAT WE NEED TO
         console.log(data)
@@ -506,7 +572,7 @@ export const actions = {
 
   async EDIT_PRODUCT({commit, dispatch}, data_for_update){
     console.log(data_for_update)
-    this.$axios.put('http://localhost:8000/products/update_user_product', data_for_update)
+    this.$axios.put(back_link + '/products/update_user_product', data_for_update)
       .then(function(data){
         dispatch('GET_ALL_USER_DATA', data_for_update.user_id)  // THERE NEED TO BE ANOTHER ACTION THAT WILL NOT FETCH ALL THE DATA ONLY THAT WE NEED TO
         console.log(data)
@@ -515,7 +581,7 @@ export const actions = {
 
   async POST_NEW_CATEGORY({commit}, category) {
     console.log(category)
-    this.$axios.post('http://localhost:8000/products/post_new_user_category', category)
+    this.$axios.post(back_link + '/products/post_new_user_category', category)
       .then(data => (
         console.log(data)
       ))
@@ -523,14 +589,14 @@ export const actions = {
 
   async POST_NEW_PRODUCT({commit}, product) {
     console.log(product)
-    this.$axios.post('http://localhost:8000/products/post_new_user_product', product)
+    this.$axios.post(back_link + '/products/post_new_user_product', product)
       .then(data => (
         console.log(data)
       ))
   },
 
   async GET_TREEMAP_DATA({commit, state}, user_id){
-    await this.$axios('http://127.0.0.1:8000/custom/tree_map_chart/' + user_id, {
+    await this.$axios(back_link + '/custom/tree_map_chart/' + user_id, {
       method: "GET",
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })

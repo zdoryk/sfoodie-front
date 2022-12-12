@@ -17,6 +17,7 @@
     import SideBar from '@/components/SideBar/SideBar.vue'
     import Burger from "@/components/SideBar/Burger";
     import {mapActions} from "vuex";
+    import jwt from "vue-jwt-decode";
     export default {
         components: {
           Burger,
@@ -28,8 +29,14 @@
             isActive: false,
           }
         },
-        methods: {...mapActions(['GET_ALL_USER_DATA'])},
+        mounted() {
+        },
+      methods: {...mapActions(['GET_ALL_USER_DATA'])},
         created() {
+          console.log(this.$store.state.state.access_token)
+
+          const decoded = jwt.decode(this.$store.state.state.access_token)
+          this.$store.commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, email: decoded.sub})
           // this.GET_ALL_USER_DATA()
         },
         computed: {

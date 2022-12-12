@@ -84,11 +84,11 @@ export default {
         product_name: 'Meal',
         price: 123.45
       },
-      dairy: require('@/assets/svgs_desktop/dairy.svg'),
-      drinks: require('@/assets/svgs_desktop/drinks.svg'),
+      dairy: require('assets/svgs_desktop/dairy.svg'),
+      drinks: require('assets/svgs_desktop/drinks.svg'),
       fruits: require('assets/svgs_desktop/fruits.svg'),
-      meat: require('@/assets/svgs_desktop/meat.svg'),
-      snacks: require('@/assets/svgs_desktop/snacks.svg'),
+      meat: require('assets/svgs_desktop/meat.svg'),
+      snacks: require('assets/svgs_desktop/snacks.svg'),
       vegetables: require('assets/svgs_desktop/vegetables.svg')
     }
   },
@@ -117,11 +117,12 @@ export default {
       if (!JSON.parse(JSON.stringify(this.$store.state.state.new_receipt_products))
           .map(item => item.product_name).includes(this.new_product.product_name)){
         const product = {
-          product_name: this.new_product.product_name,
+          product_name: this.new_product.product_name.at(0).toUpperCase() + this.new_product.product_name.substring(1),
           price: parseFloat(this.new_product.price)
         }
         console.log(JSON.parse(JSON.stringify(this.new_product)))
         this.ADD_PRODUCT_TO_RECEIPT_PRODUCTS(JSON.parse(JSON.stringify(product)))
+        this.new_product = {product_name: '', price: ''}
       }
       else alert(`The receipt already contains a product with the name: "${this.new_product.product_name}"`);
     },
@@ -136,13 +137,14 @@ export default {
         total_price: parseFloat(this.total_price).toFixed(2)
       }
       this.POST_NEW_RECEIPT(new_receipt)
+
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-@import "assets/variables";
+@import "../../assets/variables";
 
 .first-row{
   margin-top: 18px;

@@ -64,12 +64,24 @@ export default {
     },
 
     apply(){
-      if (this.inputFrom < this.inputTo) {
-        this.$emit('onUpdateInputValue', "$" + this.inputFrom + " ~ $" + this.inputTo)
+      console.log(typeof this.inputTo)
+      if (this.inputFrom === '' && this.inputTo === '') this.$parent.clear_price_range()
+      else if (!this.inputTo && this.inputFrom){
+        this.$emit('onUpdateInputValue', "$" + this.inputFrom + " ~ $" + '999999')
         this.$parent.hide()
         this.$parent.updateParentPriceRange()
+      } else if (!this.inputFrom && this.inputTo){
+        this.$emit('onUpdateInputValue', "$" + '0' + " ~ $" + this.inputTo)
+        this.$parent.hide()
+        this.$parent.updateParentPriceRange()
+      } else {
+        if (parseFloat(this.inputFrom) <= parseFloat(this.inputTo)) {
+          this.$emit('onUpdateInputValue', "$" + this.inputFrom + " ~ $" + this.inputTo)
+          this.$parent.hide()
+          this.$parent.updateParentPriceRange()
+        }
+        else alert("Value to in price filter lower then value from.")
       }
-      else alert("Value to in price filter greater then value from.")
     }
   },
   data() {

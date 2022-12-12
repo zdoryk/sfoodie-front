@@ -118,16 +118,16 @@ export default {
 
   },
   methods: {
-    ...mapActions(['POST_NEW_CATEGORY']),
+    ...mapActions(['POST_NEW_CATEGORY', 'GET_ALL_USER_DATA']),
     hide(){
-      this.$parent.hide_category_creation()
+      this.$parent.show_hide_opacity()
     },
     create_new(){
       this.POST_NEW_CATEGORY({
         user_id: this.$store.state.state.user_id,
-        new_icon_name: this.activeIcon,
-        new_color_name: this.activeColor,
-        new_category_name: this.category_name
+        ico: this.activeIcon,
+        color: this.activeColor,
+        category_name: this.category_name
       })
       console.log({
         user_id: this.$store.state.state.user_id,
@@ -135,6 +135,8 @@ export default {
         new_color_name: this.activeColor,
         new_category_name: this.category_name
       })
+      this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
+      this.hide()
     }
 
   }
