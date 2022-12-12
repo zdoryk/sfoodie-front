@@ -47,12 +47,14 @@
           <img :src="snacks"/>
         </div>
       </div>
-      <div class="products-container" v-if="user_added_products.length !== 0">
-        <new-product
-          v-for="(product, key, index) in user_added_products"
-          v-bind:product_data="product"
-          :key="product.product_name"
-        />
+      <div class="content" v-if="user_added_products.length !== 0">
+        <div class="products">
+          <new-product
+            v-for="(product, key, index) in user_added_products"
+            v-bind:product_data="product"
+            :key="product.product_name"
+          />
+        </div>
         <div id="line"></div>
         <div class="total">
           <div class="total-amount">Total {{this.$store.state.state.new_receipt_products.length}} products</div>
@@ -92,6 +94,18 @@ export default {
       vegetables: require('assets/svgs_desktop/vegetables.svg')
     }
   },
+  mounted() {
+    let products = document.querySelector('.products')
+    if(this.isOverflown(products)){
+      products.style.paddingRight = '10px'
+    } else products.style.paddingRight = '0'
+  },
+  updated() {
+    let products = document.querySelector('.products')
+    if(this.isOverflown(products)){
+      products.style.paddingRight = '10px'
+    } else products.style.paddingRight = '0'
+  },
   computed: {
     products(){
       return this.$store.state.state.products
@@ -112,6 +126,9 @@ export default {
     ...mapMutations([
       'DELETE_ALL_FROM_RECEIPT'
     ]),
+    isOverflown(element) {
+      return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+    },
     add_new_product() {
       // We're checking if there is product with same product_name in state.receipt_products
       if (!JSON.parse(JSON.stringify(this.$store.state.state.new_receipt_products))
@@ -146,15 +163,26 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/variables";
 
+
+.products{
+  max-height: 40vh;
+  overflow-y: auto;
+  @if overflow-y == 'scroll' {
+    margin-top: 32px;
+  }
+}
+
+
+
 .first-row{
   margin-top: 18px;
 }
 
-.first-row, .products-container, .there-is-no-products{
+.first-row, .content, .there-is-no-products{
   max-width: 560px;
 }
 
-.products-container{
+.content{
   margin-top: 16px;
   padding: 40px;
   background-color: $grey-background;
@@ -325,7 +353,7 @@ input[type=number] {
     margin-right: 8px;
   }
 
-  .products-container{
+  .content{
     max-width: 338px;
     padding: 16px;
   }
