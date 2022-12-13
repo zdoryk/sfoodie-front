@@ -40,7 +40,7 @@ export default {
 
   #main {
     width: 100%;
-    padding: 40px;
+    padding: 0;
     background-color: $black;
     color: $white;
     display: flex;
@@ -114,7 +114,12 @@ export default {
   }
 
   body{
-    overflow: hidden;
+    overflow: auto;
+    height: fit-content;
+  }
+
+  html{
+    //height: fit-content;
   }
 
   * {

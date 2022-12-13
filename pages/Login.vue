@@ -48,6 +48,7 @@ export default {
     height: 100vh;
     display: flex;
     justify-content: center;
+    padding: 40px;
   }
 
   .content{

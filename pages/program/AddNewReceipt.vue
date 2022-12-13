@@ -96,15 +96,19 @@ export default {
   },
   mounted() {
     let products = document.querySelector('.products')
-    if(this.isOverflown(products)){
-      products.style.paddingRight = '10px'
-    } else products.style.paddingRight = '0'
+    if (products) {
+      if (this.isOverflown(products)) {
+        products.style.paddingRight = '10px'
+      } else products.style.paddingRight = '0'
+    }
   },
   updated() {
     let products = document.querySelector('.products')
-    if(this.isOverflown(products)){
-      products.style.paddingRight = '10px'
-    } else products.style.paddingRight = '0'
+    if (products) {
+      if (this.isOverflown(products)) {
+        products.style.paddingRight = '10px'
+      } else products.style.paddingRight = '0'
+    }
   },
   computed: {
     products(){

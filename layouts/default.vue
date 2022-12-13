@@ -29,8 +29,6 @@
             isActive: false,
           }
         },
-        mounted() {
-        },
       methods: {...mapActions(['GET_ALL_USER_DATA'])},
         created() {
           console.log(this.$store.state.state.access_token)

@@ -33,7 +33,6 @@ export default {
     ...mapActions(['SIGN_UP']),
     sign_up(){
       this.SIGN_UP({email_address: this.email_address, password: this.password})
-      this.$nuxt.context.app.router.push('/program/AddNewReceipt')
     },
 
   }
@@ -47,6 +46,7 @@ export default {
   height: 100vh;
   display: flex;
   justify-content: center;
+  padding: 40px;
 }
 
 .content{

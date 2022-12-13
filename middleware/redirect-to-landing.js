@@ -1,6 +1,6 @@
 export default function ({ store, redirect }) {
   // If the user is not authenticated
   // if (!store.state.authenticated) {
-  return redirect(301, '/Login');
+  return redirect(301, '/Landing');
   // }
 }
