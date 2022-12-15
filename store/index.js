@@ -309,8 +309,19 @@ export const mutations = {
 
   SET_SHARED_CHART_COLORS(state, data){
     state.state.charts_shared.colors = data
-  }
+  },
 
+  SET_USER_PRODUCTS(state, receipts){
+    state.state.products = new Set(
+      [].concat(
+        ...receipts.map(
+          receipt => receipt.products.map(
+            product => product.product_name
+          )
+        )
+      )
+    )
+  }
 
   // REPLACE_SELECTED_RECEIPT_MOBILE: (state, receipt) => {
   //   state.state.selected_receipt_mobile = receipt
@@ -536,8 +547,11 @@ export const actions = {
       method: "GET",
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })
-      .then((products) => {
-        return products;
+      .then((receipts) => {
+        commit('SET_USER_PRODUCTS', receipts.data)
+        commit('SET_EXISTING_RECEIPTS',receipts.data)
+        commit('SET_STACKED_BAR_DATA')
+        console.log(receipts.data)
       })
       .catch((error) => {
         console.log(error);
@@ -620,4 +634,54 @@ export const actions = {
   },
 
 
+  async GET_USER_CATEGORIES({commit}, user_id) {
+    this.$axios.get(back_link + '/products/' + user_id).then((products) =>
+      {
+        console.log(products.data)
+        let categories = products.data
+        delete categories.user_id
+        let all_products = {
+          "category_name": "All Products",
+          "ico": "cafes",
+          "color": "black",
+          "products": []
+        }
+        let some_array = []
+        // console.log(categories)
+        for (const [key, value] of Object.entries(categories)) {
+          let temp_object = {}
+          for (let [k, v] of Object.entries(value)){
+            temp_object[k] = v
+            if (k === 'products'){
+              temp_object[k] = v.map(function (product){
+                const temp_product = {
+                  "product_name": product,
+                  "product_category": key,
+                  "color": value.color
+                }
+                all_products.products.push(temp_product)
+                return temp_product
+              })
+            }
+          }
+
+          some_array.push({
+            "category_name": key,
+            "ico": temp_object.ico,
+            "color": temp_object.color,
+            "products": temp_object.products,
+          })
+        }
+        some_array.unshift(all_products)
+
+        console.log(some_array)
+
+
+
+        commit('SET_EXISTING_CATEGORIES', some_array)
+
+        // console.log(testArr)
+      }
+    )
+  }
 }

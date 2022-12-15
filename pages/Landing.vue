@@ -157,6 +157,9 @@ export default {
   name: "Landing",
   components: {BlueStrokeButton, BlueButton, ReceiptIcon, AppleIcon, ChartInfographicIcon},
   layout: 'notProgram',
+  mounted() {
+    document.body.style.overflow = 'auto'
+  },
   methods: {
     push_to_login(){
       this.$nuxt.$router.push('/Login')

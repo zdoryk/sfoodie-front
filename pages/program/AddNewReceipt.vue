@@ -24,6 +24,8 @@
         <blue-button
           id="add-button"
           v-on:click.native="add_new_product"
+          :disabled="disabled"
+          :style="disabled_style"
         >
           <div>Add</div>
         </blue-button>
@@ -94,6 +96,9 @@ export default {
       vegetables: require('assets/svgs_desktop/vegetables.svg')
     }
   },
+  created() {
+    this.GET_ALL_USER_RECEIPTS(this.$store.state.state.user_id)
+  },
   mounted() {
     let products = document.querySelector('.products')
     if (products) {
@@ -120,12 +125,35 @@ export default {
     total_price(){
       let before_sum = JSON.parse(JSON.stringify(this.$store.state.state.new_receipt_products)).map(item => item.price)
       return before_sum.reduce((partialSum, a) => partialSum + a, 0);
+    },
+    disabled(){
+      return this.new_product.price.length === 0 || this.new_product.product_name.length === 0;
+    },
+    disabled_style(){
+      if (this.new_product.price.length === 0 || this.new_product.product_name.length === 0){
+        return {
+          "--content": "Please enter category name",
+          "--border-color": "#FF5252",
+          "--back-color": "#696AE9",
+          "--cursor": "default",
+          "--opacity": "0.5"
+        }
+      } else {
+        return {
+          // "--content": "Please enter category name",
+          "--border-color": "#282932",
+          "--back-color": "#5D5FEF",
+          "--box-shadow": "0 0 20px rgba(105, 106, 233, 0.2)",
+          "--cursor": "pointer",
+          "--opacity": "1"
+        }
+      }
     }
   },
 
   methods: {
     ...mapActions([
-      'ADD_PRODUCT_TO_RECEIPT_PRODUCTS', 'POST_NEW_RECEIPT'
+      'ADD_PRODUCT_TO_RECEIPT_PRODUCTS', 'POST_NEW_RECEIPT','GET_ALL_USER_RECEIPTS'
     ]),
     ...mapMutations([
       'DELETE_ALL_FROM_RECEIPT'
@@ -264,6 +292,14 @@ h1 {
   width: 80px;
   text-align: center;
   padding: 8px 0;
+  opacity: var(--opacity);
+  cursor: var(--cursor);
+  transition: opacity 0.5s;
+}
+
+#add-button:hover{
+  box-shadow: var(--box-shadow);
+  background-color: var(--back-color);
 }
 
 .custom-input {

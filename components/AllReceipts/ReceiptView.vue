@@ -178,7 +178,7 @@ export default {
     padding-right: 7px;
     gap: 8px;
     width: 100%;
-    max-height: 280px;
+    max-height: 45vh;
     margin-top: 16px;
     margin-bottom: 8px;
     overflow-y: auto;

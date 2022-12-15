@@ -1,6 +1,6 @@
 <template>
   <div id="main-window">
-    <div id="main">
+    <div id="main-content">
       <nuxt/>
     </div>
   </div>
@@ -38,7 +38,7 @@ export default {
     display: flex;
   }
 
-  #main {
+  #main-content {
     width: 100%;
     padding: 0;
     background-color: $black;
@@ -72,7 +72,7 @@ export default {
 
   @media (max-width: $tab-size){
 
-    #main {
+    #main-content {
       padding: 30px;
     }
 
@@ -107,15 +107,15 @@ export default {
       left: 0;
     }
 
-    #main {
+    #main-content {
       padding: 0;
     }
 
   }
 
   body{
-    overflow: auto;
-    height: fit-content;
+    //overflow: auto;
+    //height: fit-content;
   }
 
   html{

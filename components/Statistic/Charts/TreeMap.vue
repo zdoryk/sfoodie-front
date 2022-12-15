@@ -122,7 +122,7 @@ export default {
         tooltip: {
           theme: 'dark',
           y: {
-            formatter: (seriesValue) => seriesValue + ' $',
+            formatter: (seriesValue) => seriesValue.toFixed(2) + ' $',
           },
         },
 
@@ -149,8 +149,10 @@ export default {
     ...mapActions(['SET_CATEGORY_CHART_DATA_ACTION', 'SET_SHARED_CHART_COLORS_ACTION']),
     back(){
       this.series = [this.categories_agg]
+      const colors = JSON.parse(JSON.stringify(this.$store.state.state.tree_map_data.colors))
       this.chartOptions = {...this.chartOptions, ...{
-          colors: this.$store.state.state.tree_map_data.colors,
+          colors: colors,
+          // colors: this.$store.state.state.tree_map_data.colors,
           plotOptions: {
             treemap: {
               distributed: true,

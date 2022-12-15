@@ -6,7 +6,7 @@
       </div>
       <tree-map v-if="this.$store.state.state.tree_map_data.colors !== undefined"/>
       <div class="footer">
-        <stacked-bar v-if="this.$store.state.state.existing_receipts !== undefined && this.$store.state.state.tree_map_data.colors !== undefined" />
+        <stacked-bar v-if="this.$store.state.state.existing_receipts !== undefined && this.$store.state.state.tree_map_data.colors !== undefined && this.$store.state.state.existing_categories.length !== 0 && this.$store.state.state.existing_categories.length !== undefined"/>
         <div class="line-chart"></div>
       </div>
     </div>
@@ -20,9 +20,11 @@ import StackedBar from "@/components/Statistic/Charts/StackedBar";
 export default {
   name: 'Statistic',
   components: {StackedBar, TreeMap},
-  methods: {...mapActions(['GET_TREEMAP_DATA', 'GET_ALL_USER_DATA'])},
+  methods: {...mapActions(['GET_TREEMAP_DATA', 'GET_ALL_USER_DATA', 'GET_ALL_USER_RECEIPTS', 'GET_USER_CATEGORIES'])},
   created() {
-    this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
+    // this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
+    this.GET_USER_CATEGORIES(this.$store.state.state.user_id)
+    this.GET_ALL_USER_RECEIPTS(this.$store.state.state.user_id)
     // this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
     this.GET_TREEMAP_DATA(this.$store.state.state.user_id)
     // this.GET_TREEMAP_DATA(this.$store.state.state.user_id)

@@ -96,7 +96,7 @@ export default {
   },
 
   created() {
-    this.GET_ALL_USER_DATA("1")
+    this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
   },
 
   computed: {

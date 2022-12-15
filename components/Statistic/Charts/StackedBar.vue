@@ -16,7 +16,7 @@ export default {
   name: "StackedBar",
   components: { [process.browser && 'apexchart']: () => import('vue-apexcharts'),},
   mounted() {
-    this.chartOptions.colors = this.$store.state.state.tree_map_data.colors
+    this.chartOptions.colors = Array.from(this.$store.state.state.tree_map_data.colors)
     this.$store.watch((state) => state.state.charts_shared.colors, (newValue, oldValue) => {
       this.change_colors(JSON.parse(JSON.stringify(newValue)))
     })
@@ -54,8 +54,9 @@ export default {
       let productData = []
       let products = Object.assign({}, data)
       let productNames
-      const selected_category = this.$store.state.state.charts_shared.selected_category
+      const selected_category = '' + this.$store.state.state.charts_shared.selected_category
 
+      console.log(products)
       if (isCategoryData) {
         const category_map = this.$store.state.state.stacked_bar_data.category_map_products
         products = Object.fromEntries(Object.entries(products).filter( ([key,value]) => category_map[key.split(",")[0]] === selected_category))
@@ -71,7 +72,7 @@ export default {
       productNames = Array.from(new Set(Object.keys(products).map((name) => name.split(",")[0])))
 
       // console.log(products)
-      // console.log(productNames)
+      console.log(productNames)
       for (let i = 0; i < productNames.length; i++) {
         productData.push({
           name: productNames[i],
@@ -89,8 +90,10 @@ export default {
       console.log(productData)
 
       if (!isCategoryData) {
+        console.log(this.$store.state.state.tree_map_data.tree_map_data)
         const convertedArray = this.$store.state.state.tree_map_data.tree_map_data.map(obj2 => {
           // find the corresponding object in array1
+          console.log(obj2)
           const obj1 = productData.find(obj => obj.name === obj2.name)
           // create a new object with the same name and data
           return {
@@ -101,11 +104,11 @@ export default {
         console.log(convertedArray)
         return convertedArray
       }
-      console.log(JSON.parse(JSON.stringify(this.$store.state.state.tree_map_data.tree_map_data)))
       const convertedArray = JSON.parse(JSON.stringify(this.$store.state.state.tree_map_data.tree_map_data)).map(obj => ({
         name: obj.name,
         data: obj.data.map(item => item.x)
       }))
+      console.log(convertedArray)
       return convertedArray.find(obj => obj.name === selected_category).data.map(name => {
         return productData.find(item => item.name === name)
       })
@@ -207,9 +210,10 @@ export default {
   computed:{
     data_series(){
       const isCategory = this.$store.state.state.charts_shared.isChartCategoryData
-      if (isCategory === false){
+      console.log(this.$store.state.state.stacked_bar_data.categories.length)
+      if (isCategory === false ){
         return this.test(this.$store.state.state.stacked_bar_data.categories, isCategory)
-      } else if (isCategory === true){
+      } else if (isCategory === true && this.$store.state.state.stacked_bar_data.products !== undefined){
         return this.test(this.$store.state.state.stacked_bar_data.products, isCategory)
       }
     },
