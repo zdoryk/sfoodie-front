@@ -118,7 +118,7 @@ export default {
 
   },
   methods: {
-    ...mapActions(['POST_NEW_CATEGORY', 'GET_ALL_USER_DATA']),
+    ...mapActions(['POST_NEW_CATEGORY', 'GET_USER_CATEGORIES']),
     hide(){
       this.$parent.show_hide_opacity()
     },
@@ -135,7 +135,7 @@ export default {
         new_color_name: this.activeColor,
         new_category_name: this.category_name
       })
-      this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
+      this.GET_USER_CATEGORIES(this.$store.state.state.user_id)
       this.hide()
     }
 

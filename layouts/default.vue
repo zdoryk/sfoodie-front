@@ -29,13 +29,12 @@
             isActive: false,
           }
         },
-      methods: {...mapActions(['GET_ALL_USER_DATA'])},
+      methods: {},
         created() {
           console.log(this.$store.state.state.access_token)
 
           const decoded = jwt.decode(this.$store.state.state.access_token)
           this.$store.commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, email: decoded.sub})
-          // this.GET_ALL_USER_DATA()
         },
         computed: {
           checkState() {

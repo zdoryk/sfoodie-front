@@ -467,6 +467,8 @@ export const actions = {
     commit('SET_SELECTED_CATEGORY', category)
   },
 
+
+  // DEV METHOD
   async GET_ALL_USER_DATA({commit}, user_id){
     this.$axios(back_link + '/custom/' + user_id, {
       method: "GET",
@@ -583,20 +585,20 @@ export const actions = {
   },
 
 
-  async MOVE_TO_OTHER({commit, dispatch}, data_for_update){
-    console.log(data_for_update)
-    this.$axios.put(back_link + '/products/replace_user_product_category', data_for_update)
-      .then(function(data){
-        dispatch('GET_ALL_USER_DATA', data_for_update.user_id)  // THERE NEED TO BE ANOTHER ACTION THAT WILL NOT FETCH ALL THE DATA ONLY THAT WE NEED TO
-        console.log(data)
-      });
-  },
+  // async MOVE_TO_OTHER({commit, dispatch}, data_for_update){
+  //   console.log(data_for_update)
+  //   this.$axios.put(back_link + '/products/replace_user_product_category', data_for_update)
+  //     .then(function(data){
+  //       dispatch('GET_ALL_USER_DATA', data_for_update.user_id)  // THERE NEED TO BE ANOTHER ACTION THAT WILL NOT FETCH ALL THE DATA ONLY THAT WE NEED TO
+  //       console.log(data)
+  //     });
+  // },
 
   async EDIT_PRODUCT({commit, dispatch}, data_for_update){
     console.log(data_for_update)
     this.$axios.put(back_link + '/products/update_user_product', data_for_update)
       .then(function(data){
-        dispatch('GET_ALL_USER_DATA', data_for_update.user_id)  // THERE NEED TO BE ANOTHER ACTION THAT WILL NOT FETCH ALL THE DATA ONLY THAT WE NEED TO
+        dispatch('GET_USER_CATEGORIES', data_for_update.user_id)
         console.log(data)
       });
   },

@@ -19,12 +19,7 @@
   export default Vue.extend({
     components: { },
     name: 'Index',
-    middleware: ['redirect-to-landing'],
-    methods: {...mapActions(['GET_ALL_USER_DATA'])},
-    created() {
-      // console.log('qwe')
-      // this.GET_TEST()
-    }
+    middleware: ['redirect-to-landing']
   })
 </script>
 

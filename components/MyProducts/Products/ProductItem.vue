@@ -80,7 +80,7 @@ export default {
 
   },
   methods: {
-    ...mapActions(['MOVE_TO_OTHER', 'GET_ALL_USER_DATA']),
+    ...mapActions(['MOVE_TO_OTHER']),
     edit () {
       this.display.display = "flex"
       this.isPopUpVisible = 'visible'
@@ -93,17 +93,17 @@ export default {
     onResize() {
       this.windowWidth = window.innerWidth
     },
-    move_to_other_accepted () {
-      console.log("move accepted")
-      this.MOVE_TO_OTHER({
-        "user_id": this.$store.state.state.user_id,
-        "old_category": this.product_category,
-        "new_category": "Other",
-        "product_name": this.product_name
-      })
-      // TEMPORARY
-      this.$forceUpdate()
-    },
+    // move_to_other_accepted () {
+    //   console.log("move accepted")
+    //   this.MOVE_TO_OTHER({
+    //     "user_id": this.$store.state.state.user_id,
+    //     "old_category": this.product_category,
+    //     "new_category": "Other",
+    //     "product_name": this.product_name
+    //   })
+    //   TEMPORARY
+      // this.$forceUpdate()
+    // },
     hide(){
       this.display.display = 'none'
       this.isPopUpVisible = 'hidden'

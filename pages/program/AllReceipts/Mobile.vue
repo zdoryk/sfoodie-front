@@ -75,7 +75,7 @@ export default {
     }
   },
   methods:{
-    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION', 'GET_ALL_USER_DATA']),
+    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION', 'GET_ALL_USER_RECEIPTS']),
     closeConfirmation(){
       this.isConfirmationVisible = !this.isConfirmationVisible
     },
@@ -96,7 +96,7 @@ export default {
   },
 
   created() {
-    this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
+    this.GET_ALL_USER_RECEIPTS(this.$store.state.state.user_id)
   },
 
   computed: {

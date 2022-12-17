@@ -20,14 +20,11 @@ import StackedBar from "@/components/Statistic/Charts/StackedBar";
 export default {
   name: 'Statistic',
   components: {StackedBar, TreeMap},
-  methods: {...mapActions(['GET_TREEMAP_DATA', 'GET_ALL_USER_DATA', 'GET_ALL_USER_RECEIPTS', 'GET_USER_CATEGORIES'])},
+  methods: {...mapActions(['GET_TREEMAP_DATA', 'GET_ALL_USER_RECEIPTS', 'GET_USER_CATEGORIES'])},
   created() {
-    // this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
     this.GET_USER_CATEGORIES(this.$store.state.state.user_id)
     this.GET_ALL_USER_RECEIPTS(this.$store.state.state.user_id)
-    // this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
     this.GET_TREEMAP_DATA(this.$store.state.state.user_id)
-    // this.GET_TREEMAP_DATA(this.$store.state.state.user_id)
   },
 }
 </script>

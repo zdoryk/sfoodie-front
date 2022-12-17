@@ -67,7 +67,7 @@ export default {
   computed: {
   },
   methods: {
-    ...mapActions(['EDIT_PRODUCT', 'GET_ALL_USER_DATA']),
+    ...mapActions(['EDIT_PRODUCT', 'GET_USER_CATEGORIES']),
     hide () {
       this.$parent.hide()
     },
@@ -79,7 +79,7 @@ export default {
         old_product_name: this.product_data.product_name,
         new_product_name: this.product_name
       })
-      this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
+      this.GET_USER_CATEGORIES(this.$store.state.state.user_id)
       this.hide()
     },
     change_category_name(category_name) {

@@ -55,7 +55,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['GET_ALL_USER_DATA']),
     change_translate () {
       if (this.difference === 0){
         this.difference = this.translate
@@ -78,6 +77,7 @@ export default {
       this.isNewProduct = true
       this.isOpacity = true
     },
+    ...mapActions(['GET_USER_CATEGORIES', 'GET_ALL_USER_DATA'])
   },
   mounted() {
     this.$nextTick(() => {
@@ -102,7 +102,7 @@ export default {
     }
   },
   created() {
-    this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
+    this.GET_USER_CATEGORIES(this.$store.state.state.user_id)
     if (process.browser){
       this.translate = window.innerWidth
     }

@@ -101,7 +101,7 @@ export default {
 
   },
   methods: {
-    ...mapActions(['POST_NEW_PRODUCT','GET_ALL_USER_DATA']),
+    ...mapActions(['POST_NEW_PRODUCT','GET_USER_CATEGORIES']),
     hide(){
       this.$parent.show_hide_opacity()
     },
@@ -114,15 +114,8 @@ export default {
         new_category_name: this.category_name,
         new_product_name: this.product_name
       })
-      // TEMP UNTIL I DO NEW ENDPOINTS AND ACTION FOR EVERY OCASSion
-      this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
+      this.GET_USER_CATEGORIES(this.$store.state.state.user_id)
       this.hide()
-      this.$parent.show_hide_opacity()
-      // console.log({
-      //   user_id: this.$store.state.state.user_id,
-      //   new_category_name: this.category_name,
-      //   new_product_name: this.product_name
-      // })
     }
 
   }
