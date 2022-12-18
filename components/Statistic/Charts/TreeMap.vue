@@ -2,7 +2,7 @@
   <div class="tree-map">
     <client-only>
       <blue-button class="back-button" @click.native="back" v-if="this.$store.state.state.charts_shared.isChartCategoryData">< Back</blue-button>
-      <apexchart ref="tree_map_chart" type="treemap" height="300" :options="chartOptions" :series="series" ></apexchart>
+      <apexchart ref="tree_map_chart" type="treemap" height="300"  :options="chartOptions" :series="series" ></apexchart>
     </client-only>
   </div>
 </template>
@@ -99,7 +99,22 @@ export default {
           events: {
             updated: (chartContext, options) => {
               this.update_colors()
-            }
+            },
+            dataPointSelection: (chartContext, { xaxis, yaxis }) => {
+              this.product_selection(chartContext.target.attributes.selected.value, chartContext.target.attributes.j.value)
+              console.log(chartContext)
+            },
+            // dataPointMouseLeave: (event, chartContext, config) => {
+              // event.target.attributes.selected.value = false
+              // console.group()
+              // console.log(event.target.attributes.selected.value)
+              // console.log('leave')
+              // console.groupEnd()
+              // this.product_selection(false)
+            // },
+            // dataPointMouseEnter: function(event, chartContext, config) {
+            //   console.log('enter')
+            // }
           }
         },
         // title: {
@@ -138,6 +153,15 @@ export default {
     }
   },
   methods: {
+    product_selection(isSelected, index){
+      if (this.$store.state.state.charts_shared.isChartCategoryData){
+        this.$store.commit('SET_IS_CHART_SELECTED_PRODUCT', {bool: JSON.parse(isSelected), index: JSON.parse(index)})
+        // this.SET_IS_CHART_SELECTED_PRODUCT_ACTION({bool: isSelected, index: index})
+        console.log(isSelected)
+        console.log(index)
+      }
+    },
+
     update_colors(){
       let rects = document.querySelectorAll('g.apexcharts-treemap-series .apexcharts-treemap-rect')
       const colors = []
@@ -146,7 +170,7 @@ export default {
       }
       this.SET_SHARED_CHART_COLORS_ACTION(colors)
     },
-    ...mapActions(['SET_CATEGORY_CHART_DATA_ACTION', 'SET_SHARED_CHART_COLORS_ACTION']),
+    ...mapActions(['SET_CATEGORY_CHART_DATA_ACTION', 'SET_SHARED_CHART_COLORS_ACTION', 'SET_IS_CHART_SELECTED_PRODUCT_ACTION']),
     back(){
       this.series = [this.categories_agg]
       const colors = JSON.parse(JSON.stringify(this.$store.state.state.tree_map_data.colors))
@@ -160,6 +184,7 @@ export default {
             }
           }
         }}
+      this.$store.commit('SET_IS_CHART_SELECTED_PRODUCT', {bool: false, index: 0})
       this.SET_CATEGORY_CHART_DATA_ACTION({selected_category: '', isChartCategoryData: false})
     }
   },

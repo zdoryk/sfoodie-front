@@ -5,7 +5,7 @@
         Lorem ipsum
       </div>
       <div class="chart">
-        <apexchart ref="chart" type="bar"  width="95%" :options="chartOptions" :series="data_series" ></apexchart>
+        <apexchart ref="chart" type="bar" width="95%" height="280px" :options="chartOptions" :series="data_series" ></apexchart>
       </div>
     </client-only>
   </div>
@@ -69,7 +69,9 @@ export default {
       } else {
         products = Object.assign({}, data)
       }
-      productNames = Array.from(new Set(Object.keys(products).map((name) => name.split(",")[0])))
+      productNames = Array.from(new Set(Object.keys(products).map((name) =>
+          name.split(",")[0]
+      )))
 
       // console.log(products)
       console.log(productNames)
@@ -109,9 +111,21 @@ export default {
         data: obj.data.map(item => item.x)
       }))
       console.log(convertedArray)
-      return convertedArray.find(obj => obj.name === selected_category).data.map(name => {
+      const result = convertedArray.find(obj => obj.name === selected_category).data.map(name => {
         return productData.find(item => item.name === name)
       })
+      console.log(this.$store.state.state.charts_shared.product.isProductSelected)
+      if (this.$store.state.state.charts_shared.product.isProductSelected){
+        console.log(this.$store.state.state.charts_shared.product.isProductSelected)
+        return [result[this.$store.state.state.charts_shared.product.index]]
+        // console.group()
+        // console.log(result)
+        // console.log(result[this.$store.state.state.charts_shared.product.index])
+        // console.groupEnd()
+      } else return result
+      // return convertedArray.find(obj => obj.name === selected_category).data.map(name => {
+      //   return productData.find(item => item.name === name)
+      // })
     },
 
   },
@@ -210,10 +224,18 @@ export default {
   computed:{
     data_series(){
       const isCategory = this.$store.state.state.charts_shared.isChartCategoryData
+      const isProduct = this.$store.state.state.charts_shared.product.isProductSelected
+      console.log(isProduct)
+      console.log(isCategory)
       console.log(this.$store.state.state.stacked_bar_data.categories.length)
       if (isCategory === false ){
         return this.test(this.$store.state.state.stacked_bar_data.categories, isCategory)
-      } else if (isCategory === true && this.$store.state.state.stacked_bar_data.products !== undefined){
+      }
+      // else if (isCategory === true && this.$store.state.state.charts_shared.product.isProductSelected &&
+      //   this.$store.state.state.stacked_bar_data.products !== undefined){
+      //   return
+      // }
+      else if (isCategory === true && this.$store.state.state.stacked_bar_data.products !== undefined){
         return this.test(this.$store.state.state.stacked_bar_data.products, isCategory)
       }
     },

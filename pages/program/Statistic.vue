@@ -5,9 +5,13 @@
         Statistic
       </div>
       <tree-map v-if="this.$store.state.state.tree_map_data.colors !== undefined"/>
-      <div class="footer">
-        <stacked-bar v-if="this.$store.state.state.existing_receipts !== undefined && this.$store.state.state.tree_map_data.colors !== undefined && this.$store.state.state.existing_categories.length !== 0 && this.$store.state.state.existing_categories.length !== undefined"/>
-        <div class="line-chart"></div>
+      <div class="footer"
+           v-if="this.$store.state.state.existing_receipts !== undefined
+                  && this.$store.state.state.tree_map_data.colors !== undefined
+                  && this.$store.state.state.existing_categories.length !== 0
+                  && this.$store.state.state.existing_categories.length !== undefined">
+        <stacked-bar id="stacked" />
+        <line-chart id="line"/>
       </div>
     </div>
 
@@ -17,11 +21,13 @@
 import TreeMap from "@/components/Statistic/Charts/TreeMap";
 import {mapActions} from "vuex";
 import StackedBar from "@/components/Statistic/Charts/StackedBar";
+import LineChart from "@/components/Statistic/Charts/LineChart";
 export default {
   name: 'Statistic',
-  components: {StackedBar, TreeMap},
-  methods: {...mapActions(['GET_TREEMAP_DATA', 'GET_ALL_USER_RECEIPTS', 'GET_USER_CATEGORIES'])},
+  components: {LineChart, StackedBar, TreeMap},
+  methods: {...mapActions(['GET_TREEMAP_DATA', 'GET_ALL_USER_RECEIPTS', 'GET_USER_CATEGORIES', 'GET_ALL_USER_DATA'])},
   created() {
+    // this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
     this.GET_USER_CATEGORIES(this.$store.state.state.user_id)
     this.GET_ALL_USER_RECEIPTS(this.$store.state.state.user_id)
     this.GET_TREEMAP_DATA(this.$store.state.state.user_id)
@@ -44,14 +50,17 @@ export default {
   }
 
   #stacked{
-    flex: 1
+    width: 40%;
   }
 
-  .line-chart{
-    flex: 1.5;
+  #line{
+    width: 55%;
+    transform: translateX(-2%);
   }
 
   .footer{
     display: flex;
+    justify-content: space-between;
+    /*max-height: 30% ;*/
   }
 </style>
