@@ -1,9 +1,13 @@
 <template>
-  <div class="price-range-filter-pop-up" v-click-outside="hide">
+  <div class="category-filter-pop-up" v-click-outside="hide">
     <div class="content" v-if="visible">
-      <div class="inputs">
-        <input :style="cssVars" v-model="inputFrom" class="from" placeholder="0$" type="number">
-        <input :style="cssVars" v-model="inputTo" class="to" placeholder="100$" type="number">
+      <div class="check-boxes">
+        <category-filter-check-box-item
+          v-for="(value, key, index) in categories_data"
+          :key="index"
+          :category_data="value || 'undefined'"
+        />
+
       </div>
       <div class="buttons">
         <red-stroke-button class="clear-button" v-on:click.native="clear_inputs">Clear</red-stroke-button>
@@ -19,13 +23,17 @@
 import Vue from "vue";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
 import BlueButton from "@/components/UI/BlueButton";
+import CategoryFilterCheckBoxItem from "@/components/AllReceipts/CategoryFilter/CategoryFilterCheckBoxItem";
 
 Vue.directive('click-outside', {
   bind: function (el, binding, vnode) {
     el.clickOutsideEvent = function (event) {
-      // here I check that click was outside the el and his children
-      if (!(el === event.target || el.contains(event.target) || el.parentElement.contains(event.target)))  {
-        // and if it did, call method provided in attribute value
+      let class_value = 'none'
+      if (event.target.attributes.class !== undefined) class_value = event.target.attributes.class.value
+      if (!(el === event.target || el.contains(event.target)  ||el.parentElement.contains(event.target))){
+        if( class_value !== undefined && !(class_value === 'ico check-box-ico icon icon-tabler icon-tabler-check')){
+          vnode.context[binding.expression](event);
+        }
         vnode.context[binding.expression](event);
       }
     };
@@ -37,95 +45,73 @@ Vue.directive('click-outside', {
 });
 
 export default {
-  name: "PriceRangeFilterPopUp",
-  components: {BlueButton, RedStrokeButton},
+  name: "CategoryFilterPopUp",
+  components: {CategoryFilterCheckBoxItem, BlueButton, RedStrokeButton},
   props: {
     visible: {
       type: Boolean,
       default: false
     },
-    inputValue: {
-      type: String,
-      default: ''
+    selected_categories: {
+      type: Object
     }
   },
-  model: {
-    prop: 'inputValue',
-    event: 'onUpdateInputValue'
+  mounted() {
+    this.temp_selected_categories = Object.assign({}, this.selected_categories)
+  },
+  data(){
+    return{
+      temp_selected_categories: {},
+    }
+  },
+  computed:{
+    categories_data(){
+      return this.$store.state.state.existing_categories.slice(1).map(category => {
+        return {
+          category_name: category.category_name,
+          ico: category.ico,
+          color: category.color,
+          state: this.temp_selected_categories[category.category_name]
+        }
+      })
+    }
   },
   methods: {
+    set_category_state(category_name, state){
+      this.temp_selected_categories[category_name] = state
+    },
+
     hide(){
       this.$parent.hide()
     },
 
     clear_inputs(){
-      this.inputFrom = ''
-      this.inputTo = ''
+      Object.entries(this.temp_selected_categories).map(([key,value])=>{
+        this.temp_selected_categories[key]= false
+      })
+      this.$parent.clearInput()
     },
 
     apply(){
-      console.log(typeof this.inputTo)
-      if (this.inputFrom === '' && this.inputTo === '') this.$parent.clear_price_range()
-      else if (!this.inputTo && this.inputFrom){
-        this.$emit('onUpdateInputValue', "$" + this.inputFrom + " ~ $" + '999999')
-        this.$parent.hide()
-        this.$parent.updateParentPriceRange()
-      } else if (!this.inputFrom && this.inputTo){
-        this.$emit('onUpdateInputValue', "$" + '0' + " ~ $" + this.inputTo)
-        this.$parent.hide()
-        this.$parent.updateParentPriceRange()
-      } else {
-        if (parseFloat(this.inputFrom) <= parseFloat(this.inputTo)) {
-          this.$emit('onUpdateInputValue', "$" + this.inputFrom + " ~ $" + this.inputTo)
-          this.$parent.hide()
-          this.$parent.updateParentPriceRange()
-        }
-        else alert("Value to in price filter lower then value from.")
-      }
+      this.$parent.set_category_state(this.temp_selected_categories)
+      this.$parent.hide()
     }
   },
-  data() {
-    return {
-      inputFrom: '',
-      inputTo: '',
-      inputFromBorder: 'none',
-      inputToBorder: 'none'
-    }
-  },
-  computed: {
-
-    borderFromListener() {
-      if (this.inputFrom !== '') return '1px solid rgba(105, 106, 233, 0.2)'
-      else return 'none'
-    },
-
-    borderToListener() {
-      if (this.inputTo !== '') return '1px solid rgba(105, 106, 233, 0.2)'
-      else return 'none'
-    },
-
-    cssVars() {
-      return {
-        '--borderFrom': this.borderFromListener,
-        '--borderTo': this.borderToListener
-      }
-
-    }
-
-  }
 }
 </script>
 
 <style scoped lang="scss">
-@import "../../../assets/variables";
+  @import "../../../assets/variables";
 
 
-  .price-range-filter-pop-up{
+
+  .category-filter-pop-up{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    padding: 24px 24px;
+    padding: 24px;
     //gap: 16px;
+
     right: -15%;
     position: absolute;
     width: 320px;
@@ -206,6 +192,15 @@ export default {
 
   .clear-button, .apply-button{
     max-height: 32px;
+  }
+
+  .check-boxes{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 30vh;
+    overflow-y: auto;
+    border-radius: 4px;
   }
 
 </style>

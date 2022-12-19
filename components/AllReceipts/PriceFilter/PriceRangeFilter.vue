@@ -2,7 +2,7 @@
   <div class="price-range-filter" >
     <div class="price-range-input-wrapper" @click="isPopUpVisible ? notToClose() : closeOpen()">
       <input id="price-range-input" placeholder="Price range" v-model="inputValue" autocomplete="off">
-      <div class="coin-ico">
+      <div class="apple-ico">
         <coin-icon class="ico filter-ico"/>
       </div>
     </div>
@@ -125,7 +125,7 @@ export default {
 
   }
 
-  .coin-ico {
+  .apple-ico {
     width: 24px;
     height: 24px;
     position:absolute;
@@ -179,6 +179,12 @@ export default {
     transition-duration: 0.15s;
     z-index: 1001;
     //transition: 0.2s ease-in-out;
+  }
+
+  @media (max-width: $phone-size) {
+    #pop-up{
+      right: 0;
+    }
   }
 
 </style>

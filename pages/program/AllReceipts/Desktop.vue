@@ -4,14 +4,20 @@
       <div id="title">All Receipts</div>
       <div class="time-period">
         <div class="filters">
+<!--          <div class="clear-filters" v-on:click="this.clearFilters">-->
+<!--            <div class="clear-filters-text">Clear filters</div>-->
+<!--            <x-icon  class="ico clear-filters-ico"/>-->
+<!--          </div>-->
+          <client-only>
+            <category-filter ref="category_filter"/>
+          </client-only>
+          <price-range-filter ref='price_range_filter' v-model="priceRange"/>
+          <div class="date-time">
+            <date-picker v-model="timePeriod" range format="MMM DD, YYYY"></date-picker>
+          </div>
           <div class="clear-filters" v-on:click="this.clearFilters">
             <div class="clear-filters-text">Clear filters</div>
             <x-icon  class="ico clear-filters-ico"/>
-          </div>
-          <price-range-filter ref='price_range_filter' v-model="priceRange"/>
-
-          <div class="date-time">
-            <date-picker v-model="timePeriod" range format="MMM DD, YYYY"></date-picker>
           </div>
         </div>
       </div>
@@ -57,9 +63,11 @@ import DeleteConfirmation from "@/components/UI/DeleteConfirmation";
 import PriceRangeFilter from "@/components/AllReceipts/PriceFilter/PriceRangeFilter";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
 import {XIcon} from "vue-tabler-icons"
+import CategoryFilter from "@/components/AllReceipts/CategoryFilter/CategoryFilter";
 
 export default {
   components: {
+    CategoryFilter,
     RedStrokeButton,
     PriceRangeFilter, PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem,DeleteConfirmation, DatePicker, XIcon},
   layout: 'allReceiptsPage',
@@ -70,6 +78,7 @@ export default {
       isConfirmationVisible: false,
       timePeriod: [],
       priceRange: [],
+      categories_to_include: [],
       overflow: 'scroll',
       receiptViewKey: 0
     }
@@ -88,10 +97,19 @@ export default {
       this.timePeriod = []
       this.priceRange = []
       this.$refs.price_range_filter.clearInput()
+      this.$refs.category_filter.clearInput()
+      this.categories_to_include = []
     },
-    clear_price_range(){
-      this.priceRange = []
+
+    set_categories_to_include(categories){
+      this.categories_to_include = categories
     },
+
+    filterByCategories(object, categories, mapped) {
+      console.log(object)
+      console.log(categories)
+      return object.products.some(product => categories.includes(mapped[product.product_name]));
+    }
   },
 
   created() {
@@ -116,8 +134,6 @@ export default {
     isReceipts(){
       return typeof this.$store.state.state.selected_receipt.products !== 'undefined';
     },
-
-
 
     filtered_existing_receipts(){
       this.overflow = 'scroll'
@@ -144,6 +160,13 @@ export default {
         receipts = receipts.filter(receipt => this.priceRange[0] <= receipt.total_price && receipt.total_price <= this.priceRange[1]);
       }
 
+      // Categories
+      if (this.categories_to_include.length > 0) {
+        const category_products_mapped = this.$store.state.state.stacked_bar_data.category_map_products
+        console.log(category_products_mapped)
+        receipts = receipts.filter(object => this.filterByCategories(object, this.categories_to_include, category_products_mapped));
+        console.log(receipts)
+      }
       return receipts
     },
 
@@ -206,9 +229,9 @@ export default {
 }
 
 .navigation-bar {
-  display: flex;
+  //display: flex;
   margin-bottom: 40px;
-  flex-wrap: wrap;
+  //flex-wrap: wrap;
   padding: 16px 16px 0;
 }
 
@@ -404,7 +427,9 @@ export default {
 
 .filters{
   display: flex;
-  justify-content: flex-end;
+  margin-top: 20px;
+  //justify-content: flex-end;
+  //flex: 2;
 }
 
 .price-range-filter{

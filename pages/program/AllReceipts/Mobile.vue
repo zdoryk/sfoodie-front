@@ -6,6 +6,7 @@
       <div class="filters">
 <!--        <div>* Filters in future *</div>-->
         <div class="first-row">
+          <category-filter id="mobile-category-filter"/>
           <price-range-filter id="mobile-price-range-filter" v-model="priceRange"/>
 <!--          <price-range-filter id="mobile-categories-filter"/>-->
         </div>
@@ -61,10 +62,13 @@ import priceRangeFilter from "@/components/AllReceipts/PriceFilter/PriceRangeFil
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import crossButton from "@/components/UI/CrossButton";
+import CategoryFilter from "@/components/AllReceipts/CategoryFilter/CategoryFilter";
 
 
 export default {
-  components: {crossButton ,PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem, DeleteConfirmation, priceRangeFilter, DatePicker},
+  components: {
+    CategoryFilter,
+    crossButton ,PopUp, ExistingReceiptItem, ReceiptView, TimePeriodItem, DeleteConfirmation, priceRangeFilter, DatePicker},
   layout: 'allReceiptsPage',
   data() {
     return {
@@ -414,8 +418,9 @@ export default {
 
 .first-row{
   display: flex;
-  //justify-content: space-between;
-  justify-content: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  //justify-content: flex-end;
 }
 
 .second-row {
@@ -434,8 +439,10 @@ export default {
   width: 88%
 }
 
-
-
+.category-filter{
+  width: 49%;
+  z-index: 1000;
+}
 
 
 </style>

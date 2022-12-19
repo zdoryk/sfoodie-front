@@ -23,13 +23,13 @@
 </template>
 
 <script>
-import {ChevronRightIcon, AppleIcon} from "vue-tabler-icons"
+import {ChevronRightIcon} from "vue-tabler-icons"
 import {mapActions} from "vuex";
 import * as icons from "assets/categories_svgs";
 
 export default {
   name: "CategoryItem",
-  components: {ChevronRightIcon, AppleIcon},
+  components: {ChevronRightIcon},
   // props: ["category_data", "activeCategory"],
   props: {
     category_data: [],
