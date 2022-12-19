@@ -6,8 +6,8 @@
       <div class="filters">
 <!--        <div>* Filters in future *</div>-->
         <div class="first-row">
-          <category-filter id="mobile-category-filter"/>
-          <price-range-filter id="mobile-price-range-filter" v-model="priceRange"/>
+          <category-filter ref='category_filter' id="mobile-category-filter"/>
+          <price-range-filter ref="price_filter" id="mobile-price-range-filter" v-model="priceRange"/>
 <!--          <price-range-filter id="mobile-categories-filter"/>-->
         </div>
         <div class="second-row">
@@ -76,6 +76,7 @@ export default {
       isConfirmationVisible: false,
       timePeriod: [],
       priceRange: [],
+      categories_to_include: [],
     }
   },
   methods:{
@@ -91,11 +92,20 @@ export default {
       // console.log(this.$children[0])
       this.timePeriod = []
       this.priceRange = []
-      this.$children[0].clearInput()
+      this.$refs.price_filter.clearInput()
+      this.$refs.category_filter.clearInput()
+      this.categories_to_include = []
     },
-    clear_price_range(){
-      this.priceRange = []
+
+    set_categories_to_include(categories){
+      this.categories_to_include = categories
     },
+
+    filterByCategories(object, categories, mapped) {
+      console.log(object)
+      console.log(categories)
+      return object.products.some(product => categories.includes(mapped[product.product_name]));
+    }
 
   },
 
@@ -126,6 +136,13 @@ export default {
         receipts = receipts.filter(receipt => this.priceRange[0] <= receipt.total_price && receipt.total_price <= this.priceRange[1]);
       }
 
+      // Categories
+      if (this.categories_to_include.length > 0) {
+        const category_products_mapped = this.$store.state.state.stacked_bar_data.category_map_products
+        console.log(category_products_mapped)
+        receipts = receipts.filter(object => this.filterByCategories(object, this.categories_to_include, category_products_mapped));
+        console.log(receipts)
+      }
       return receipts
     },
 
