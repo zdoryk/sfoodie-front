@@ -5,7 +5,7 @@
         Lorem Ipsum
       </div>
       <div id="line-chart-block">
-        <apexchart type="area" height="280px" :options="chartOptions" :series="series"></apexchart>
+        <apexchart ref="chart" type="area" height="280px" :options="chartOptions" :series="main"></apexchart>
       </div>
     </client-only>
   </div>
@@ -18,28 +18,122 @@ export default {
   name: "LineChart",
   components: {BlueButton, [process.browser && 'apexchart']: () => import('vue-apexcharts'),},
   mounted() {
-    const receipts = Array.from(this.$store.state.state.existing_receipts).sort((a,b) => a.createdAt-b.createdAt)
-    let totalsByDate = {}
-    console.log(receipts)
-    receipts.forEach(receipt => {
-      let date = new Date(receipt.createdAt * 1000);
-      date = date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear()
-      let total = receipt.products.reduce((accumulator, product) => accumulator + product.price, 0)
-      if (totalsByDate[date]) {
-        totalsByDate[date] += total;
-      } else {
-        totalsByDate[date] = total;
-      }
-    });
+    this.$store.watch((state) => state.state.charts_shared.colors, (newValue, oldValue) => {
+      this.changeColor(JSON.parse(JSON.stringify(newValue)))
+    })
+    // this.chartOptions.colors = [this.$store.state.state.tree_map_data.colors[0]]
+  },
+  computed: {
+    main(){
+      const isCategory = this.$store.state.state.charts_shared.isChartCategoryData
+      const isProduct = this.$store.state.state.charts_shared.product.isProductSelected
+      let receipts = Array.from(this.$store.state.state.existing_receipts).sort((a,b) => a.createdAt-b.createdAt)
 
-    const totalsArray = Object.values(totalsByDate).map(total => {
-      return total;
-    });
-    const datesArray = Object.keys(totalsByDate).map(key => {
-      return new Date(key).toISOString();
-    });
-    this.series = [{name: 'All expenses', data: totalsArray}]
-    this.chartOptions.xaxis.categories = datesArray
+      console.log(isProduct)
+      console.log(isCategory)
+      if (isProduct){
+        return this.test(this.filter_by_product(this.filter_by_category(receipts)))
+      }
+      if (isCategory === false ) {
+        return this.test(receipts, isCategory, isProduct)
+      }
+      else if (isCategory === true){
+        return this.test(this.filter_by_category(receipts), isCategory, isProduct)
+      }
+      // return this.test()
+    }
+  },
+  methods: {
+    changeColor(newValue){
+      if (this.$refs.chart !== undefined){
+        if (this.$store.state.state.charts_shared.isChartCategoryData === false) this.$refs.chart.updateOptions({colors: ['rgb(0, 143, 251)']}, true, true, true);
+        else this.$refs.chart.updateOptions({colors: newValue}, true, true, true);
+      }
+    },
+
+    filter_by_category(receipts){
+      const selected_category = "" + this.$store.state.state.charts_shared.selected_category
+      const mapped_category_products = Object.assign({}, this.$store.state.state.stacked_bar_data.category_map_products)
+      return receipts.map(receipt => {
+        const filtered = receipt.products.filter(product => mapped_category_products[product.product_name] === selected_category)
+        return {...receipt, products: filtered};
+      }).filter(obj => obj.products.length > 0)
+    },
+
+    filter_by_product(receipts){
+      console.log(receipts)
+      return receipts.map(receipt => {
+        const filtered = receipt.products.filter(product => product.product_name === this.$store.state.state.charts_shared.product.product_name)
+        return {...receipt, products: filtered};
+      }).filter(obj => obj.products.length > 0)
+      // console.log(this.$store.state.state.tree_map_data.tree_map_data[this.$store.state.state.charts_shared.selected_category_index])
+    },
+
+    test(receipts, isCategory, isProduct){
+      // let receipts = Array.from(this.$store.state.state.existing_receipts).sort((a,b) => a.createdAt-b.createdAt)
+      let totalsByDate = {}
+      // if (isCategory){
+      //   const selected_category = "" + this.$store.state.state.charts_shared.selected_category
+      //   const mapped_category_products = Object.assign({}, this.$store.state.state.stacked_bar_data.category_map_products)
+      //   receipts = receipts.map(receipt => {
+      //     const filtered = receipt.products.filter(product => mapped_category_products[product.product_name] === selected_category)
+      //     return { ...receipt, products: filtered };
+      //   }).filter(obj => obj.products.length > 0)
+      // }
+
+      receipts.forEach(receipt => {
+        let date = new Date(receipt.createdAt * 1000);
+        date = date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear()
+        let total = receipt.products.reduce((accumulator, product) => accumulator + product.price, 0)
+        if (totalsByDate[date]) {
+          totalsByDate[date] += total;
+        } else {
+          totalsByDate[date] = total;
+        }
+      });
+
+      const totalsArray = Object.values(totalsByDate).map(total => {
+        return total;
+      });
+      const datesArray = Object.keys(totalsByDate).map(key => {
+        return new Date(key).toISOString();
+      });
+
+      this.chartOptions = {...this.chartOptions, ...{
+          xaxis: {
+            categories: datesArray,
+            type: 'category',
+            tooltip: {
+              x: {
+                format: 'dd/MM/yy'
+              },
+            },
+            labels: {
+              style: {
+                colors: ['#edefff'],
+                fontSize: '12px',
+                fontFamily: 'Poppins',
+                fontWeight: 400,
+                cssClass: 'apexcharts-yaxis-label',
+              },
+              formatter: label => {
+                let new_label = "" + label
+                new_label = new Date(new_label.slice(0,10))
+                new_label.setMonth(new_label.getMonth() + 1)
+                return new_label.toLocaleString('en-EG', { month: 'short' })  + ', ' + new_label.getDate()
+              }
+            }
+          }
+        }
+      }
+      if (isProduct){
+        return [{name: 'Expenses for: product', data: totalsArray}]
+      }
+      else if (isCategory){
+        return [{name: 'Expenses for: ' + this.$store.state.state.charts_shared.selected_category, data: totalsArray}]
+      }
+      return [{name: 'All expenses', data: totalsArray}]
+    }
   },
   data(){
     return{
@@ -51,9 +145,11 @@ export default {
         name: 'series1',
         data: []
       }],
+
       chartOptions: {
         chart: {
           // height: 350,
+          // colors: ['#000000'],
           type: 'area',
           toolbar: {
             show: false
@@ -107,6 +203,7 @@ export default {
               fontWeight: 400,
               cssClass: 'apexcharts-yaxis-label',
             },
+            format: 'dd/MM/yy'
           }
         },
         yaxis: {

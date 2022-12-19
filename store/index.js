@@ -66,6 +66,12 @@ export const state = () => ({
     charts_shared: {
       selected_category: 'None',
       isChartCategoryData: false,
+      product: {
+        isProductSelected: false,
+        index: 0,
+        product_name: null
+      },
+      // selected_category_index: null,
       colors: []
     }
   },
@@ -81,6 +87,9 @@ export const getters = {
 }
 
 export const mutations = {
+  SET_CHART_SELECTED_PRODUCT_NAME: (state, data) => {
+    state.state.charts_shared.product.product_name = data
+  },
   // AUTH_MUTATIONS_SET_USER: (state, { id, email_address }) =>{
   AUTH_MUTATIONS_SET_USER: (state, data ) =>{
     // state.id = id
@@ -290,11 +299,11 @@ export const mutations = {
 
     // Print the product sums
     state.state.stacked_bar_data = {
-      // 'categories': categoryAverages,
-      'categories': categoryCounts,
+      'categories': categoryAverages,
+      // 'categories': categoryCounts,
       // 'categories': categorySums,
-      "products": productCounts,
-      // 'products': productAverages,
+      // "products": productCounts,
+      'products': productAverages,
       // 'products': productSums ,
       'category_map_products': categoryMap
     }
@@ -311,6 +320,12 @@ export const mutations = {
     state.state.charts_shared.colors = data
   },
 
+  SET_IS_CHART_SELECTED_PRODUCT(state, data){
+    console.log(data.bool, data.index)
+    state.state.charts_shared.product.isProductSelected = data.bool
+    state.state.charts_shared.product.index = data.index
+  },
+
   SET_USER_PRODUCTS(state, receipts){
     state.state.products = new Set(
       [].concat(
@@ -323,6 +338,7 @@ export const mutations = {
     )
   }
 
+
   // REPLACE_SELECTED_RECEIPT_MOBILE: (state, receipt) => {
   //   state.state.selected_receipt_mobile = receipt
   // },
@@ -333,6 +349,11 @@ export const actions = {
   SET_CATEGORY_CHART_DATA_ACTION({commit},{selected_category, isChartCategoryData}) {
     commit('SET_CATEGORY_CHART_DATA', {selected_category, isChartCategoryData})
   },
+
+  SET_IS_CHART_SELECTED_PRODUCT_ACTION(commit, {bool, index}) {
+    commit('SET_IS_CHART_SELECTED_PRODUCT', {bool, index})
+  },
+
   SET_SHARED_CHART_COLORS_ACTION({commit},colors) {
     commit('SET_SHARED_CHART_COLORS', colors)
   },

@@ -49,6 +49,7 @@ export default {
                 }
               }
             }}
+          // this.$store.commit('SET_CHART_SELECTED_CATEGORY_INDEX', index)
           this.SET_CATEGORY_CHART_DATA_ACTION({selected_category: this.tree_map_data.at(index).name, isChartCategoryData: true})
         }
       })
@@ -100,9 +101,8 @@ export default {
             updated: (chartContext, options) => {
               this.update_colors()
             },
-            dataPointSelection: (chartContext, { xaxis, yaxis }) => {
+            dataPointSelection: (chartContext, config, { xaxis, yaxis }) => {
               this.product_selection(chartContext.target.attributes.selected.value, chartContext.target.attributes.j.value)
-              console.log(chartContext)
             },
             // dataPointMouseLeave: (event, chartContext, config) => {
               // event.target.attributes.selected.value = false
@@ -155,6 +155,7 @@ export default {
   methods: {
     product_selection(isSelected, index){
       if (this.$store.state.state.charts_shared.isChartCategoryData){
+        console.log(this.series)
         this.$store.commit('SET_IS_CHART_SELECTED_PRODUCT', {bool: JSON.parse(isSelected), index: JSON.parse(index)})
         // this.SET_IS_CHART_SELECTED_PRODUCT_ACTION({bool: isSelected, index: index})
         console.log(isSelected)
@@ -185,6 +186,7 @@ export default {
           }
         }}
       this.$store.commit('SET_IS_CHART_SELECTED_PRODUCT', {bool: false, index: 0})
+      // this.$store.commit('SET_SHARED_CHART_COLORS', ['rgb(0, 143, 251)'])
       this.SET_CATEGORY_CHART_DATA_ACTION({selected_category: '', isChartCategoryData: false})
     }
   },

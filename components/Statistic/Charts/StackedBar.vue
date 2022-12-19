@@ -103,9 +103,10 @@ export default {
             data: obj1.data
           }
         })
-        console.log(convertedArray)
+        // console.log(convertedArray)
         return convertedArray
       }
+      console.group()
       const convertedArray = JSON.parse(JSON.stringify(this.$store.state.state.tree_map_data.tree_map_data)).map(obj => ({
         name: obj.name,
         data: obj.data.map(item => item.x)
@@ -114,9 +115,10 @@ export default {
       const result = convertedArray.find(obj => obj.name === selected_category).data.map(name => {
         return productData.find(item => item.name === name)
       })
-      console.log(this.$store.state.state.charts_shared.product.isProductSelected)
+      console.log(result)
+      console.groupEnd()
       if (this.$store.state.state.charts_shared.product.isProductSelected){
-        console.log(this.$store.state.state.charts_shared.product.isProductSelected)
+        this.$store.commit('SET_CHART_SELECTED_PRODUCT_NAME', result[this.$store.state.state.charts_shared.product.index].name)
         return [result[this.$store.state.state.charts_shared.product.index]]
         // console.group()
         // console.log(result)
