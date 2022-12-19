@@ -133,4 +133,11 @@ export default {
     text-decoration: underline;
     color: $white;
   }
+
+  @media (max-width: $phone-size){
+    .content{
+      width: 360px;
+      padding: 32px;
+    }
+  }
 </style>
