@@ -9,7 +9,7 @@
           Product name
         </div>
         <div class="error" :style="input_error_styles">
-          <input class="width-full name-input" type="text" :style="input_error_styles" placeholder="Name your product" v-model="product_name">
+          <input class="width-full email-input" type="text" :style="input_error_styles" placeholder="Name your product" v-model="product_name">
         </div>
         <!--        <div class="error-text">-->
         <!--          Error: duplicate category name.-->
@@ -167,7 +167,7 @@ export default {
   width: 100%;
 }
 
-.name-input{
+.email-input{
   padding: 6px 12px;
   border-radius: 4px;
   background-color: $grey-input-background;
@@ -175,7 +175,7 @@ export default {
   color: $white;
 }
 
-.name-input::placeholder{
+.email-input::placeholder{
   //color: #FF5252;
   //opacity: 0.7;
 }
@@ -184,12 +184,12 @@ export default {
   position: relative;
 }
 
-.name-input:focus{
+.email-input:focus{
   outline: none;
   border: 1px solid $blue;
 }
 
-.name-input:hover{
+.email-input:hover{
   border: 1px solid $blue;
 }
 

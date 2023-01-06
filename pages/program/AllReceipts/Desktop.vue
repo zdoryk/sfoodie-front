@@ -232,7 +232,6 @@ export default {
   //display: flex;
   margin-bottom: 40px;
   //flex-wrap: wrap;
-  padding: 16px 16px 0;
 }
 
 .time-period {
@@ -242,9 +241,7 @@ export default {
   flex: 3;
 }
 
-.all-receipts-content{
-  padding: 0 16px;
-}
+
 
 
 @media (max-width: $desktop-m){
@@ -268,6 +265,11 @@ export default {
 @media (max-width: $tab-size){
   .navigation-bar{
     display: block;
+    padding: 16px 16px 0;
+
+  }
+  .all-receipts-content{
+    padding: 0 16px;
   }
 
   .time-period {

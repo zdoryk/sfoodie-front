@@ -38,7 +38,12 @@
         Statistic
       </menu-item>
     </nuxt-link>
-
+    <nuxt-link class="sidebar-link" active-class="active" to="/program/Account">
+      <menu-item class="menu-item">
+        <user-icon class="ico menu-item-icon" />
+        Account
+      </menu-item>
+    </nuxt-link>
     <nuxt-link class="sidebar-link" active-class="active" to="/program/Info">
       <menu-item class="menu-item">
         <info-circle-icon class="ico menu-item-icon" />
@@ -46,18 +51,19 @@
       </menu-item>
     </nuxt-link>
 
+
   </nav>
 </template>
 
 <script>
 import BlueButton from "@/components/UI/BlueButton.vue"
 import MenuItem from "@/components/SideBar/MenuItem.vue"
-import { InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon } from 'vue-tabler-icons';
+import { InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon, UserIcon } from 'vue-tabler-icons';
 import {mapActions} from "vuex";
 import AddNewProductButton from "@/components/SideBar/AddNewProductBtn";
 
 export default {
-  components:{AddNewProductButton, BlueButton, MenuItem, InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon},
+  components:{UserIcon, AddNewProductButton, BlueButton, MenuItem, InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon},
   methods:{
     ...mapActions(['SELECT_FIRST_RECEIPT',]),
   },

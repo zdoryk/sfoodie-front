@@ -1,5 +1,4 @@
 <template>
-
     <div class="Statistic">
       <div class="title">
         Statistic

@@ -133,7 +133,6 @@ export default {
   display: flex;
   margin-bottom: 40px;
   flex-wrap: wrap;
-  padding: 16px 16px 0;
 }
 
 #title{
@@ -158,7 +157,6 @@ export default {
 }
 
 .content{
-  padding: 0 16px;
   width: 100%;
   display: flex;
 }
@@ -215,6 +213,7 @@ export default {
 
   .navigation-bar{
     margin-bottom: 24px;
+    padding: 16px 16px 0;
   }
 
   .back-to-categories{
@@ -241,6 +240,10 @@ export default {
 
   #test{
     font-size: 32px;
+  }
+
+  .content{
+    padding: 0 16px;
   }
 }
 
