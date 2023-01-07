@@ -9,13 +9,6 @@
       @keyup="change"
       ref="input"
     >
-    <!--      list="my-list-id"-->
-<!--    <datalist id="my-list-id" class="list-of-products">-->
-<!--      <option v-for="code in currencies_alpha_codes" :key="code" class="list-of-products">-->
-<!--        {{ code }}-->
-<!--      </option>-->
-<!--    </datalist>-->
-
     <transition name="stretch">
       <div class="pop-up" v-show="isPopUp" ref="popup">
         <p v-for="code in current_codes" :key="code" class="list-of-products" @click="() => set_currency(code)">
@@ -31,7 +24,7 @@ export default {
   name: "CurrencySelector",
   data(){
     return{
-      currency: 'USD',
+      currency: '',
       isPopUp: false,
       currencies_alpha_codes: [
         "USD",
@@ -157,12 +150,11 @@ export default {
       current_codes: []
     }
   },
-  computed: {
-  },
   mounted() {
     this.current_codes = Array.from(this.currencies_alpha_codes)
     this.change()
     document.addEventListener('click', this.closePopup);
+    this.currency = this.$store.state.state.currency
   },
   beforeDestroy() {
     document.removeEventListener('click', this.closePopup);

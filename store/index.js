@@ -10,7 +10,6 @@ const back_link = 'http://10.9.179.156:8080'
 export const state = () => ({
   namespaced: true,
   state: {
-    user_id: '',
     isHamburger: false,
     isReceiptDeleteConfirmation: false,
     selected_receipt: [],
@@ -59,8 +58,9 @@ export const state = () => ({
     icons: ['cafes', 'drinks','fish', 'greens', 'pizza', 'snacks', 'wine','apple', 'carrot', 'milk', 'drumstick', 'baguette', 'bowl', 'candy'],
     access_token: null, // JWT access token
     refresh_token: null, // JWT refresh token
-    id: null, // user id
+    user_id: null, // user id
     email_address: null, // user email address
+    currency: null, // user currency
     tree_map_data: [],
     stacked_bar_data: [],
     charts_shared: {
@@ -93,8 +93,10 @@ export const mutations = {
   // AUTH_MUTATIONS_SET_USER: (state, { id, email_address }) =>{
   AUTH_MUTATIONS_SET_USER: (state, data ) =>{
     // state.id = id
+    console.log(data)
     state.state.email_address = data.email
     state.state.user_id = data.user_id
+    state.state.currency = data.currency
   },
 
   // store new or updated token fields in the state
@@ -112,6 +114,7 @@ export const mutations = {
     state.state.user_id = null
     state.state.email_address = null
     state.state.access_token = null
+    state.state.currency = null
     // state.refresh_token = null
   },
 
@@ -373,7 +376,7 @@ export const actions = {
           console.log(data)
           console.log(access_token)
           console.log(decoded)
-          commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, email: decoded.sub})
+          commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, currency: decoded.currency, email: decoded.sub})
           commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
           $nuxt.$router.push('/program/AddNewReceipt')
         }
@@ -405,7 +408,7 @@ export const actions = {
         console.log(data)
         console.log(access_token)
         console.log(decoded)
-        commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, email: decoded.sub})
+        commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, currency: decoded.currency, email: decoded.sub})
         commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
         $nuxt.$router.push('/program/AddNewReceipt')
       }
@@ -706,5 +709,50 @@ export const actions = {
         // console.log(testArr)
       }
     )
-  }
+  },
+
+  async update_token_func({commit},access_token){
+    const decoded = jwt.decode(access_token)
+    if (decoded) {
+      console.log(access_token)
+      console.log(decoded)
+      commit('AUTH_MUTATIONS_LOGOUT')
+      commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, currency: decoded.currency, email: decoded.sub})
+      commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
+    }
+  },
+
+  async PUT_USER_EMAIL({commit, dispatch}, data) {
+    console.log(data)
+    this.$axios.put(back_link + '/account/put_user_email', data)
+      .then(function (data) {
+        const access_token = data.data.access_token
+        dispatch('update_token_func', access_token)
+      })
+  },
+
+  async PUT_USER_CURRENCY({commit, dispatch}, data) {
+    console.log(data)
+    this.$axios.put(back_link + '/account/put_user_currency', data)
+      .then(function (data) {
+        const access_token = data.data.access_token
+        console.log(data)
+        dispatch('update_token_func', access_token)
+      })
+  },
+
+  async PUT_USER_PASSWORD({commit, dispatch}, data) {
+    console.log(data)
+    this.$axios.put(back_link + '/account/put_user_password', data)
+      .then(function (data) {
+        console.log(data)
+        if (data.data.code !== undefined){
+          console.log('bad pass')
+        }
+        else console.log('Good')
+        // const access_token = data.data.access_token
+        // dispatch('update_token_func', access_token)
+      })
+  },
+
 }

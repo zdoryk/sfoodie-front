@@ -1,13 +1,18 @@
 <template>
   <div id="account-page">
     <transition name="opacity">
-      <div class="opacity" v-show="isPasswordModal || isDeactivateConfirmation" @click="isPasswordModal = false; isDeactivateConfirmation = false"/>
+      <div class="opacity"
+           v-show="isPasswordModal || isDeactivateConfirmation || isExportModal"
+           @click="closeAll"/>
     </transition>
     <transition name="opacity">
       <password-modal v-show="isPasswordModal" />
     </transition>
     <transition name="opacity">
-      <deactivation-confirmation v-show="isDeactivateConfirmation">Are you sure, you want to delete your account?</deactivation-confirmation>
+      <deactivation-confirmation v-show="isDeactivateConfirmation"></deactivation-confirmation>
+    </transition>
+    <transition name="opacity">
+      <export-modal v-show="isExportModal"/>
     </transition>
 
     <div class="title">
@@ -29,7 +34,7 @@
                     Email
                   </div>
                   <div class="text-content-text">
-                    email@gmail.com
+                    {{user_email}}
                   </div>
                 </div>
                 <blue-stroke-button class="edit-button" @click.native="email_is_editing = !email_is_editing">
@@ -61,7 +66,7 @@
                       Currency
                     </div>
                     <div class="text-content-text">
-                      {{this.currency}}
+                      {{this.user_currency}}
                     </div>
                   </div>
                   <blue-stroke-button class="edit-button" @click.native="currency_is_editing = !currency_is_editing">
@@ -103,7 +108,7 @@
             Export my entries as csv, json, xslx files
           </div>
         </div>
-        <blue-button id="export-data-button">
+        <blue-button @click.native="isExportModal = true" id="export-data-button">
           Export
         </blue-button>
       </div>
@@ -152,10 +157,12 @@ import CurrencySelector from "@/components/Account/CurrencySelector.vue";
 import PasswordModal from "@/components/Account/PasswordModal.vue";
 import {mapActions} from "vuex";
 import DeactivationConfirmation from "@/components/Account/DeactivationConfirmation.vue";
+import ExportModal from "@/components/Account/ExportModal.vue";
 
 export default {
   name: "Account",
   components: {
+    ExportModal,
     DeactivationConfirmation,
     PasswordModal,
     CurrencySelector, RedStrokeButton, ArrowBarRightIcon, BlueStrokeButton, BlueButton, EditIcon},
@@ -164,24 +171,41 @@ export default {
       email: "email@gmail.com",
       email_is_fine: true,
       email_is_editing: false,
-      currency: "USD",
+      currency: "",
       currency_is_editing: false,
       isPasswordModal: false,
-      isDeactivateConfirmation: false
+      isDeactivateConfirmation: false,
+      isExportModal: false
     }
+  },
+  mounted() {
+    this.email = this.user_email
+    this.currency = this.user_currency
   },
   methods: {
     ...mapActions(['LOGOUT']),
     save_email(){
-      if (this.isValidEmail) this.email_is_editing = !this.email_is_editing
-      // TODO PUT new user email
+      if (this.isValidEmail && this.email !== this.user_email){
+        const user_data = {
+          "user_id": this.$store.state.state.user_id,
+          "new_email":this.email
+        }
+        this.$store.dispatch("PUT_USER_EMAIL", user_data)
+      }
+      this.email_is_editing = !this.email_is_editing
     },
     set_currency(currency) {
       console.log(currency)
       this.currency = currency
     },
     save_currency(){
-      // TODO PUT new user currency
+      if (this.currency !== this.user_currency) {
+        const user_data = {
+          "user_id": this.$store.state.state.user_id,
+          "new_currency": this.currency
+        }
+        this.$store.dispatch("PUT_USER_CURRENCY", user_data)
+      }
       this.currency_is_editing = !this.currency_is_editing
     },
     log_out(){
@@ -191,6 +215,7 @@ export default {
     closeAll(){
       this.isDeactivateConfirmation = false
       this.isPasswordModal = false
+      this.isExportModal = false
     },
 
     deactivate(){
@@ -198,6 +223,13 @@ export default {
     }
   },
   computed: {
+    user_email(){
+      return this.$store.state.state.email_address
+    },
+    user_currency(){
+      return this.$store.state.state.currency
+    },
+
     isValidEmail() {
       let regex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
       return regex.test(this.email);

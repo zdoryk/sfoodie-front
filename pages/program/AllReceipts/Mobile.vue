@@ -11,7 +11,7 @@
 <!--          <price-range-filter id="mobile-categories-filter"/>-->
         </div>
         <div class="second-row">
-          <date-picker id="mobile-date-picker" v-model="timePeriod" range format="MMM DD, YYYY"/>
+          <date-picker id="mobile-date-picker" v-model="timePeriod" range format="MMM DD, YYYY" :placeholder="'Choose a date'"/>
           <cross-button @click.native="clearFilters()"/>
         </div>
       </div>

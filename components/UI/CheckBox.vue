@@ -1,5 +1,5 @@
 <template>
-  <div class="check-box" @click="test" :style="cssVars">
+  <div class="check-box" @click="check" :style="cssVars">
     <check-icon v-show="isChecked" class="ico check-box-ico"/>
   </div>
 </template>
@@ -27,9 +27,7 @@ export default {
     }
   },
   methods:{
-    test(){
-      // this.isChecked = !this.isChecked
-      console.log(this.isChecked)
+    check(){
       this.$parent.change_state(!this.isChecked)
     }
   }

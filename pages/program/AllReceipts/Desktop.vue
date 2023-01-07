@@ -13,7 +13,7 @@
           </client-only>
           <price-range-filter ref='price_range_filter' v-model="priceRange"/>
           <div class="date-time">
-            <date-picker v-model="timePeriod" range format="MMM DD, YYYY"></date-picker>
+            <date-picker v-model="timePeriod" range format="MMM DD, YYYY" :placeholder="'Choose a date'"></date-picker>
           </div>
           <div class="clear-filters" v-on:click="this.clearFilters">
             <div class="clear-filters-text">Clear filters</div>

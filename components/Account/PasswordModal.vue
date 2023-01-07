@@ -9,12 +9,13 @@
       <div class="password-input-block-title">
         Old password
       </div>
-      <div class="error" :style="old_error">
+      <div class="error" :style="old_error" ref="old_error">
         <input
           class="password-input"
           type="password"
           placeholder="Write your old password"
           v-model="old"
+          ref="old_input"
           :style="old_error"
           @focus="old_is_focused = true"
           @blur="old_is_focused = false"
@@ -54,7 +55,11 @@
       </div>
     </div>
     <div class="footer">
-      <blue-button :style="button_styles" :disabled="!old_is_fine || !mew_1_is_fine || !mew_2_is_fine || !check_length">
+      <blue-button
+        :style="button_styles"
+        @click.native="save"
+        :disabled="!old_is_fine || !mew_1_is_fine || !mew_2_is_fine || !check_length"
+      >
         Save
       </blue-button>
     </div>
@@ -69,13 +74,13 @@ export default {
   components: {BlueButton},
   data(){
     return{
-      old: '',
+      old: 'cypress',
       old_is_fine: true,
       old_is_focused: true,
-      new_1: '',
+      new_1: 'qqqQQQ111',
       mew_1_is_fine: true,
       new_1_is_focused: true,
-      new_2: '',
+      new_2: 'qqqQQQ111',
       mew_2_is_fine: true,
       mew_2_is_focused: true,
       regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*]{8,}$/,
@@ -85,7 +90,7 @@ export default {
         '--back-color': '#696AE9',
       },
       good_pass: {
-        '--content': '',
+        '--content': ' ',
         '--border-color': '#66BB6A',
         '--box-shadow': '0 0 20px rgba(105, 106, 233, 0.2)',
         '--back-color': '#5D5FEF',
@@ -94,13 +99,32 @@ export default {
   },
   methods:{
     save(){
-      //TODO connect to REST
+      if (this.old_is_fine || this.mew_1_is_fine || this.mew_2_is_fine || this.check_length){
+        const data = {
+          user_id: this.$store.state.state.user_id,
+          old_password: this.old,
+          new_password: this.new_2
+        }
+        this.$axios.put('http://10.9.179.156:8080/account/put_user_password', data)
+          .then(function (data) {
+            console.log(data)
+            if (data.data.code !== undefined){
+              this.old_is_fine = false
+              this.$refs.old_error.style.setProperty('--content', '"Bad old password."')
+              this.$refs.old_input.style.setProperty('--border-color', '#FF5252')
+            }
+            else {
+              const access_token = data.data.access_token
+              this.$store.dispatch('update_token_func', access_token)
+              this.$parent.closeAll()
+            }
+          }.bind(this))
+      }
     }
   },
   computed: {
     check_length(){
       return !(this.old.length < 8 || this.new_1.length < 8 || this.new_2.length < 8);
-
     },
     old_error(){
       if (this.old_is_focused){

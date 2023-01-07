@@ -34,7 +34,7 @@
           console.log(this.$store.state.state.access_token)
 
           const decoded = jwt.decode(this.$store.state.state.access_token)
-          this.$store.commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, email: decoded.sub})
+          this.$store.commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, currency: decoded.currency, email: decoded.sub})
         },
         computed: {
           checkState() {
@@ -47,7 +47,7 @@
 
 
 <style lang="scss">
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
     @import "assets/variables";
 
     ::-webkit-scrollbar {
