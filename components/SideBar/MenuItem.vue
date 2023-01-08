@@ -35,10 +35,10 @@ export default {
         font-size: 15px;
         outline: none;
         box-shadow: none;
+        transition: all 0.3s ease-in-out;
     }
 
     .btn:hover{
-        transition: all 0.3s ease-out;
         transform: translate(12px, 0);
         color: $blue;
     }

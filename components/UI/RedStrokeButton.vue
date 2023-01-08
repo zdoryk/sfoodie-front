@@ -24,10 +24,10 @@ export default {
   box-sizing: border-box;
   border-radius: 4px;
   background-color: transparent;
+  transition: all 0.3s ease-in-out;
 }
 
 .red-stroke-button:hover{
-  transition: 0.3s ease-out;
   border-radius: 4px;
   background: $peach;
   box-shadow: 0 0 20px $peach-shadow;

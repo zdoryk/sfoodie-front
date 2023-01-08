@@ -33,6 +33,7 @@
 import BlueStrokeButton from "@/components/UI/BlueStrokeButton";
 import RedButton from "@/components/UI/RedButton";
 import {mapActions} from "vuex";
+import {state} from "@/store";
 
 export default {
   name: "DeleteConfirmation",
@@ -47,14 +48,10 @@ export default {
       this.$parent.closeAll()
     },
     deactivate_account(){
-      console.log(this.input_value)
-      // TODO DELETE REQUEST ON REST
+      const request_body = {user_id: this.$store.state.state.user_id}
+      this.$store.dispatch('DEACTIVATE_USER_ACCOUNT', request_body)
     },
 
-    ...mapActions(
-      [
-      ]
-    ),
   },
   computed: {
     check_input(){
@@ -152,6 +149,15 @@ export default {
 
 .cancel-button{
   width: 145px;
+  //background-color: $blue;
+  border: 1px solid $blue;
+  color: $blue;
+}
+
+.cancel-button:hover{
+  border-color: $blue-dark;
+  color: $white;
+  background-color:  $blue-dark;
 }
 
 

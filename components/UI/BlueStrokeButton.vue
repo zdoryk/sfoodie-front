@@ -25,10 +25,11 @@ export default {
   border-radius: 4px;
   background-color: transparent;
   font-size: 16px;
+  transition: all 0.3s ease-in-out;
+
 }
 
 .blue-stroke-button:hover{
-  transition: 0.3s ease-out;
   border-radius: 4px;
   background: $light-blue-dark;
   box-shadow: 0 0 20px $light-blue-shadow;

@@ -741,18 +741,28 @@ export const actions = {
       })
   },
 
-  async PUT_USER_PASSWORD({commit, dispatch}, data) {
-    console.log(data)
-    this.$axios.put(back_link + '/account/put_user_password', data)
+  // async PUT_USER_PASSWORD({commit, dispatch}, data) {
+  //   console.log(data)
+  //   this.$axios.put(back_link + '/account/put_user_password', data)
+  //     .then(function (data) {
+  //       console.log(data)
+  //       if (data.data.code !== undefined){
+  //         console.log('bad pass')
+  //       }
+  //       else console.log('Good')
+  //       // const access_token = data.data.access_token
+  //       // dispatch('update_token_func', access_token)
+  //     })
+  // },
+
+  async DEACTIVATE_USER_ACCOUNT({commit}, request_body){
+    console.log(request_body)
+    this.$axios.put(back_link + '/account/deactivate_an_account/', request_body)
       .then(function (data) {
         console.log(data)
-        if (data.data.code !== undefined){
-          console.log('bad pass')
-        }
-        else console.log('Good')
-        // const access_token = data.data.access_token
-        // dispatch('update_token_func', access_token)
+        commit('AUTH_MUTATIONS_LOGOUT')
+        $nuxt.$router.push('/Landing')
       })
-  },
+  }
 
 }

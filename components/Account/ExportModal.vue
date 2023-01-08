@@ -29,7 +29,7 @@
     </div>
     <div class="footer">
       <red-stroke-button @click.native="close">Cancel</red-stroke-button>
-      <blue-button @click.native="export_data">Export</blue-button>
+      <blue-button  :style="exportButtonStyles" :disabled="isExportButtonDisabled" @click.native="export_data">Export</blue-button>
     </div>
   </div>
 </template>
@@ -48,11 +48,31 @@ export default {
       data_format: {
         // ".xslx": false,
         ".json": false,
-        ".csv": false
+        ".csv": false,
+        ".html": false,
       },
       data_categories: {
         "Products": false,
         "All receipts": false
+      }
+    }
+  },
+  computed: {
+    isExportButtonDisabled(){
+      return !(Object.values(this.data_categories).some(element => element === true) &&
+        Object.values(this.data_format).some(element => element === true));
+    },
+    exportButtonStyles(){
+      if (this.isExportButtonDisabled){
+        return {
+          '--back-color': '#696AE9',
+          '--opacity': '0.5'
+        }
+      }
+      return {
+        '--box-shadow': '0 0 20px rgba(105, 106, 233, 0.2)',
+        '--back-color': '#5D5FEF',
+        '--opacity': '1'
       }
     }
   },
@@ -69,16 +89,7 @@ export default {
     close(){
       this.$parent.closeAll()
     },
-    export_data(){
-      console.group()
-      console.log(this.data_format)
-      console.log(this.data_categories)
-      console.groupEnd()
-
-      // this.$axios.get('')
-      this.getFiles()
-    },
-    async getFiles() {
+    async export_data() {
       const data = {
         "user_id": this.$store.state.state.user_id,
         "categories": {
@@ -87,6 +98,7 @@ export default {
         },
         "formats": {
           // "xslx": this.data_format[".xslx"],
+          "html": this.data_format[".html"],
           "csv": this.data_format[".csv"],
           "json_": this.data_format[".json"]
         }
@@ -99,9 +111,12 @@ export default {
         // Iterate over the responses in the tuple
         for (const res of response.data) {
           // Check the Content-Disposition header to determine the file type
-          if (res.raw_headers[0][1].includes('xlsx')) {
+          // if (res.raw_headers[0][1].includes('xlsx')) {
+          //   // Download the Excel file
+          //   this.d
+          if(res.raw_headers[0][1].includes('html')) {
             // Download the Excel file
-            this.download(res.body, res.raw_headers[0][1], 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            this.download(res.body, res.raw_headers[0][1], 'text/html')
           } else if (res.raw_headers[0][1].includes('csv')) {
             // Download the CSV file
             this.download(res.body, res.raw_headers[0][1], 'text/csv')
@@ -127,6 +142,7 @@ export default {
       window.URL.revokeObjectURL(url)
     }
   }
+
   // computed
 }
 </script>
@@ -203,6 +219,17 @@ export default {
       padding: 12px;
       gap: 10px;
       width: 48%;
+    }
+
+    .bttn.bttn{
+      opacity: var(--opacity);
+      //transition: all .3s ease-in-out;
+      //background-color: var(--back-color);
+    }
+
+    .bttn.bttn:hover{
+      box-shadow: var(--box-shadow);
+      background-color: var(--back-color);
     }
   }
 

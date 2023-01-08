@@ -26,6 +26,7 @@ export default {
   border-radius: 4px;
   background-color: transparent;
   padding: 0;
+  transition: all 0.3s ease-in-out;
 
   > svg {
     vertical-align: unset;
@@ -34,7 +35,6 @@ export default {
 
 
 .cross-button:hover{
-  transition: 0.3s ease-out;
   background: $peach;
   color: $white;
   border: 1.5px solid $peach;

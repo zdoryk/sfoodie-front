@@ -105,7 +105,7 @@
             Export
           </div>
           <div class="text-content-text">
-            Export my entries as csv, json, xslx files
+            Export my entries as csv, json, html files
           </div>
         </div>
         <blue-button @click.native="isExportModal = true" id="export-data-button">
