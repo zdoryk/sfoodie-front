@@ -46,8 +46,6 @@ import RedStrokeButton from "@/components/UI/RedStrokeButton";
 import EditProductPopUp from "@/components/MyProducts/Products/EditProductPopUp";
 import MoveConfirmation from "@/components/MyProducts/Products/MoveConfirmation";
 import {mapActions} from "vuex";
-import Teleport from 'vue2-teleport';
-
 
 export default {
   name: "ProductItem",
