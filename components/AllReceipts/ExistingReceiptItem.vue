@@ -15,7 +15,7 @@
               {{existing_receipt_data.products.length}} products
           </div>
           <div class="total-price">
-              ${{total_price.toFixed(2)}}
+              {{currencySymbol}}{{total_price.toFixed(2)}}
           </div>
       </div>
   </div>
@@ -24,7 +24,7 @@
 <script>
 import ChevronDownButton from "@/components/UI/ChevronDownButton";
 import RedButton from "@/components/UI/RedStrokeButton";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "ExistingReceiptItem",
@@ -64,6 +64,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(['currencySymbol']),
     total_price(){
       let before_sum = JSON.parse(JSON.stringify(this.existing_receipt_data.products)).map(item => item.price)
       return before_sum.reduce((partialSum, a) => partialSum + a);

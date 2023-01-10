@@ -3,6 +3,9 @@
     <transition name="fade-opacity">
       <div class="opacity" v-if="this.isPopUpVisible" />
     </transition>
+<!--    <Teleport to="#main">-->
+<!--      <div class="opacity" />-->
+<!--    </Teleport>-->
     <div class="name-category" >
       <div class="product-name" v-if="product_name.length < 20">
         {{ product_name }}
@@ -43,6 +46,8 @@ import RedStrokeButton from "@/components/UI/RedStrokeButton";
 import EditProductPopUp from "@/components/MyProducts/Products/EditProductPopUp";
 import MoveConfirmation from "@/components/MyProducts/Products/MoveConfirmation";
 import {mapActions} from "vuex";
+import Teleport from 'vue2-teleport';
+
 
 export default {
   name: "ProductItem",
@@ -55,6 +60,7 @@ export default {
     }
   },
   components: {
+    Teleport,
     MoveConfirmation,
     RedStrokeButton,
     EditIcon,
@@ -156,7 +162,9 @@ export default {
       opacity: 0.5;
       left:0;
       top: 0;
-      z-index: 1004;
+      //right: 0;
+      //bottom: 0;
+      z-index: 4000;
     }
 
     .product-item{

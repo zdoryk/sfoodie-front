@@ -13,6 +13,7 @@
 
 <script>
 import BlueButton from "@/components/UI/BlueButton";
+import {mapGetters} from "vuex";
 
 export default {
   name: "LineChart",
@@ -24,6 +25,7 @@ export default {
     // this.chartOptions.colors = [this.$store.state.state.tree_map_data.colors[0]]
   },
   computed: {
+    ...mapGetters(['currencySymbol']),
     main(){
       const isCategory = this.$store.state.state.charts_shared.isChartCategoryData
       const isProduct = this.$store.state.state.charts_shared.product.isProductSelected
@@ -141,8 +143,11 @@ export default {
 
       chartOptions: {
         chart: {
-          // height: 350,
+          height: 280,
           // colors: ['#000000'],
+          fontSize: '12px',
+          fontFamily: 'Poppins',
+          fontWeight: 400,
           type: 'area',
           toolbar: {
             show: false
@@ -165,7 +170,7 @@ export default {
             fontFamily: "Poppins, sans-serif"
           },
           y: {
-            formatter: (seriesValue) => seriesValue.toFixed(2) + ' $',
+            formatter: (seriesValue) => seriesValue.toFixed(2) + ' ' + this.currencySymbol,
           },
           x: {
             format: 'dd/MM/yy'
@@ -208,7 +213,7 @@ export default {
               fontWeight: 400,
               cssClass: 'apexcharts-yaxis-label',
             },
-            formatter:(data) => data.toFixed(2)
+            formatter:(data) => data.toFixed(2) + ' ' + this.currencySymbol
           }
         }
       },

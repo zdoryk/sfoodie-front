@@ -4,7 +4,7 @@
       {{product_data.product_name}}
     </div>
     <div class="product-price">
-      ${{product_data.price.toFixed(2)}}
+      {{currencySymbol}}{{product_data.price.toFixed(2)}}
     </div>
     <cross-button @click.native="delete_from_receipt"/>
   </div>
@@ -12,7 +12,7 @@
 
 <script>
 import CrossButton from "@/components/UI/CrossButton";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "NewProduct",
@@ -36,6 +36,9 @@ export default {
       console.log(this.$store.state.state.new_receipt_products)
 
     }
+  },
+  computed:{
+    ...mapGetters(['currencySymbol'])
   }
 }
 </script>

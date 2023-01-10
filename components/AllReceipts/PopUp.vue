@@ -16,7 +16,7 @@
             {{product.product_name}}
           </div>
           <div class="product-price pop-up-product-price">
-            ${{product.price}}
+            {{currencySymbol}}{{product.price}}
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@
     <div id="footer">
       <div class="pop-up-total-amount-price">
         <div class="grey total-amount">Total {{this.total_products_amount}} products</div>
-        <div class="grey total-price">${{total_price.toFixed(2)}}</div>
+        <div class="grey total-price">{{currencySymbol}}{{total_price.toFixed(2)}}</div>
       </div>
       <red-stroke-button class="delete-button" @click.native="updateVisibility">Delete</red-stroke-button>
     </div>
@@ -33,13 +33,14 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
 
 export default {
   name: "PopUp",
   components: {RedStrokeButton},
   computed: {
+    ...mapGetters(['currencySymbol']),
     total_products_amount() {
       if (typeof this.$store.state.state.selected_receipt.products !== 'undefined') {
         return this.$store.state.state.selected_receipt.products.length

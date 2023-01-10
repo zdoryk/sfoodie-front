@@ -5,13 +5,23 @@
         Lorem ipsum
       </div>
       <div class="chart">
-        <apexchart ref="chart" type="bar" width="95%" height="280px" :options="chartOptions" :series="data_series" ></apexchart>
+<!--        <apexchart ref="chart" type="bar" width="95%" height="280px" :options="chartOptions" :series="data_series" ></apexchart>-->
+        <apexchart
+          style="display: flex; justify-content: flex-start; align-items: center"
+          ref="chart"
+          type="bar"
+          width="95%"
+          height="280px"
+          :options="chartOptions"
+          :series="data_series" ></apexchart>
       </div>
     </client-only>
   </div>
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "StackedBar",
   components: { [process.browser && 'apexchart']: () => import('vue-apexcharts'),},
@@ -137,7 +147,7 @@ export default {
         // colors: ["#FF7043","#FF5252","#536DFE","#B388FF","#FFA726","#656b69","#F178B6"],
         chart: {
           type: 'bar',
-          // height: 280,
+          height: 280,
           stacked: true,
           toolbar: {
             show: false
@@ -148,7 +158,7 @@ export default {
           tooltip: {
             theme: 'dark',
             y: {
-              formatter: (seriesValue) => seriesValue.toFixed(2),
+              formatter: (seriesValue) => seriesValue.toFixed(2) + ' ' + this.currencySymbol,
             },
           },
           events: {
@@ -197,6 +207,9 @@ export default {
         // },
         xaxis: {
           categories: ['Mon', 'Tue', 'Wen', 'Thu', 'Fri', 'Sat', 'Sun'],
+          labels: {
+            fontFamily: 'Poppins, sans-serif'
+          },
         },
         yaxis: {
           title: {
@@ -204,7 +217,8 @@ export default {
           },
           // decimalsInFloat: true
           labels: {
-            formatter: (value) => value.toFixed(2)
+            fontFamily: 'Poppins, sans-serif',
+            formatter: (value) => value.toFixed(2) + ' ' + this.currencySymbol
           }
         },
         fill: {
@@ -224,6 +238,7 @@ export default {
     }
   },
   computed:{
+    ...mapGetters(['currencySymbol']),
     data_series(){
       const isCategory = this.$store.state.state.charts_shared.isChartCategoryData
       const isProduct = this.$store.state.state.charts_shared.product.isProductSelected

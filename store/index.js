@@ -5,6 +5,7 @@ import jwt from 'vue-jwt-decode'
 import Cookies from 'js-cookie'
 
 const back_link = 'http://10.9.179.156:8080'
+import currencyData from "assets/currency.json";
 
 
 export const state = () => ({
@@ -47,6 +48,7 @@ export const state = () => ({
     user_id: null, // user id
     email_address: null, // user email address
     currency: null, // user currency
+    currency_symbol: null,
     tree_map_data: [],
     stacked_bar_data: [],
     charts_shared: {
@@ -70,6 +72,10 @@ export const getters = {
       return true
     } else return ''
   },
+
+  currencySymbol: (state) => {
+    return state.state.currency_symbol
+  }
 }
 
 export const mutations = {
@@ -83,6 +89,8 @@ export const mutations = {
     state.state.email_address = data.email
     state.state.user_id = data.user_id
     state.state.currency = data.currency
+    state.state.currency_symbol = currencyData[data.currency].symbol + " "
+    console.log(state.state.currency_symbol)
   },
 
   // store new or updated token fields in the state
@@ -101,6 +109,7 @@ export const mutations = {
     state.state.email_address = null
     state.state.access_token = null
     state.state.currency = null
+    state.state.currency_symbol = null
     // state.refresh_token = null
   },
 

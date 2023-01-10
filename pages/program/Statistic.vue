@@ -29,7 +29,7 @@
                             flood-color="#5D5FEF"/>
             </filter>
           </defs>
-          <circle id="spinner" style="fill:transparent;stroke:#5D5FEF;stroke-width: 7px;stroke-linecap: round;filter:url(#shadow);" cx="50" cy="50" r="45"/>
+          <circle id="spinner" style="fill:transparent;stroke:#5D5FEF;stroke-width: 7px;stroke-linecap: round;" cx="50" cy="50" r="45"/>
         </svg>
       </div>
 

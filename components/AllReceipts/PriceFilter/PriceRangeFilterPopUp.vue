@@ -2,8 +2,8 @@
   <div class="price-range-filter-pop-up" v-click-outside="hide">
     <div class="content" v-if="visible">
       <div class="inputs">
-        <input :style="cssVars" v-model="inputFrom" class="from" placeholder="0$" type="number">
-        <input :style="cssVars" v-model="inputTo" class="to" placeholder="100$" type="number">
+        <input :style="cssVars" v-model="inputFrom" class="from" :placeholder="'0'+currencySymbol" type="number">
+        <input :style="cssVars" v-model="inputTo" class="to" :placeholder="'100'+currencySymbol" type="number">
       </div>
       <div class="buttons">
         <red-stroke-button class="clear-button" v-on:click.native="clear_inputs">Clear</red-stroke-button>
@@ -19,6 +19,7 @@
 import Vue from "vue";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
 import BlueButton from "@/components/UI/BlueButton";
+import {mapGetters} from "vuex";
 
 Vue.directive('click-outside', {
   bind: function (el, binding, vnode) {
@@ -93,6 +94,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['currencySymbol']),
 
     borderFromListener() {
       if (this.inputFrom !== '') return '1px solid rgba(105, 106, 233, 0.2)'

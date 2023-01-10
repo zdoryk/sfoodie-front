@@ -16,7 +16,7 @@
                 {{product.product_name}}
               </div>
               <div class="product-price receipt-view-product-price">
-                ${{product.price}}
+                {{currencySymbol}}{{product.price}}
               </div>
             </div>
           </div>
@@ -25,7 +25,7 @@
       <div id="footer" v-if="isData">
           <div class="receipt-view-total-amount-price">
               <div class="grey total-amount">Total {{total_products_amount}} products</div>
-              <div class="grey total-price">${{total_price}}</div>
+              <div class="grey total-price">{{currencySymbol}}{{total_price}}</div>
           </div>
           <red-stroke-button class="delete-button" @click.native="updateVisibility">Delete</red-stroke-button>
       </div>
@@ -34,7 +34,7 @@
 
 <script>
 
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
 
 
@@ -42,6 +42,7 @@ export default {
   name: "ReceiptView",
   components: {RedStrokeButton},
   computed: {
+    ...mapGetters(['currencySymbol']),
     isData(){
       return typeof this.$store.state.state.selected_receipt.products !== 'undefined';
     },

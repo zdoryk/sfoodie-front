@@ -67,7 +67,7 @@
           <div class="total">
             <div class="total-amount">Total {{this.$store.state.state.new_receipt_products.length}} products</div>
 <!--            <div class="total-price">${{this.total_price.toFixed(2)}}</div>-->
-            <p class="total-price">${{tweened.toFixed(2)}}</p>
+            <p class="total-price">{{currencySymbol}}{{tweened.toFixed(2)}}</p>
 <!--            <cross-button id="blank"/>-->
           </div>
           <div id="delete-save-buttons">
@@ -83,7 +83,7 @@
 
 import BlueButton from "@/components/UI/BlueButton";
 import NewProduct from "@/components/AddNewReceipt/NewProduct"
-import {mapActions, mapMutations} from "vuex"
+import {mapActions, mapGetters, mapMutations} from "vuex"
 import CrossButton from "@/components/UI/CrossButton";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
 import gsap from 'gsap'
@@ -132,6 +132,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['currencySymbol']),
     products(){
       return this.$store.state.state.products
     },

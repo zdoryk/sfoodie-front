@@ -2,8 +2,8 @@
   <div class="tree-map">
     <client-only>
       <blue-button class="back-button" @click.native="back" v-if="this.$store.state.state.charts_shared.isChartCategoryData">< Back</blue-button>
-      <apexchart ref="tree_map_chart" type="treemap" height="300"  :options="chartOptions" :series="series" ></apexchart>
-<!--     <apexchart style="display: flex; justify-content: center; align-items: flex-start; width: 100%" ref="tree_map_chart" type="treemap" height="280"  :options="chartOptions" :series="series" ></apexchart>*/-->
+<!--      <apexchart ref="tree_map_chart" type="treemap" height="300"  :options="chartOptions" :series="series" ></apexchart>-->
+     <apexchart style="display: flex; justify-content: center; align-items: flex-start; width: 100%" ref="tree_map_chart" type="treemap" height="280"  :options="chartOptions" :series="series" ></apexchart>
     </client-only>
   </div>
 </template>
@@ -11,7 +11,7 @@
 <script>
 // import VueApexCharts from "vue-apexcharts";
 
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 import BlueButton from "@/components/UI/BlueButton";
 import Vue from "vue";
 
@@ -83,15 +83,17 @@ export default {
       chartOptions: {
         labels: {
           formatter: function (value) {
-            return value + '$';
+            return value + this.currencySymbol;
           }
         },
         legend: {
           show: false
         },
         chart: {
-          height: 300,
+          height: 280,
           type: 'treemap',
+          background: 'transparent',
+          fontFamily: 'Poppins',
           toolbar: {
             show: false
             // theme: {mode: 'dark'}
@@ -138,8 +140,12 @@ export default {
         tooltip: {
           theme: 'dark',
           y: {
-            formatter: (seriesValue) => seriesValue.toFixed(2) + ' $',
+            fontFamily: 'Poppins, sans-serif',
+            formatter: (seriesValue) => seriesValue.toFixed(2) + ' ' + this.currencySymbol,
           },
+          x: {
+            fontFamily: 'Poppins, sans-serif',
+          }
         },
 
         colors: this.colors,
@@ -192,6 +198,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['currencySymbol']),
     categories_agg() {
       return this.$store.state.state.tree_map_data.categories_aggregated
     },
