@@ -1,9 +1,10 @@
 <template>
   <div class="Landing">
     <header>
-      <img id="logo" :src="require('static/logo.svg')">
+      <img id="logo" v-if="width <= 420" :src="require('static/sfoodie_small_logo.svg')">
+      <img id="logo" v-if="width > 420" :src="require('static/logo.svg')">
       <div class="buttons">
-        <blue-stroke-button class="button" @click.native="push_to_login">Log in</blue-stroke-button>
+        <blue-stroke-button class="button" v-if="width > 420" @click.native="push_to_login">Log in</blue-stroke-button>
         <blue-button class="button" @click.native="push_to_signup">Sign Up</blue-button>
       </div>
     </header>
@@ -157,8 +158,18 @@ export default {
   name: "Landing",
   components: {BlueStrokeButton, BlueButton, ReceiptIcon, AppleIcon, ChartInfographicIcon},
   layout: 'notProgram',
+  data(){
+    return{
+      // path_to_logo: 'static/logo.svg',
+      width: null
+    }
+  },
   mounted() {
     document.body.style.overflow = 'auto'
+    this.width = window.outerWidth
+    // if (this.width <= 420){
+    //   this.path_to_logo = 'static/sfoodie_small_logo.svg'
+    // }
   },
   methods: {
     push_to_login(){
@@ -179,6 +190,7 @@ export default {
     height: fit-content;
     background: radial-gradient(50% 50% at 50% 50%, #1D1E26 0%, #101117 100%);
     overflow-y: auto;
+    //max-width: 100vw;
   }
 
   .regular-text{
@@ -221,7 +233,7 @@ export default {
     justify-content: center;
     align-items: center;
     height: fit-content;
-
+    //overflow-x: hidden;
     .unique-value-proposition{
       max-width: 780px;
       display: flex;
@@ -468,6 +480,166 @@ export default {
     flex-direction: column;
     align-items: center;
     gap: 16px;
+  }
+
+
+  @media (max-width: $phone-size) {
+    .Landing{
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    header{
+      padding: 0;
+      height: auto;
+
+      #logo{
+        width: 40px;
+        height: 40px;
+      }
+
+      .buttons{
+        justify-content: flex-end;
+        .bttn.bttn{
+          padding: 12px 24px;
+          height: 40px;
+        }
+      }
+
+    }
+
+    .unique-value-proposition.unique-value-proposition{
+      margin-top: 88px;
+      max-width: calc(100vw - 40px);
+
+      .heavy-text.heavy-text{
+        font-size: 28px;
+      }
+      .regular-text{
+        width: auto;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+
+    }
+
+    .app-preview-block.app-preview-block {
+      border-radius: 6px;
+      border: 0.5px solid transparent;
+      #app-preview-img#app-preview-img{
+        border-radius: 6px;
+        max-width: calc(100vw - 40px);
+      }
+      .elipse-1 {
+        position: absolute;
+        width: 150.18px;
+        height: 150.18px;
+        left: -98px;
+        top: -42.24px;
+
+        //background: #696AE9;
+        filter: blur(96.5774px);
+      }
+
+      .elipse-2 {
+        position: absolute;
+        width: 100.92px;
+        height: 100.92px;
+        left: -22.77px;
+        top: -17.34px;
+
+        //background: #FF7955;
+        filter: blur(72.433px);
+      }
+
+      .elipse-3 {
+        position: absolute;
+        width: 117.26px;
+        height: 117.26px;
+        left: 263px;
+        top: 31.76px;
+
+        //background: #FF7955;
+        filter: blur(84.1552px);
+      }
+
+      .elipse-4 {
+        position: absolute;
+        width: 174.48px;
+        height: 174.48px;
+        left: 185px;
+        top: 68.76px;
+
+        //background: #696AE9;
+        filter: blur(112.207px);
+      }
+    }
+
+    main .features-with-icons.features-with-icons{
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      align-items: center;
+
+      .elipse-5.elipse-5{
+        position: absolute;
+        width: 121.13px;
+        height: 121.13px;
+        //left: 290px;
+        //top: 875px;
+        transform: translate(-80px, -300px);
+        /* Violet
+
+        #696AE9#ED957D;
+        opacity: 0.5;
+        */
+        //background: #696AE9;
+        filter: blur(100px);
+      }
+
+      .elipse-6{
+
+        position: absolute;
+        width: 121.13px;
+        height: 121.13px;
+        //left: -34px;
+        //top: 1322px;
+
+        /* Peach
+
+        #ED957D
+        */
+        background: #ED957D;
+        //opacity: 0.5;
+        filter: blur(90px);
+      }
+
+      .elipse-7.elipse-7{
+        position: absolute;
+        width: 121.13px;
+        height: 121.13px;
+        //left: 290px;
+        transform: translate(130px, -60px);
+        //top: 1895px;
+        background: #696AE9;
+        filter: blur(100px);
+      }
+    }
+
+    .call-to-action-block{
+      .heavy-text.heavy-text{
+        font-size: 28px;
+        text-align: center;
+      }
+    }
+
+
+    footer{
+      padding-bottom: 20px;
+    }
+
+
+
   }
 
 
