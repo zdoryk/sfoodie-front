@@ -1,10 +1,10 @@
 <template>
   <div class="category-filter">
-    <div class="category-filter-input-wrapper" @click="isPopUpVisible ? notToClose() : closeOpen()">
-      <input id="category-filter-input" placeholder="Category filter" v-model="inputValue" autocomplete="off">
-      <div class="apple-ico">
+    <div class="category-filter-input-wrapper"  @click="isPopUpVisible ? notToClose() : closeOpen()">
+      <input id="category-filter-input" ref="input" placeholder="Category filter" v-model="inputValue" autocomplete="off">
+      <i class="apple-ico" ref="icon" >
         <apple-icon class="ico filter-ico"/>
-      </div>
+      </i>
     </div>
     <category-filter-pop-up id='pop-up' :style="cssVars" v-bind:visible="isPopUpVisible"
                                :selected_categories="selected_categories"/>
@@ -19,6 +19,15 @@ import CategoryFilterPopUp from "@/components/AllReceipts/CategoryFilter/Categor
 export default {
   name: "CategoryFilter",
   components: {CategoryFilterPopUp, AppleIcon},
+  mounted() {
+      // let x = 0
+      // let y = 0
+      // let rect = document.querySelector('#category-filter-input').getBoundingClientRect()
+      // x = rect.x + rect.width / 2
+      // y = rect.y + rect.height / 2
+      // this.$refs.icon.style.left = `${x}px`
+      // this.$refs.icontop = `${y}px`
+  },
   beforeMount() {
     this.selected_categories = this.$store.state.state.existing_categories.map(category => {
       return {
@@ -89,7 +98,8 @@ export default {
         '--height': this.height + 'px',
         '--padding': this.padding
       }
-    }
+    },
+
   }
 }
 </script>
@@ -97,10 +107,13 @@ export default {
 <style scoped lang="scss">
 @import "../../../assets/variables";
 
+.category-filter-input-wrapper{
+  position: relative;
+}
+
 .category-filter{
   position:relative;
   min-width: 160px;
-  z-index: 2000;
 }
 
 .category-filter:hover{
@@ -112,7 +125,6 @@ export default {
 
 .ico{
   color: $blue;
-
 }
 
 .apple-ico {
@@ -125,7 +137,9 @@ export default {
   transform:translateY(-50%);
   font-size:16px;
   line-height:1;
-  vertical-align:middle
+  vertical-align:middle;
+  //left: var(--left);
+  //top: var(--top);
 }
 
 #category-filter-input{
@@ -174,6 +188,11 @@ export default {
 @media (max-width: $phone-size) {
   #pop-up{
     right: auto;
+  }
+
+  .category-filter{
+    z-index: 2;
+
   }
 }
 

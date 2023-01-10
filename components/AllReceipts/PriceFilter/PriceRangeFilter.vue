@@ -106,6 +106,10 @@ export default {
 <style scoped lang="scss">
 @import "../../../assets/variables";
 
+  .price-range-input-wrapper{
+    position: relative;
+  }
+
   .price-range-filter{
     position:relative;
     min-width: 160px

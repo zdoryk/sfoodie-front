@@ -252,7 +252,7 @@ export default {
     color: $white;
 
     @media (max-width: $phone-size) {
-      width: 90%
+      width: 90%;
     }
     //width: ;
   }

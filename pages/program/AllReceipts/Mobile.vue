@@ -1,6 +1,11 @@
 <template>
   <div class="AllReceipts">
-    <div class="opacity" :style="cssVars" v-on:click="activeReceiptID = ''"/>
+    <transition name="fade">
+      <div class="opacity" :style="cssVars" v-show="this.isVisible === 'visible'" v-on:click="activeReceiptID = ''"/>
+    </transition>
+    <transition name="fade">
+      <div v-if="isConfirmationVisible" style="z-index: 4" class="opacity confirmation-opacity" @click="closeConfirmation"></div>
+    </transition>
     <div class="navigation-bar">
       <div id="title">All Receipts</div>
       <div class="filters">
@@ -43,12 +48,14 @@
 <!--    <div>{{this.filtered_receipts}}</div>-->
 
 <!--    <div v-if="this.$store.state.state.isReceiptDeleteConfirmation" id="delete-confirmation">-->
-    <div v-if="isConfirmationVisible" id="delete-confirmation-div" >
-      <DeleteConfirmation v-model="isConfirmationVisible">
-        Do you really want to delete this receipt?
-      </DeleteConfirmation>
-      <div class="opacity confirmation-opacity" @click="closeConfirmation"></div>
-    </div>
+    <transition name="normal">
+      <div v-if="isConfirmationVisible" id="delete-confirmation-div" >
+          <DeleteConfirmation v-model="isConfirmationVisible">
+            Do you really want to delete this receipt?
+          </DeleteConfirmation>
+      </div>
+    </transition>
+
 <!--    <div class="test" :style="cssVars">qweqwe</div>-->
   </div>
 </template>
@@ -221,6 +228,51 @@ export default {
 <style scoped lang="scss" >
 @import "../../../assets/variables";
 
+.opacity{
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: #000000;
+  opacity: 0.5;
+  //visibility: var(--visibility);
+  padding: 0;
+  left:0;
+  right:0;
+  z-index: 3;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.fade-enter-active.fade-enter-active,
+.fade-leave-active
+{
+  transition: all .3s ease-in-out;
+}
+
+
+.fade-enter.fade-enter,
+.fade-leave-to
+{
+  opacity: 0;
+}
+
+.normal-enter-active.normal-enter-active,
+.normal-leave-active
+{
+  opacity: 0.5;
+  transition: all .3s ease-in-out;
+}
+
+
+.normal-enter.normal-enter,
+.normal-leave-to
+{
+  opacity: 0;
+  position: absolute;
+}
+
+
+
+
 .AllReceipts{
   width: 100%;
   //padding: 16px
@@ -308,18 +360,19 @@ export default {
     justify-content: center;
   }
 
-  .opacity{
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    background-color: #000000;
-    opacity: 0.5;
-    visibility: var(--visibility);
-    padding: 0;
-    left:0;
-    right:0;
-    z-index: 3;
-  }
+  //.opacity{
+  //  position: absolute;
+  //  width: 100%;
+  //  height: 100vh;
+  //  background-color: #000000;
+  //  //opacity: ;
+  //  //visibility: var(--visibility);
+  //  padding: 0;
+  //  left:0;
+  //  right:0;
+  //  z-index: 3;
+  //  //transition: opacity 0.3s ease-in-out;
+  //}
 
 }
 
@@ -396,7 +449,7 @@ export default {
   bottom: 0;
   visibility: var(--visibility);
   transform: translateY(var(--height));
-  transition: transform ease-in-out 0.3s;
+  transition: all ease-in-out 0.3s;
   z-index: 3;
 }
 //
@@ -426,9 +479,6 @@ export default {
   margin-top: 50%;
 }
 
-.confirmation-opacity{
-  z-index: 4;
-}
 
 
 .filters{
@@ -462,7 +512,7 @@ export default {
 
 .category-filter{
   width: 49%;
-  z-index: 1000;
+  z-index: 2;
 }
 
 

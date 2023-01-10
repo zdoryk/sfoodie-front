@@ -49,25 +49,33 @@
           <img :src="snacks"/>
         </div>
       </div>
-      <div class="content" v-if="user_added_products.length !== 0">
-        <div class="products">
-          <new-product
-            v-for="(product, key, index) in user_added_products"
-            v-bind:product_data="product"
-            :key="product.product_name"
-          />
+      <transition name="fade">
+
+        <div class="content" v-if="user_added_products.length !== 0">
+
+          <div class="products">
+            <transition-group name="fade" mode="out-in">
+              <new-product
+                v-for="(product, key, index) in user_added_products"
+                v-bind:product_data="product"
+                :key="product.product_name"
+              />
+            </transition-group>
+
+          </div>
+          <div id="line"></div>
+          <div class="total">
+            <div class="total-amount">Total {{this.$store.state.state.new_receipt_products.length}} products</div>
+<!--            <div class="total-price">${{this.total_price.toFixed(2)}}</div>-->
+            <p class="total-price">${{tweened.toFixed(2)}}</p>
+<!--            <cross-button id="blank"/>-->
+          </div>
+          <div id="delete-save-buttons">
+            <red-stroke-button @click.native="delete_all_from_receipt" class="buttons">Delete all</red-stroke-button>
+            <blue-button @click.native="saveReceipt" class="buttons">Save Receipt</blue-button>
+          </div>
         </div>
-        <div id="line"></div>
-        <div class="total">
-          <div class="total-amount">Total {{this.$store.state.state.new_receipt_products.length}} products</div>
-          <div class="total-price">${{this.total_price.toFixed(2)}}</div>
-          <cross-button id="blank"/>
-        </div>
-        <div id="delete-save-buttons">
-          <red-stroke-button @click.native="delete_all_from_receipt" class="buttons">Delete all</red-stroke-button>
-          <blue-button @click.native="saveReceipt" class="buttons">Save Receipt</blue-button>
-        </div>
-      </div>
+      </transition>
     </div>
 </template>
 
@@ -78,12 +86,20 @@ import NewProduct from "@/components/AddNewReceipt/NewProduct"
 import {mapActions, mapMutations} from "vuex"
 import CrossButton from "@/components/UI/CrossButton";
 import RedStrokeButton from "@/components/UI/RedStrokeButton";
+import gsap from 'gsap'
 // import dairy from '@/assets/svgs_desktop/dairy.svg';
 
 export default {
   components: {RedStrokeButton, CrossButton, BlueButton, NewProduct},
+  watch: {
+      total_price(newValue) {
+        gsap.to(this, { duration: 0.5, tweened: Number(newValue) || 0 });
+      }
+
+  },
   data() {
     return {
+      tweened: 0,
       new_product: {
         product_name: 'Meal',
         price: 123.45
@@ -126,6 +142,7 @@ export default {
       let before_sum = JSON.parse(JSON.stringify(this.$store.state.state.new_receipt_products)).map(item => item.price)
       return before_sum.reduce((partialSum, a) => partialSum + a, 0);
     },
+
     disabled(){
       return this.new_product.price.length === 0 || this.new_product.product_name.length === 0;
     },
@@ -187,7 +204,7 @@ export default {
       }
       this.POST_NEW_RECEIPT(new_receipt)
 
-    }
+    },
   }
 }
 </script>
@@ -195,10 +212,24 @@ export default {
 <style scoped lang="scss">
 @import "../../assets/variables";
 
+.fade-enter-active.fade-enter-active,
+.fade-leave-active
+{
+  transition: all .3s ease-in-out;
+}
+
+
+.fade-enter.fade-enter,
+.fade-leave-to
+{
+  opacity: 0;
+
+}
 
 .products{
   max-height: 40vh;
   overflow-y: auto;
+  transition: all 0.3s ease-in-out;
   @if overflow-y == 'scroll' {
     margin-top: 32px;
   }
@@ -345,14 +376,17 @@ input[type=number] {
   display: flex;
 }
 
+.total{
+  justify-content: space-between;
+}
+
 .total-amount{
-  flex: 4;
+  //flex: 4;
 }
 
 .total-price{
-  flex: 1;
+  //flex: 1;
   justify-content: flex-end;
-  margin-right: 32px;
 }
 
 #delete-save-buttons {

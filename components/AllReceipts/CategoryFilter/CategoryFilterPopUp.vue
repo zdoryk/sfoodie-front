@@ -112,7 +112,7 @@ export default {
     padding: 24px;
     //gap: 16px;
 
-    right: -15%;
+    //right: -15%;
     position: absolute;
     width: 320px;
     height: 136px;
