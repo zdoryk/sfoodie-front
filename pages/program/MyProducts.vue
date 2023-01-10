@@ -22,11 +22,17 @@
       <product-view :style="cssVars" ref="product_view"/>
     </div>
 <!--    <blue-button @click.native="change_translate" id="test">qwe</blue-button>-->
-    <create-new-product v-if="isNewProduct"></create-new-product>
+    <transition name="opacity">
+      <create-new-product v-if="isNewProduct"></create-new-product>
+    </transition>
 <!--    <div class="opacity" v-if="isNewCategory" @click="isNewCategory = !isNewCategory"/>-->
 <!--    <div class="opacity" v-if="isNewProduct" @click="isNewProduct = !isNewProduct"/>-->
-    <div class="opacity" v-if="isOpacity" @click="show_hide_opacity"/>
-    <create-new-category v-show="isNewCategory" />
+    <transition name="opacity">
+      <div class="opacity" v-if="isOpacity" @click="show_hide_opacity"/>
+    </transition>
+    <transition name="opacity">
+      <create-new-category v-if="isNewCategory" />
+    </transition>
   </div>
 </template>
 
@@ -112,6 +118,20 @@ export default {
 
 <style scoped lang="scss">
 @import "../../assets/variables";
+
+
+.fade-enter-active,
+.fade-leave-active
+{
+  transition: all 0.3s ease-in-out;
+}
+
+.fade-enter,
+.fade-leave-to
+{
+  opacity: 0;
+  //position: absolute;
+}
 
 .opacity{
   position: absolute;

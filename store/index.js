@@ -262,10 +262,15 @@ export const mutations = {
     const productAverages = {};
     const categoryAverages = {};
 
+    console.group()
+    console.log(uniqueDaysOfWeek)
+    console.log(uniqueProductNames)
+    console.groupEnd()
 
     for (const productName of uniqueProductNames) {
       for (const dayOfWeek of uniqueDaysOfWeek) {
-        if (productCounts[`${productName},${dayOfproductsWeek}`] === 0) productAverages[`${productName},${dayOfWeek}`] = 0
+        // if (productCounts[`${productName},${dayOfproductsWeek}`] === 0) productAverages[`${productName},${dayOfWeek}`] = 0
+        if (productCounts[`${productName},${dayOfWeek}`] === 0) productAverages[`${productName},${dayOfWeek}`] = 0
         else productAverages[`${productName},${dayOfWeek}`] = productSums[`${productName},${dayOfWeek}`] / productCounts[`${productName},${dayOfWeek}`];
         const categoryName = categoryMap[productName];
         if (categoryName !== undefined) {

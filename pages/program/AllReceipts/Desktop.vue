@@ -177,7 +177,6 @@ export default {
     sorted_receipts_by_mmYYYY(){
       let month_year = [...new Set (this.filtered_existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))]
         .sort().reverse().map((item) => ({ [item]: [] }))
-
       this.filtered_existing_receipts.map(function(receipt){
         for (let i = 0; i < month_year.length; i++) {
           let key = Object.keys(month_year[i])[0]

@@ -90,7 +90,7 @@ export default {
         })
       }
       console.log(productData)
-
+      if (productData.length === 0) return [{name: '', data: ''}]
       if (!isCategoryData) {
         console.log(this.$store.state.state.tree_map_data.tree_map_data)
         const convertedArray = this.$store.state.state.tree_map_data.tree_map_data.map(obj2 => {
@@ -229,7 +229,8 @@ export default {
       const isProduct = this.$store.state.state.charts_shared.product.isProductSelected
       console.log(isProduct)
       console.log(isCategory)
-      console.log(this.$store.state.state.stacked_bar_data.categories.length)
+      console.log(this.$store.state.state.stacked_bar_data.categories)
+      // console.log(this.$store.state.state.stacked_bar_data.categories.length)
       if (isCategory === false ){
         return this.test(this.$store.state.state.stacked_bar_data.categories, isCategory)
       }

@@ -6,7 +6,9 @@
       <div class="filters">
 <!--        <div>* Filters in future *</div>-->
         <div class="first-row">
-          <category-filter ref='category_filter' id="mobile-category-filter"/>
+          <client-only>
+            <category-filter ref='category_filter' id="mobile-category-filter"/>
+          </client-only>
           <price-range-filter ref="price_filter" id="mobile-price-range-filter" v-model="priceRange"/>
 <!--          <price-range-filter id="mobile-categories-filter"/>-->
         </div>
@@ -118,7 +120,8 @@ export default {
       let receipts = JSON.parse(JSON.stringify(this.$store.state.state.existing_receipts))
       console.log(receipts)
       receipts.map(receipt => receipt.createdAt = new Date(parseInt(receipt.createdAt + "000")))
-      receipts.map(receipt => receipt.createdAt = ('0' + receipt.createdAt.getMonth()).slice(-2) + '/' + ( '0' + receipt.createdAt.getDate()).slice(-2) + '/' + receipt.createdAt.getFullYear())
+      receipts.map(receipt => receipt.createdAt = ('0' + (receipt.createdAt.getMonth()+1)).slice(-2) + '/' + ( '0' + receipt.createdAt.getDate()).slice(-2) + '/' + receipt.createdAt.getFullYear())
+      // receipts.map(receipt => receipt.createdAt = ('0' + receipt.createdAt.getMonth()).slice(-2) + '/' + ( '0' + receipt.createdAt.getDate()).slice(-2) + '/' + receipt.createdAt.getFullYear())
 
       receipts = receipts.sort((a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))).reverse()
 
@@ -153,7 +156,8 @@ export default {
     sorted_receipts_by_mmYYYY(){
       console.log(this.filtered_existing_receipts)
       let month_year = [...new Set (this.filtered_existing_receipts.map((receipt) => receipt.createdAt.substring(0,3) + receipt.createdAt.substring(6)))]
-        .sort().reverse().map((item) => ({ [item]: [] }))
+        .sort().map((item) => ({ [item]: [] }))
+        // .sort().reverse().map((item) => ({ [item]: [] }))
 
       this.filtered_existing_receipts.map(function(receipt){
         for (let i = 0; i < month_year.length; i++) {

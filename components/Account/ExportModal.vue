@@ -235,6 +235,15 @@ export default {
 
 
 
-
+ @media (max-width: $phone-size) {
+   #export-modal{
+     padding: 36px 32px;
+     max-width: calc(100vw - 32px);
+     gap: 36px
+   }
+   .body{
+     gap: 24px
+   }
+ }
 
 </style>

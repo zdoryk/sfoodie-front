@@ -3,17 +3,19 @@
       <div class="title">
         Statistic
       </div>
-      <tree-map v-if="this.$store.state.state.tree_map_data.colors !== undefined"/>
-      <div class="footer"
-           v-if="this.$store.state.state.existing_receipts !== undefined
+      <client-only>
+        <tree-map v-if="this.$store.state.state.tree_map_data.colors !== undefined"/>
+        <div class="footer"
+             v-if="this.$store.state.state.existing_receipts !== undefined
+                  && this.$store.state.state.stacked_bar_data.categories !== undefined
                   && this.$store.state.state.tree_map_data.colors !== undefined
                   && this.$store.state.state.existing_categories.length !== 0
                   && this.$store.state.state.existing_categories.length !== undefined">
-        <stacked-bar id="stacked" />
-        <line-chart id="line"/>
-      </div>
+          <stacked-bar id="stacked" />
+          <line-chart id="line"/>
+        </div>
+      </client-only>
     </div>
-
 </template>
 
 <script>
@@ -34,7 +36,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "assets/variables.scss";
   .title{
     font-family: 'Poppins',sans-serif;
     font-style: normal;
@@ -42,10 +45,12 @@ export default {
     font-size: 28px;
     line-height: 40px;
 
-    color: #EDEFFF;
+    color: $white;
   }
   .Statistic{
     width: 100%;
+    padding: 16px;
+    padding-right: 0;
   }
 
   #stacked{
@@ -61,5 +66,25 @@ export default {
     display: flex;
     justify-content: space-between;
     /*max-height: 30% ;*/
+  }
+
+  @media (max-width: $phone-size) {
+    #stacked, #line{
+      width: 100%;
+    }
+    #line{
+      transform: translateX(0);
+    }
+    .Statistic{
+      overflow-y: auto;
+      //overflow: auto;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .footer{
+      flex-direction: column;
+      padding-right: 16px;
+    }
   }
 </style>

@@ -72,18 +72,11 @@ export default {
     test(receipts, isCategory, isProduct){
       // let receipts = Array.from(this.$store.state.state.existing_receipts).sort((a,b) => a.createdAt-b.createdAt)
       let totalsByDate = {}
-      // if (isCategory){
-      //   const selected_category = "" + this.$store.state.state.charts_shared.selected_category
-      //   const mapped_category_products = Object.assign({}, this.$store.state.state.stacked_bar_data.category_map_products)
-      //   receipts = receipts.map(receipt => {
-      //     const filtered = receipt.products.filter(product => mapped_category_products[product.product_name] === selected_category)
-      //     return { ...receipt, products: filtered };
-      //   }).filter(obj => obj.products.length > 0)
-      // }
 
       receipts.forEach(receipt => {
         let date = new Date(receipt.createdAt * 1000);
-        date = date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear()
+        // date = date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear()
+        date =  date.getFullYear() + "-" + ("0"+(date.getMonth())).slice(-2) + '-' + ("0" + date.getDate()).slice(-2)
         let total = receipt.products.reduce((accumulator, product) => accumulator + product.price, 0)
         if (totalsByDate[date]) {
           totalsByDate[date] += total;

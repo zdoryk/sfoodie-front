@@ -160,6 +160,12 @@ export default {
   background-color:  $blue-dark;
 }
 
+@media (max-width: $phone-size){
+  .deactivation-confirmation{
+    padding: 36px 32px;
+    max-width: calc(100vw - 32px);
+  }
+}
 
 
 </style>
