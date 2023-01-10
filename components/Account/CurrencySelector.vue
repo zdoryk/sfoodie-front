@@ -155,6 +155,8 @@ export default {
     this.change()
     document.addEventListener('click', this.closePopup);
     this.currency = this.$store.state.state.currency
+    // this.$refs.popup.style.width = (window.innerWidth/10 *9) + 'px'
+    console.log(window.innerWidth)
   },
   beforeDestroy() {
     document.removeEventListener('click', this.closePopup);
@@ -228,6 +230,9 @@ export default {
     border-bottom-right-radius: 5px;
     overflow-y: scroll;
     max-height: 230px;
+    @media (max-width: $phone-size){
+      width: calc((100vw - 80px - 69px) * 0.9);
+    }
   }
 
   .currency-input:focus{
@@ -245,6 +250,10 @@ export default {
     background-color: $grey-input-background;
     border: 1px solid $grey-input-background;
     color: $white;
+
+    @media (max-width: $phone-size) {
+      width: 90%
+    }
     //width: ;
   }
 </style>

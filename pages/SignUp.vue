@@ -10,6 +10,8 @@
       </div>
       <div class="footer">
         <blue-button id="login-button" @click.native="sign_up">Sign Up!</blue-button>
+        <p>Already have an account?</p>
+        <nuxt-link id="sign-up-link" to="/Login"><p class="link-text">Log in</p></nuxt-link>
       </div>
     </div>
 

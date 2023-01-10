@@ -18,21 +18,7 @@ export const state = () => ({
       'Pasta', 'Rice', 'Oil', 'Ketchup',
       'Salad', 'Cereals', 'Tomato', 'Carrot',
       'Cheese', 'Eggs', 'Juice', 'Milk', 'Pineapple'],
-    new_receipt_products: [
-      // {product_name: 'Bananas', price: 3.50},
-      // {product_name: 'Strawberry', price: 6.43},
-      // {product_name: 'Corn Flakes', price: 2.09},
-      // {product_name: 'Beef', price: 11.99},
-      // {product_name: 'Bananas', price: 3.50},
-      // {product_name: 'Strawberry', price: 6.43},
-      // {product_name: 'Corn Flakes', price: 2.09},
-      // {product_name: 'Beef', price: 11.99},
-      // {product_name: 'Bananas', price: 3.50},
-      // {product_name: 'Strawberry', price: 6.43},
-      // {product_name: 'Corn Flakes', price: 2.09},
-      // {product_name: 'Beef', price: 11.99},
-    ],
-    // new_receipt_date: {date: 'qwe'},
+    new_receipt_products: [],
     existing_receipts: [],
     existing_categories: [],
     new_user: false,
@@ -279,7 +265,7 @@ export const mutations = {
 
     for (const productName of uniqueProductNames) {
       for (const dayOfWeek of uniqueDaysOfWeek) {
-        if (productCounts[`${productName},${dayOfWeek}`] === 0) productAverages[`${productName},${dayOfWeek}`] = 0
+        if (productCounts[`${productName},${dayOfproductsWeek}`] === 0) productAverages[`${productName},${dayOfWeek}`] = 0
         else productAverages[`${productName},${dayOfWeek}`] = productSums[`${productName},${dayOfWeek}`] / productCounts[`${productName},${dayOfWeek}`];
         const categoryName = categoryMap[productName];
         if (categoryName !== undefined) {
@@ -595,7 +581,7 @@ export const actions = {
   },
 
   async DELETE_RECEIPT_REQUEST ({commit}, receipt_and_user_ids){
-    this.$axios.delete(back_link + '/receipts/delete_user_receipt', {data: receipt_and_user_ids})
+    this.$axios.delete(back_link + '/receipts/delete_user_receipt/?user_id=' + receipt_and_user_ids.user_id + '&receipt_id=' + receipt_and_user_ids.receipt_id)
       .then(response => {
         if (response.data.Status === 'OK'){
           commit('DELETE_SELECTED_RECEIPT_FROM_EXISTING')

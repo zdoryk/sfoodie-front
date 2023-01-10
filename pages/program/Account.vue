@@ -449,6 +449,7 @@ export default {
       line-height: 20px;
       color: #8A8B94;
       max-width: 320px;
+
     }
   }
 
@@ -529,6 +530,45 @@ export default {
         }
       }
 
+    }
+  }
+
+  @media (max-width: $phone-size) {
+    #account-page{
+      padding: 16px;
+      //padding-bottom: 30px;
+      overflow-y: scroll;
+    }
+
+    .email-input{
+      width: 90%
+    }
+
+    #account-actions-block{
+      .bttn.bttn{
+        min-width: 120px;
+      }
+
+
+
+      #deactivate-button, .bttn.bttn{
+        margin-left: 15px;
+      }
+    }
+
+    #export-data-block{
+      align-items: center;
+
+      #export-data-button{
+        max-height: 42px;
+        padding: 12px 24px;
+        margin-left: 15px;
+      }
+
+    }
+
+    .content{
+      padding-bottom: 100px;
     }
   }
 
