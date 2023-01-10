@@ -126,6 +126,8 @@ export default {
 @import "../../assets/variables";
 
 
+
+
 #create-new-product{
   display: flex;
   flex-direction: column;

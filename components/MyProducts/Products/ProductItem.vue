@@ -1,6 +1,8 @@
 <template>
   <div class="product-item">
-    <div class="opacity" :style="{'visibility': this.isPopUpVisible}"/>
+    <transition name="fade-opacity">
+      <div class="opacity" v-if="this.isPopUpVisible" />
+    </transition>
     <div class="name-category" >
       <div class="product-name" v-if="product_name.length < 20">
         {{ product_name }}
@@ -9,8 +11,8 @@
         {{ product_name.substring(0,20) }}...
       </div>
       <div class="product-category" :style="{'color': product_color}">
-        ● {{ product_category }}
-      </div>
+          ● {{ product_category }}
+        </div>
     </div>
     <div class="buttons">
       <blue-stroke-button class="edit-button" @click.native="edit">
@@ -25,7 +27,10 @@
 <!--        Move to other-->
 <!--        <arrow-bar-right-icon class="ico" size="18"/>-->
 <!--      </blue-stroke-button>-->
-      <edit-product-pop-up :style="display" :product_data="product"/>
+      <transition name="fade">
+        <edit-product-pop-up  v-if="isPopUpVisible"  :product_data="product"/>
+      </transition>
+
     </div>
 <!--    <move-confirmation v-if="isMovePopUpVisible === 'visible'">Do you really want to move this product to other?</move-confirmation>-->
   </div>
@@ -44,8 +49,7 @@ export default {
   props: ['product'],
   data () {
     return {
-      display: {"display": "none"},
-      isPopUpVisible: 'hidden',
+      isPopUpVisible: false,
       // isMovePopUpVisible: 'hidden',
       windowWidth: window.innerWidth
     }
@@ -82,9 +86,7 @@ export default {
   methods: {
     ...mapActions(['MOVE_TO_OTHER']),
     edit () {
-      this.display.display = "flex"
-      this.isPopUpVisible = 'visible'
-      // this.$parent.$parent.show_hide_opacity()
+      this.isPopUpVisible = true
     },
     // move() {
     //   this.isMovePopUpVisible = 'visible'
@@ -105,8 +107,7 @@ export default {
       // this.$forceUpdate()
     // },
     hide(){
-      this.display.display = 'none'
-      this.isPopUpVisible = 'hidden'
+      this.isPopUpVisible = false
       // this.isMovePopUpVisible = 'hidden'
     }
   }
@@ -115,6 +116,33 @@ export default {
 
 <style scoped lang="scss">
 @import "../../../assets/variables";
+
+
+.fade-opacity-enter-active.fade-opacity-enter-active,
+.fade-opacity-leave-active.fade-opacity-leave-active
+{
+  opacity: 0.5;
+  transition: all 0.2s ease-in-out;
+}
+
+.fade-opacity-enter.fade-opacity-enter,
+.fade-opacity-leave-to.fade-opacity-leave-to
+{
+  opacity: 0;
+}
+
+
+.fade-enter-active,
+.fade-leave-active
+{
+  transition: all 0.2s ease-in-out;
+}
+
+.fade-enter,
+.fade-leave-to
+{
+  opacity: 0;
+}
 
     .move-confirmation{
       position: absolute;

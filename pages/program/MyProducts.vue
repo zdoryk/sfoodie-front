@@ -22,15 +22,15 @@
       <product-view :style="cssVars" ref="product_view"/>
     </div>
 <!--    <blue-button @click.native="change_translate" id="test">qwe</blue-button>-->
-    <transition name="opacity">
+    <transition name="fade">
       <create-new-product v-if="isNewProduct"></create-new-product>
     </transition>
 <!--    <div class="opacity" v-if="isNewCategory" @click="isNewCategory = !isNewCategory"/>-->
 <!--    <div class="opacity" v-if="isNewProduct" @click="isNewProduct = !isNewProduct"/>-->
-    <transition name="opacity">
+    <transition name="fade-opacity">
       <div class="opacity" v-if="isOpacity" @click="show_hide_opacity"/>
     </transition>
-    <transition name="opacity">
+    <transition name="fade">
       <create-new-category v-if="isNewCategory" />
     </transition>
   </div>
@@ -120,18 +120,32 @@ export default {
 @import "../../assets/variables";
 
 
+.fade-opacity-enter-active.fade-opacity-enter-active,
+.fade-opacity-leave-active.fade-opacity-leave-active
+{
+  opacity: 0.5;
+  transition: all 0.2s ease-in-out;
+}
+
+.fade-opacity-enter.fade-opacity-enter,
+.fade-opacity-leave-to.fade-opacity-leave-to
+{
+  opacity: 0;
+}
+
+
 .fade-enter-active,
 .fade-leave-active
 {
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 
 .fade-enter,
 .fade-leave-to
 {
   opacity: 0;
-  //position: absolute;
 }
+
 
 .opacity{
   position: absolute;

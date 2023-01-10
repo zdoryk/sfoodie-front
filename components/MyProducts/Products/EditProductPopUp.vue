@@ -56,7 +56,6 @@ export default {
       // some_list: ["Odin","Dwa","Three", "Odin","Dwa","Three", "Odin","Dwa","Three", "Odin","Dwa","Three"],
       product_name: '',
       new_category_name: '',
-      display: 'none',
     }
   },
   props: ['product_data'],
@@ -95,7 +94,7 @@ export default {
 @import "../../../assets/variables";
 
   .edit-product-pop-up{
-    display: none;
+    display: flex;
     flex-direction: column;
     position: absolute;
     width: 428px;
