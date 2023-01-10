@@ -28,7 +28,6 @@
     "vue-tabler-icons": "^1.12.1",
     "vue-template-compiler": "^2.6.14",
     "vue2-datepicker": "^3.11.0",
-    "vue2-teleport": "^1.0.1",
     "vuex-persistedstate": "^3.2.1",
     "webpack": "^4.46.0"
   },
@@ -38,5 +37,8 @@
     "sass": "^1.49.7",
     "sass-loader": "^10.2.1",
     "vue-svg-loader": "^0.10.0"
+  },
+  "engines": {
+    "node": "14.17.3"
   }
 }

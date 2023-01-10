@@ -54,6 +54,10 @@ export default {
     // middleware: ['index']
   },
 
+  generate: {
+    dir: './dist'
+  }
+
   //Local dvelopment
   // server: {
   //   host: '10.9.179.156', // default: localhost
