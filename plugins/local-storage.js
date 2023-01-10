@@ -23,7 +23,8 @@ export default ({ store, req, isDev }) => {
       // },
       // js-cookie can handle setting both client-side and server-side cookies with one method
       // use isDev to determine if the cookies is accessible via https only (i.e. localhost likely won't be using https)
-      setItem: (key, value) => Cookies.set(key, value, { path: '/', expires: 7, secure: !  isDev }),
+      setItem: (key, value) => Cookies.set(key, value, { path: '/', expires: 7, secure: true}),
+      // setItem: (key, value) => Cookies.set(key, value, { path: '/', expires: 7, secure: ! isDev }),
       // setItem: function (key, value){
       //   console.log(key, value)
       //   Cookies.set(key, value, { path: '/', expires: 14, secure: ! isDev })
