@@ -145,7 +145,7 @@ export default {
     display: flex;
     align-items: center;
     color: $grey;
-    flex: 4;
+    flex: 3;
   }
 
   .total-price {
@@ -160,7 +160,7 @@ export default {
     align-items: center;
     text-align: right;
     color: $grey;
-    flex: 1;
+    flex: 2;
   }
 
   .active{
