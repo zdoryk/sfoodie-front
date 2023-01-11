@@ -199,6 +199,7 @@ export default {
     saveReceipt(){
       let new_receipt = {
         user_id: this.$store.state.state.user_id,
+        receipt_id: 0,
         createdAt: Math.floor(Date.now() / 1000),
         products: this.$store.state.state.new_receipt_products,
         total_price: parseFloat(this.total_price).toFixed(2)

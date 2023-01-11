@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import BlueButton from "@/components/UI/BlueButton";
+import BlueButton from "~/components/UI/BlueButton.vue";
 import {mapActions} from "vuex";
-import RedStrokeButton from "@/components/UI/RedStrokeButton";
-import RedButton from "@/components/UI/RedButton";
+import RedStrokeButton from "~/components/UI/RedStrokeButton.vue";
+import RedButton from "~/components/UI/RedButton.vue";
 import currencyData from "assets/currency.json";
 
 export default {

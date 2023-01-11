@@ -105,7 +105,7 @@ export default {
       }
 
       try {
-        const response = await this.$axios.post('http://10.9.179.156:8080/account/export_data', data, {
+        const response = await this.$axios.post('https://94gzkk.deta.dev/account/export_data', data, {
           // responseType: 'arraybuffer'
         })
         // Iterate over the responses in the tuple

@@ -55,10 +55,11 @@ export default {
     // middleware: ['index']
   },
 
-  // generate: {
-  //   dir: './dist',
+  generate: {
+    dir: './dist',
     // subdir: 'subfolder'
-  // }
+  },
+  target: 'static' // default is 'server'
 
   //Local dvelopment
   // server: {
