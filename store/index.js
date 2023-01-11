@@ -764,6 +764,12 @@ export const actions = {
         commit('AUTH_MUTATIONS_LOGOUT')
         $nuxt.$router.push('/Landing')
       })
+  },
+
+  async REPORT_A_BUG({commit}, data) {
+    this.$axios.post(back_link + '/account/report_a_bug', data).then(function (data){
+      console.log(data)
+    })
   }
 
 }
