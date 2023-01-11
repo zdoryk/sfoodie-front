@@ -201,6 +201,7 @@ export default {
     transition: all 0.3s ease-in-out;
     cursor: pointer;
     font-family: Poppins;
+    margin: 0;
   }
 
   p:hover{
@@ -218,6 +219,9 @@ export default {
   }
 
   .pop-up{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
     height: auto;
     //transition: all 0.3s ease-in-out;
     width: 335px;

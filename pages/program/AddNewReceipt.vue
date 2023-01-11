@@ -101,8 +101,10 @@ export default {
     return {
       tweened: 0,
       new_product: {
-        product_name: 'Meal',
-        price: 123.45
+        product_name: '',
+        // product_name: 'Meal',
+        // price: 123.45
+        price: ''
       },
       dairy: require('assets/svgs_desktop/dairy.svg'),
       drinks: require('assets/svgs_desktop/drinks.svg'),

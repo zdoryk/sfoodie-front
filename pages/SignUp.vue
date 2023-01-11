@@ -27,8 +27,10 @@ export default {
   layout: 'notProgram',
   data(){
     return{
-      email_address: "d.zdorik@gmail.com",
-      password: "a0504905922A"
+      // email_address: "d.zdorik@gmail.com",
+      email_address: "",
+      // password: "a0504905922A"
+      password: ""
     }
   },
   methods: {

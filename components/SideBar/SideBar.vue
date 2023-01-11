@@ -44,12 +44,12 @@
         Account
       </menu-item>
     </nuxt-link>
-    <nuxt-link class="sidebar-link" active-class="active" to="/program/Info">
-      <menu-item class="menu-item">
-        <info-circle-icon class="ico menu-item-icon" />
-        Info
-      </menu-item>
-    </nuxt-link>
+<!--    <nuxt-link class="sidebar-link" active-class="active" to="/program/Info">-->
+<!--      <menu-item class="menu-item">-->
+<!--        <info-circle-icon class="ico menu-item-icon" />-->
+<!--        Info-->
+<!--      </menu-item>-->
+<!--    </nuxt-link>-->
 
 
   </nav>
