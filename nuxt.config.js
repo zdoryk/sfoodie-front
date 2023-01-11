@@ -47,17 +47,18 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-    dir: './dist'
-  },
+  // build: {
+  //   dir: './dist'
+  // },
 
   router: {
     // middleware: ['index']
   },
 
-  generate: {
-    dir: './dist'
-  }
+  // generate: {
+  //   dir: './dist',
+    // subdir: 'subfolder'
+  // }
 
   //Local dvelopment
   // server: {
