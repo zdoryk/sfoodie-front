@@ -3,9 +3,6 @@
     <transition name="fade-opacity">
       <div class="opacity" v-if="this.isPopUpVisible" />
     </transition>
-<!--    <Teleport to="#main">-->
-<!--      <div class="opacity" />-->
-<!--    </Teleport>-->
     <div class="name-category" >
       <div class="product-name" v-if="product_name.length < 20">
         {{ product_name }}
@@ -58,7 +55,6 @@ export default {
     }
   },
   components: {
-    Teleport,
     MoveConfirmation,
     RedStrokeButton,
     EditIcon,
