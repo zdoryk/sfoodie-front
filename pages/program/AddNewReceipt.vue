@@ -202,7 +202,7 @@ export default {
         receipt_id: 0,
         createdAt: Math.floor(Date.now() / 1000),
         products: this.$store.state.state.new_receipt_products,
-        total_price: parseFloat(this.total_price).toFixed(2)
+        total_price: parseFloat(this.total_price.toFixed(2))
       }
       this.POST_NEW_RECEIPT(new_receipt)
 
