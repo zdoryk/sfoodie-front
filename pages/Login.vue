@@ -62,7 +62,7 @@ export default {
           '--opacity': '1'
         }
       }
-      this.buttonText = 'Login'
+      this.buttonText = 'Log in'
       return{
         '--box-shadow': '0 0 20px rgba(105, 106, 233, 0.2)',
         '--back-color': '#5D5FEF',

@@ -363,25 +363,6 @@ export const actions = {
   },
 
   async LOGIN ({ commit, dispatch, context }, {email, password}) {
-    // make an API call to login the user with an email address and password
-    // axios.post(back_link+'/token', "username=" + email + "&password=" + password,
-    //   {
-    //     headers: {
-    //       "Content-Type": "application/x-www-form-urlencoded"
-    //     }
-    //   })
-    //   .then(function (data) {
-    //     const access_token = data.data.access_token
-    //     const decoded = jwt.decode(access_token)
-    //     if (decoded) {
-    //       console.log(data)
-    //       console.log(access_token)
-    //       console.log(decoded)
-    //       commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, currency: decoded.currency, email: decoded.sub})
-    //       commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
-    //       $nuxt.$router.push('/program/AddNewReceipt')
-    //     }})
-
     try {
       const data = await axios.post(back_link + '/token', "username=" + email + "&password=" + password, { headers: { "Content-Type": "application/x-www-form-urlencoded" } });
       const access_token = data.data.access_token
@@ -394,28 +375,11 @@ export const actions = {
     } catch (error) {
       throw error.response.data.detail;
     }
-
-    // const { data: { data: { user, payload } } } = await this.$axios.post(
-    //   '/api/auth/login',
-    //   { email_address, password }
-    // )
-
-    // commit the user and tokens to the state
-    // commit(AUTH_MUTATIONS_SET_USER, user, )
-    // commit(AUTH_MUTATIONS_SET_PAYLOAD, payload)
   },
 
   async SIGN_UP ({ commit }, { email_address, password }) {
-    // make an API call to register the user
-    console.log("username=" + email_address + "&password=" + password)
-    axios.post(
-      back_link + '/token/register',
-      "username=" + email_address + "&password=" + password,
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      }).then(function (data) {
+    try {
+      const data = await axios.post(back_link + '/token/register', "username=" + email_address + "&password=" + password, {headers: {"Content-Type": "application/x-www-form-urlencoded"}})
       const access_token = data.data.access_token
       const decoded = jwt.decode(access_token)
       if (decoded) {
@@ -426,7 +390,9 @@ export const actions = {
         commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
         $nuxt.$router.push('/program/AddNewReceipt')
       }
-    })
+    }catch (error){
+      throw error.response
+    }
 
     // commit the user and tokens to the state
     // commit(AUTH_MUTATIONS.SET_USER, user)

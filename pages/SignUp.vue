@@ -4,12 +4,12 @@
       <div class="title">Sign Up</div>
       <div class="inputs">
         <div class="label">Email</div>
-        <input id="email-input" type="email" v-model="email_address">
+        <input id="email-input" type="email" v-model="email_address" @keyup.enter="sign_up">
         <div class="label">Password</div>
-        <input id="password-input" type="password" v-model="password">
+        <input id="password-input" type="password" v-model="password" @keyup.enter="sign_up">
       </div>
       <div class="footer">
-        <blue-button id="login-button" @click.native="sign_up">Sign Up!</blue-button>
+        <blue-button :disabled="isError" :style="buttonStyle"  id="login-button" @click.native="sign_up">{{buttonText}}</blue-button>
         <p>Already have an account?</p>
         <nuxt-link id="sign-up-link" to="/Login"><p class="link-text">Log in</p></nuxt-link>
       </div>
@@ -30,21 +30,68 @@ export default {
       // email_address: "d.zdorik@gmail.com",
       email_address: "",
       // password: "a0504905922A"
-      password: ""
+      password: "",
+      buttonText: 'Sign up',
+      isError: false
     }
   },
   methods: {
     ...mapActions(['SIGN_UP']),
-    sign_up(){
-      this.SIGN_UP({email_address: this.email_address, password: this.password})
+    async sign_up(){
+      try {
+        await this.SIGN_UP({email_address: this.email_address, password: this.password})
+      }
+      catch (error){
+        if (error.status === 409){
+          console.log(error.data.detail)
+          this.isError = true
+          setTimeout(() => {
+            this.isError = false
+
+          }, 4000);
+
+        }
+      }
     },
 
+  },
+  computed: {
+      buttonStyle(){
+        if (this.isError){
+          this.buttonText = 'Email is already used'
+          return {
+            '--back-color': '#FF5252',
+            '--opacity': '1'
+          }
+        }
+        this.buttonText = 'Sign up'
+        return{
+          '--box-shadow': '0 0 20px rgba(105, 106, 233, 0.2)',
+          '--back-color': '#5D5FEF',
+          // '--cursor': 'pointer',
+          '--opacity': '1'
+        }
+      }
   }
 }
 </script>
 
 <style scoped lang="scss">
 @import "assets/variables";
+
+#login-button{
+  padding: 12px;
+  opacity: var(--opacity);
+  background-color: var(--back-color);
+  transition: all 0.3s ease-in-out;
+}
+
+#login-button:hover{
+  background-color: var(--back-color);
+  box-shadow: var(--box-shadow);
+
+}
+
 .signup{
   width: 100%;
   height: 100vh;
