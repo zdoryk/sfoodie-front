@@ -19,7 +19,7 @@
             <input type="file" class="form-control-file" id="bugImage" ref="bugImageInput" @change="onFileChange" accept="image/*">
           </div>
 <!--          <button type="submit" class="btn btn-primary" @click.prevent="submitBug">Submit</button>-->
-          <blue-button :disabled="!isInputsOkay" :style="buttonStyle" @click.pr.prevent.native="submitBug">Submit</blue-button>
+          <blue-button ref="sendReportButton" :disabled="!isInputsOkay" :style="buttonStyle" @click.pr.prevent.native="submitBug">{{buttonText}}</blue-button>
         </form>
       </div>
     </template>
@@ -35,7 +35,9 @@ export default {
     return {
       bugName: '',
       bugComment: '',
-      bugImage: null
+      bugImage: null,
+      isSent: false,
+      buttonText: 'Submit'
     }
   },
   computed: {
@@ -44,12 +46,21 @@ export default {
     },
     buttonStyle(){
       if (!this.isInputsOkay){
+        this.buttonText = 'Fill all the fields'
         return{
           '--back-color': '#696AE9',
           // '--cursor': 'default',
           '--opacity': '0.5'
         }
+      }if (this.isSent){
+        this.buttonText = 'Success!'
+        return {
+          '--back-color': '#66BB6A',
+          '--box-shadow': '0 0 20px rgba(124, 179, 66, 0.2)',
+          '--opacity': '1'
+        }
       }
+      this.buttonText = 'Submit'
       return{
         '--box-shadow': '0 0 20px rgba(105, 106, 233, 0.2)',
         '--back-color': '#5D5FEF',
@@ -87,6 +98,13 @@ export default {
          "&comment=" + this.bugComment, formData, {headers: {'Content-Type': 'multipart/form-data'}})
         .then(data => {
           console.log(data)
+          if (data.data.message === 'Bug Report created successfully'){
+            this.isSent = true
+            setTimeout(() => {
+              this.isSent = false
+
+            }, 4000);
+          }
         })
         .catch(error => {
           console.error(error)
@@ -123,6 +141,8 @@ export default {
     .bttn.bttn{
       padding: 12px;
       opacity: var(--opacity);
+      background-color: var(--back-color);
+      transition: all 0.3s ease-in-out;
     }
 
     .bttn.bttn:hover{
