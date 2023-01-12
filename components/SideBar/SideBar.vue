@@ -18,12 +18,22 @@
       </add-new-product-button>
     </nuxt-link>
 
-    <nuxt-link class="sidebar-link" active-class="active" to="/program/AllReceiptsRedirection">
+<!--    <nuxt-link class="sidebar-link" active-class="active" to="/program/AllReceiptsRedirection">-->
+    <client-only>
+    <nuxt-link v-if="window_width <= 420" class="sidebar-link" active-class="active" to="/program/AllReceipts/Mobile">
       <menu-item class="menu-item">
         <receipt-icon class="ico menu-item-icon" />
         All Receipts
       </menu-item>
     </nuxt-link>
+
+    <nuxt-link v-if="window_width > 420" class="sidebar-link" active-class="active" to="/program/AllReceipts/Desktop">
+      <menu-item class="menu-item">
+        <receipt-icon class="ico menu-item-icon" />
+        All Receipts
+      </menu-item>
+    </nuxt-link>
+    </client-only>
 
     <nuxt-link class="sidebar-link" active-class="active" to="/program/MyProducts">
       <menu-item class="menu-item">
@@ -50,6 +60,12 @@
         Report Bug
       </menu-item>
     </nuxt-link>
+    <nuxt-link v-if="$store.state.state.user_id === 1 || $store.state.state.user_id === 2" class="sidebar-link" active-class="active" to="/program/BugsView">
+      <menu-item class="menu-item">
+        <bug-off-icon class="ico menu-item-icon" />
+        Bug View
+      </menu-item>
+    </nuxt-link>
 <!--    <nuxt-link class="sidebar-link" active-class="active" to="/program/Info">-->
 <!--      <menu-item class="menu-item">-->
 <!--        <info-circle-icon class="ico menu-item-icon" />-->
@@ -64,15 +80,23 @@
 <script>
 import BlueButton from "@/components/UI/BlueButton.vue"
 import MenuItem from "@/components/SideBar/MenuItem.vue"
-import { InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon, UserIcon, BugIcon } from 'vue-tabler-icons';
+import { BugOffIcon, InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon, UserIcon, BugIcon } from 'vue-tabler-icons';
 import {mapActions} from "vuex";
 import AddNewProductButton from "@/components/SideBar/AddNewProductBtn";
 
 export default {
-  components:{BugIcon, UserIcon, AddNewProductButton, BlueButton, MenuItem, InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon},
+  components:{BugOffIcon, BugIcon, UserIcon, AddNewProductButton, BlueButton, MenuItem, InfoCircleIcon,ChartInfographicIcon, FilePlusIcon,AppleIcon, ReceiptIcon},
   methods:{
     ...mapActions(['SELECT_FIRST_RECEIPT',]),
   },
+  data(){
+    return{
+      window_width: 0
+    }
+  },
+  mounted() {
+    this.window_width = window.outerWidth
+  }
 }
 </script>
 

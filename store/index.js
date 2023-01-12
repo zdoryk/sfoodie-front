@@ -4,8 +4,8 @@ import axios from "axios";
 import jwt from 'vue-jwt-decode'
 import Cookies from 'js-cookie'
 
-const back_link = 'https://94gzkk.deta.dev'
-// const back_link = 'http://10.9.179.156:8080'
+// const back_link = 'https://94gzkk.deta.dev'
+const back_link = 'http://10.9.179.156:8080'
 import currencyData from "assets/currency.json";
 
 
@@ -765,11 +765,5 @@ export const actions = {
         $nuxt.$router.push('/Landing')
       })
   },
-
-  async REPORT_A_BUG({commit}, data) {
-    this.$axios.post(back_link + '/account/report_a_bug', data).then(function (data){
-      console.log(data)
-    })
-  }
 
 }

@@ -33,9 +33,24 @@ export default {
   components: {BlueButton},
   data() {
     return {
-      bugName: '',
-      bugComment: '',
+      bugName: 'qwe',
+      bugComment: 'qwe',
       bugImage: null
+    }
+  },
+  computed: {
+    isInputsOkay(){
+      return this.bugName && this.bugComment && this.bugImage;
+    },
+    buttonStyle(){
+      if (this.isInputsOkay){
+        return{
+
+        }
+      }
+      return{
+
+      }
     }
   },
   methods: {
@@ -43,15 +58,37 @@ export default {
       this.bugImage = e.target.files[0]
     },
     submitBug() {
-      const formData = new FormData()
-      formData.append('name', this.bugName)
-      formData.append('comment', this.bugComment)
+      let data = {
+        user_id: this.$store.state.state.user_id,
+        name: this.bugName,
+        comment: this.bugComment
+      }
       if (this.bugImage) {
-        formData.append('image', this.bugImage)
+        data['image'] = this.bugImage
       }
 
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(data.image);
+      const formData = new FormData();
+      // formData.append("user_id", data.user_id);
+      // formData.append("name", data.name);
+      // formData.append("comment", data.comment);
+      // formData.append("image",  reader.result);
+      formData.append("image",  this.bugImage);
       console.log(formData)
-      this.$store.dispatch('REPORT_A_BUG', formData)
+      console.log(data)
+
+      this.$axios.post("https://oe7jy3.deta.dev/report_a_bug/?user_id=" + this.$store.state.state.user_id + "&name=" + this.bugName +
+         "&comment=" + this.bugComment, formData, {headers: {'Content-Type': 'multipart/form-data'}})
+        .then(data => {
+          console.log(data)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+
+      // console.log(this.bugImage)
+      // this.$store.dispatch('REPORT_A_BUG', data)
       // Use axios or any other library to send formData to the server
       // ...
     }

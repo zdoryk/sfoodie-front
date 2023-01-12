@@ -1,3 +1,4 @@
+
 <template>
   <div id="create-new-category">
     <div class="title">
