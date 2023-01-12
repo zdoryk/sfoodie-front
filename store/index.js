@@ -4,8 +4,8 @@ import axios from "axios";
 import jwt from 'vue-jwt-decode'
 import Cookies from 'js-cookie'
 
-// const back_link = 'https://94gzkk.deta.dev'
-const back_link = 'http://10.9.179.156:8080'
+const back_link = 'https://94gzkk.deta.dev'
+// const back_link = 'http://10.9.179.156:8080'
 import currencyData from "assets/currency.json";
 
 
@@ -364,24 +364,37 @@ export const actions = {
 
   async LOGIN ({ commit, dispatch, context }, {email, password}) {
     // make an API call to login the user with an email address and password
-    axios.post(back_link+'/token', "username=" + email + "&password=" + password,
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      })
-      .then(function (data) {
-        const access_token = data.data.access_token
-        const decoded = jwt.decode(access_token)
-        if (decoded) {
-          console.log(data)
-          console.log(access_token)
-          console.log(decoded)
-          commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, currency: decoded.currency, email: decoded.sub})
-          commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
-          $nuxt.$router.push('/program/AddNewReceipt')
-        }
-      })
+    // axios.post(back_link+'/token', "username=" + email + "&password=" + password,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/x-www-form-urlencoded"
+    //     }
+    //   })
+    //   .then(function (data) {
+    //     const access_token = data.data.access_token
+    //     const decoded = jwt.decode(access_token)
+    //     if (decoded) {
+    //       console.log(data)
+    //       console.log(access_token)
+    //       console.log(decoded)
+    //       commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, currency: decoded.currency, email: decoded.sub})
+    //       commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
+    //       $nuxt.$router.push('/program/AddNewReceipt')
+    //     }})
+
+    try {
+      const data = await axios.post(back_link + '/token', "username=" + email + "&password=" + password, { headers: { "Content-Type": "application/x-www-form-urlencoded" } });
+      const access_token = data.data.access_token
+      const decoded = jwt.decode(access_token)
+      if (decoded) {
+        commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, currency: decoded.currency, email: decoded.sub})
+        commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
+        $nuxt.$router.push('/program/AddNewReceipt')
+      }
+    } catch (error) {
+      throw error.response.data.detail;
+    }
+
     // const { data: { data: { user, payload } } } = await this.$axios.post(
     //   '/api/auth/login',
     //   { email_address, password }

@@ -4,12 +4,12 @@
       <div class="title">Login</div>
       <div class="inputs">
         <div class="label">Email</div>
-        <input id="email-input" type="email" v-model="email_address">
+        <input id="email-input" type="email" v-model="email_address" v-on:keyup.enter="authentificate">
         <div class="label">Password</div>
-        <input id="password-input" type="password" v-model="password">
+        <input id="password-input" type="password" v-model="password" v-on:keyup.enter="authentificate">
       </div>
       <div class="footer">
-        <blue-button id="login-button" @click.native="authentificate">Log in</blue-button>
+        <blue-button :disabled="isError" :style="buttonStyle" id="login-button" @click.native="authentificate">{{buttonText}}</blue-button>
         <p>Don't have an account?</p>
         <nuxt-link id="sign-up-link" to="/SignUp"><p class="link-text">Create new one!</p></nuxt-link>
       </div>
@@ -29,22 +29,66 @@ export default {
     return{
       // email_address: "d.zdorik@gmail.com",
       email_address: "",
-      password: ""
+      password: "",
+      buttonText: 'Log in',
+      isError: false
       // password: "a0504905922A"
     }
   },
   methods: {
     ...mapActions(['LOGIN', 'GET_ME']),
-    authentificate(){
-      this.LOGIN({email: this.email_address, password: this.password})
+    async authentificate() {
+      try {
+        await this.LOGIN({email: this.email_address, password: this.password})
+      } catch (error) {
+        console.log(error)
+        if (error === 'Incorrect username or password'){
+          this.isError = true
+          setTimeout(() => {
+            this.isError = false
+
+          }, 4000);
+        }
+      }
       // this.$nuxt.context.app.router.push('/program/AddNewReceipt')
     },
+  },
+  computed: {
+    buttonStyle(){
+      if (this.isError){
+        this.buttonText = 'Incorrect username or password'
+        return {
+          '--back-color': '#FF5252',
+          '--opacity': '1'
+        }
+      }
+      this.buttonText = 'Login'
+      return{
+        '--box-shadow': '0 0 20px rgba(105, 106, 233, 0.2)',
+        '--back-color': '#5D5FEF',
+        // '--cursor': 'pointer',
+        '--opacity': '1'
+      }
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
 @import "assets/variables";
+  #login-button{
+    padding: 12px;
+    opacity: var(--opacity);
+    background-color: var(--back-color);
+    transition: all 0.3s ease-in-out;
+  }
+
+  #login-button:hover{
+    background-color: var(--back-color);
+    box-shadow: var(--box-shadow);
+
+  }
+
   .login{
     width: 100%;
     height: 100vh;
