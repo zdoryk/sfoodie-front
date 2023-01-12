@@ -36,7 +36,7 @@
           const decoded = jwt.decode(this.$store.state.state.access_token)
           this.$store.commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, currency: decoded.currency, email: decoded.sub})
         }
-        // else this.$nuxt.$router.push('/Login')
+        else this.$nuxt.$router.push('/Login')
       },
       computed: {
         checkState() {

@@ -76,9 +76,10 @@ export default {
       let totalsByDate = {}
 
       receipts.forEach(receipt => {
-        let date = new Date(receipt.createdAt * 1000);
+        let date = (new Date(receipt.createdAt * 1000)).toLocaleString();
+        // console.log(date.toISOString())
         // date = date.getMonth() + '-' + date.getDate() + '-' + date.getFullYear()
-        date =  date.getFullYear() + "-" + ("0"+(date.getMonth())).slice(-2) + '-' + ("0" + date.getDate()).slice(-2)
+        // date =  date.getFullYear() + "-" + ("0"+(date.getMonth())).slice(-2) + '-' + ("0" + date.getDate()).slice(-2)
         let total = receipt.products.reduce((accumulator, product) => accumulator + product.price, 0)
         if (totalsByDate[date]) {
           totalsByDate[date] += total;
@@ -90,9 +91,15 @@ export default {
       const totalsArray = Object.values(totalsByDate).map(total => {
         return total;
       });
-      const datesArray = Object.keys(totalsByDate).map(key => {
-        return new Date(key).toISOString();
-      });
+      const datesArray = Object.keys(totalsByDate)
+      console.log(datesArray)
+        // .map(key => {
+        // console.log(key)
+        // console.log(new Date(key))
+        // return new Date(key).toISOString();
+        // return new Date(key);
+        // return key
+      // });
 
       this.chartOptions = {...this.chartOptions, ...{
           xaxis: {
@@ -114,7 +121,7 @@ export default {
               formatter: label => {
                 let new_label = "" + label
                 new_label = new Date(new_label.slice(0,10))
-                new_label.setMonth(new_label.getMonth() + 1)
+                new_label.setMonth(new_label.getMonth())
                 return new_label.toLocaleString('en-EG', { month: 'short' })  + ', ' + new_label.getDate()
               }
             }
