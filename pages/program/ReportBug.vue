@@ -19,7 +19,7 @@
             <input type="file" class="form-control-file" id="bugImage" ref="bugImageInput" @change="onFileChange" accept="image/*">
           </div>
 <!--          <button type="submit" class="btn btn-primary" @click.prevent="submitBug">Submit</button>-->
-          <blue-button @click.pr.prevent.native="submitBug">Submit</blue-button>
+          <blue-button :disabled="!isInputsOkay" :style="buttonStyle" @click.pr.prevent.native="submitBug">Submit</blue-button>
         </form>
       </div>
     </template>
@@ -33,23 +33,28 @@ export default {
   components: {BlueButton},
   data() {
     return {
-      bugName: 'qwe',
-      bugComment: 'qwe',
+      bugName: '',
+      bugComment: '',
       bugImage: null
     }
   },
   computed: {
     isInputsOkay(){
-      return this.bugName && this.bugComment && this.bugImage;
+      return this.bugName.length > 0 && this.bugComment.length > 0 && this.bugImage !== null;
     },
     buttonStyle(){
-      if (this.isInputsOkay){
+      if (!this.isInputsOkay){
         return{
-
+          '--back-color': '#696AE9',
+          // '--cursor': 'default',
+          '--opacity': '0.5'
         }
       }
       return{
-
+        '--box-shadow': '0 0 20px rgba(105, 106, 233, 0.2)',
+        '--back-color': '#5D5FEF',
+        // '--cursor': 'pointer',
+        '--opacity': '1'
       }
     }
   },
@@ -115,8 +120,15 @@ export default {
     flex-direction: column;
     gap: 16px;
 
-    .bttn{
+    .bttn.bttn{
       padding: 12px;
+      opacity: var(--opacity);
+    }
+
+    .bttn.bttn:hover{
+      background-color: var(--back-color);
+      box-shadow: var(--box-shadow);
+
     }
     .image{
       display: block;

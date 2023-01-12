@@ -19,6 +19,8 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/node_modules/bootstrap/dist/css/bootstrap.min.css',
+    'vue2-datepicker/index.css',
+    '~/assets/date_picker.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

@@ -16,7 +16,7 @@
             <date-picker v-model="timePeriod" range format="MMM DD, YYYY" :placeholder="'Choose a date'"></date-picker>
           </div>
           <div class="clear-filters" v-on:click="this.clearFilters">
-            <div class="clear-filters-text">Clear filters</div>
+            <div class="clear-filters-text">Clear</div>
             <x-icon  class="ico clear-filters-ico"/>
           </div>
         </div>
@@ -451,6 +451,7 @@ export default {
   top: 30%;
   vertical-align: center;
   font-size: 20px;
+  text-align: center;
 }
 
 .clear-filters{
