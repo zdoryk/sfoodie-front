@@ -165,7 +165,7 @@ export default {
     }
   },
   mounted() {
-    document.body.style.overflow = 'auto'
+    document.body.style.overflowY = 'auto'
     this.width = window.outerWidth
     // if (this.width <= 420){
     //   this.path_to_logo = 'static/sfoodie_small_logo.svg'

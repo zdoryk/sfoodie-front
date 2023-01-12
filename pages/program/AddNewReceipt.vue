@@ -20,6 +20,7 @@
           class="form-control custom-input"
           id="price-input"
           v-model="new_product.price"
+          @keyup.enter="add_new_product"
         />
         <blue-button
           id="add-button"
