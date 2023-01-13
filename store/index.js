@@ -379,17 +379,20 @@ export const actions = {
 
   async SIGN_UP ({ commit }, { email_address, password }) {
     try {
-      const data = await axios.post(back_link + '/token/register', "username=" + email_address + "&password=" + password, {headers: {"Content-Type": "application/x-www-form-urlencoded"}})
-      const access_token = data.data.access_token
-      const decoded = jwt.decode(access_token)
-      if (decoded) {
-        console.log(data)
-        console.log(access_token)
-        console.log(decoded)
-        commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, currency: decoded.currency, email: decoded.sub})
-        commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
-        $nuxt.$router.push('/program/AddNewReceipt')
-      }
+      return await axios.post(back_link + '/token/register', "username=" + email_address + "&password=" + password, {headers: {"Content-Type": "application/x-www-form-urlencoded"}})
+      // if (data.data.detail === 'Message has been sent'){
+      //   return data.data.detail
+      // }
+      // const access_token = data.data.access_token
+      // const decoded = jwt.decode(access_token)
+      // if (decoded) {
+      //   console.log(data)
+      //   console.log(access_token)
+      //   console.log(decoded)
+        // commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, currency: decoded.currency, email: decoded.sub})
+        // commit('AUTH_MUTATIONS_SET_PAYLOAD', access_token)
+        // $nuxt.$router.push('/program/AddNewReceipt')
+      // }
     }catch (error){
       throw error.response
     }

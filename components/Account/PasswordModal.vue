@@ -74,13 +74,13 @@ export default {
   components: {BlueButton},
   data(){
     return{
-      old: 'cypress',
+      old: '',
       old_is_fine: true,
       old_is_focused: true,
-      new_1: 'qqqQQQ111',
+      new_1: '',
       mew_1_is_fine: true,
       new_1_is_focused: true,
-      new_2: 'qqqQQQ111',
+      new_2: '',
       mew_2_is_fine: true,
       mew_2_is_focused: true,
       regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*]{8,}$/,
