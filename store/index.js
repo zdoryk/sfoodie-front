@@ -149,9 +149,10 @@ export const mutations = {
 
   REMOVE_FROM_RECEIPT: (state, product_name) => {
     console.log(product_name)
-    state.state.new_receipt_products.splice(
-      state.state.new_receipt_products.indexOf(
-        state.state.new_receipt_products.find(element => element.product_name === product_name)),1)
+    state.state.new_receipt_products.splice(product_name, 1)
+    // state.state.new_receipt_products.splice(
+    //   state.state.new_receipt_products.indexOf(
+    //     state.state.new_receipt_products.find(element => element.product_name === product_name)),1)
   },
 
   DELETE_ALL_FROM_RECEIPT: (state) => {

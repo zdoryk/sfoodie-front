@@ -17,14 +17,10 @@ import {mapActions, mapGetters} from "vuex";
 export default {
   name: "NewProduct",
   components: {CrossButton},
-  props: {
-    product_data: {
-      type: Object,
-      default() {
-        return{}
-      }
-    }
-  },
+  props: [
+    'product_data',
+    'index'
+  ],
   methods:{
     ...mapActions([
       'DELETE_FROM_RECEIPT'
@@ -32,9 +28,9 @@ export default {
 
     delete_from_receipt(){
       // console.log(this.product_data.product_name)
-      this.DELETE_FROM_RECEIPT(this.product_data.product_name)
+      // this.DELETE_FROM_RECEIPT(this.product_data.product_name)
+      this.DELETE_FROM_RECEIPT(this.index)
       console.log(this.$store.state.state.new_receipt_products)
-
     }
   },
   computed:{

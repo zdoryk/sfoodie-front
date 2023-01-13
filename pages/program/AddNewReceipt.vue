@@ -10,7 +10,7 @@
           v-model="new_product.product_name"
         />
         <datalist id="my-list-id" class="list-of-products">
-          <option v-for="product in products" :key="product" class="list-of-products">
+          <option v-for="(product, index) in products" :key="product + index" class="list-of-products">
             {{ product }}
           </option>
         </datalist>
@@ -59,7 +59,8 @@
               <new-product
                 v-for="(product, key, index) in user_added_products"
                 v-bind:product_data="product"
-                :key="product.product_name"
+                :index="key"
+                :key="product.product_name + key"
               />
             </transition-group>
 
@@ -184,27 +185,40 @@ export default {
     },
     add_new_product() {
       // We're checking if there is product with same product_name in state.receipt_products
-      if (!JSON.parse(JSON.stringify(this.$store.state.state.new_receipt_products))
-          .map(item => item.product_name).includes(this.new_product.product_name)){
-        const product = {
-          product_name: this.new_product.product_name.at(0).toUpperCase() + this.new_product.product_name.substring(1),
-          price: parseFloat(this.new_product.price)
-        }
-        console.log(JSON.parse(JSON.stringify(this.new_product)))
-        this.ADD_PRODUCT_TO_RECEIPT_PRODUCTS(JSON.parse(JSON.stringify(product)))
-        this.new_product = {product_name: '', price: ''}
+      // if (!JSON.parse(JSON.stringify(this.$store.state.state.new_receipt_products))
+      //     .map(item => item.product_name).includes(this.new_product.product_name)){
+      const product = {
+        product_name: this.new_product.product_name.at(0).toUpperCase() + this.new_product.product_name.substring(1),
+        price: parseFloat(this.new_product.price)
       }
-      else alert(`The receipt already contains a product with the name: "${this.new_product.product_name}"`);
+      console.log(JSON.parse(JSON.stringify(this.new_product)))
+      this.ADD_PRODUCT_TO_RECEIPT_PRODUCTS(JSON.parse(JSON.stringify(product)))
+      this.new_product = {product_name: '', price: ''}
+
+      // else alert(`The receipt already contains a product with the name: "${this.new_product.product_name}"`);
     },
     delete_all_from_receipt() {
       this.DELETE_ALL_FROM_RECEIPT()
     },
     saveReceipt(){
+      console.log(this.$store.state.state.new_receipt_products)
+      let distinctProducts = Array.from(this.$store.state.state.new_receipt_products).map(product => ({product_name: product.product_name, price: product.price.toFixed(2)}))
+        .reduce((acc, curr) => {
+          if (acc[curr.product_name]) {
+            acc[curr.product_name] += Number(curr.price);
+          } else {
+            acc[curr.product_name] = Number(curr.price);
+          }
+          return acc;
+        }, {});
+      let distinctProductsArray = Object.entries(distinctProducts)
+        .map(([product_name, price]) => ({ product_name, price }));
+      console.log(distinctProducts)
       let new_receipt = {
         user_id: this.$store.state.state.user_id,
         receipt_id: 0,
         createdAt: Math.floor(Date.now() / 1000),
-        products: this.$store.state.state.new_receipt_products,
+        products: distinctProductsArray,
         total_price: parseFloat(this.total_price.toFixed(2))
       }
       this.POST_NEW_RECEIPT(new_receipt)
