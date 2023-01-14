@@ -7,6 +7,7 @@
         <input id="email-input" type="email" v-model="email_address" v-on:keyup.enter="authentificate">
         <div class="label">Password</div>
         <input id="password-input" type="password" v-model="password" v-on:keyup.enter="authentificate">
+        <nuxt-link id="forgot-password-link" to="/PasswordRecovery"><p class="link-text">Forgot password?</p></nuxt-link>
       </div>
       <div class="footer">
         <blue-button :disabled="isError" :style="buttonStyle" id="login-button" @click.native="authentificate">{{buttonText}}</blue-button>
@@ -159,13 +160,19 @@ export default {
     margin-bottom: 16px;
   }
 
-  #sign-up-link{
+  #sign-up-link, #forgot-password-link{
     display: flex;
-    justify-content: center;
-    text-align: center;
     color: $white;
     font-size: 16px;
+    justify-content: center;
+
   }
+
+  #forgot-password-link{
+    justify-content: flex-start;
+
+  }
+
 
   p{
     color: $grey;

@@ -56,12 +56,12 @@ export default {
   data(){
     return{
       // email_address: "d.zdorik@gmail.com",
-      email_address: "hpfly47@gmail.com",
+      email_address: "",
       // password: "a0504905922A"
-      repeat_password: "a0504905922A",
+      repeat_password: "",
       repeat_password_is_fine: false,
       repeat_password_is_focused: true,
-      password: "a0504905922A",
+      password: "",
       password_is_fine: true,
       password_is_focused: true,
       buttonText: 'Sign up',
