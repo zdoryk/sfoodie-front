@@ -4,8 +4,8 @@ import axios from "axios";
 import jwt from 'vue-jwt-decode'
 import Cookies from 'js-cookie'
 
-// const back_link = 'https://94gzkk.deta.dev'
-const back_link = 'http://10.9.179.156:8080'
+const back_link = 'https://94gzkk.deta.dev'
+// const back_link = 'http://10.9.179.156:8080'
 import currencyData from "assets/currency.json";
 
 
@@ -752,7 +752,7 @@ export const actions = {
   async SEND_EMAIL_FOR_RECOVERY({commit}, email){
     try {
       // return await this.$axios.post(back_link + '/token/password-recovery/send-code/' + email)
-      return await this.$axios.post('http://10.9.179.156:8080/token/password-recovery/send-code/' + email)
+      return await this.$axios.post(back_link + '/token/password-recovery/send-code/' + email)
     } catch (e) {
       throw e;
     }
@@ -760,7 +760,7 @@ export const actions = {
 
   async SEND_CODE_FOR_RECOVERY({commit}, data){
     try {
-      return await this.$axios.post('http://10.9.179.156:8080/token/password-recovery/use-code', data)
+      return await this.$axios.post(back_link + '/token/password-recovery/use-code', data)
     } catch (e) {
       throw e;
     }

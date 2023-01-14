@@ -105,7 +105,7 @@ export default {
           old_password: this.old,
           new_password: this.new_2
         }
-        this.$axios.put('http://10.9.179.156:8080/account/put_user_password', data)
+        this.$axios.put('https://94gzkk.deta.dev/account/put_user_password', data)
           .then(function (data) {
             console.log(data)
             if (data.data.code !== undefined){
