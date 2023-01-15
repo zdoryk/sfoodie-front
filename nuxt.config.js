@@ -25,8 +25,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/local-storage',
-    '~/plugins/axios'
+    {src: '@/plugins/local-storage', ssr: false},
+    '~/plugins/axios',
+    { src: "@/plugins/cookie_warner_check.js", ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

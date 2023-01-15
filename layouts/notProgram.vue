@@ -1,16 +1,35 @@
 <template>
   <div id="main-window">
     <div id="main-content">
+<!--      <CookieModal v-if="showModal" @close="hideModal" />-->
+      <CookieWarning v-if="showCookieWarning" @close="hideModal"/>
       <nuxt/>
     </div>
   </div>
 </template>
 
 <script>
+import CookieWarning from "@/components/CookieWarning.vue";
+import { mapState } from "vuex"
+
 export default {
   name: "loginSignUp",
+  components: { CookieWarning},
   beforeCreate() {
     this.$store.dispatch('WAKE_APP')
+  },
+  computed: {
+    showCookieWarning(){
+      return this.$store.state.state.showCookieWarning
+    }
+  },
+  methods: {
+    hideModal() {
+      this.$store.commit("SET_SHOW_COOKIE_WARNING", false)
+    }
+  },
+  mounted() {
+    this.$store.dispatch("CHECK_COOKIE_ACCEPTED")
   }
 }
 </script>

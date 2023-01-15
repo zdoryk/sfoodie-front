@@ -62,7 +62,9 @@ export const state = () => ({
       },
       // selected_category_index: null,
       colors: []
-    }
+    },
+    showCookieWarning: false
+
   },
 });
 
@@ -80,6 +82,10 @@ export const getters = {
 }
 
 export const mutations = {
+  SET_SHOW_COOKIE_WARNING: (state, value) =>{
+    state.state.showCookieWarning = value
+  },
+
   SET_CHART_SELECTED_PRODUCT_NAME: (state, data) => {
     state.state.charts_shared.product.product_name = data
   },
@@ -351,6 +357,20 @@ export const mutations = {
 
 
 export const actions = {
+
+  CHECK_COOKIE_ACCEPTED({ commit }) {
+    let cookieAccepted = localStorage.getItem("cookieAccepted")
+
+    if (!cookieAccepted) {
+      commit("SET_SHOW_COOKIE_WARNING", true)
+    }
+  },
+
+  SET_COOKIE_WARNING_ACCEPTED({ commit }) {
+    localStorage.setItem("cookieAccepted", true)
+    commit("SET_SHOW_COOKIE_WARNING", false)
+  },
+
   SET_CATEGORY_CHART_DATA_ACTION({commit},{selected_category, isChartCategoryData}) {
     commit('SET_CATEGORY_CHART_DATA', {selected_category, isChartCategoryData})
   },
