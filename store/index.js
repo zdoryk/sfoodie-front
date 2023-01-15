@@ -611,12 +611,13 @@ export const actions = {
       });
   },
 
-  async POST_NEW_CATEGORY({commit}, category) {
+  async POST_NEW_CATEGORY({commit,dispatch}, category) {
     console.log(category)
     this.$axios.post(back_link + '/products/post_new_user_category', category)
-      .then(data => (
+      .then(data => {
         console.log(data)
-      ))
+        dispatch('GET_USER_CATEGORIES', category.user_id)
+      })
   },
 
   async POST_NEW_PRODUCT({commit}, product) {

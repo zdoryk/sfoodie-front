@@ -136,7 +136,6 @@ export default {
         new_color_name: this.activeColor,
         new_category_name: this.category_name
       })
-      this.GET_USER_CATEGORIES(this.$store.state.state.user_id)
       this.hide()
     }
 
