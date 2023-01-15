@@ -25,7 +25,7 @@
     <div class="all-receipts-content">
       <div class="AllTime">
 <!--        <div id="receipt-view-div">-->
-        <receipt-view :key="receiptViewKey" id="receipt-view" v-model="isConfirmationVisible" />
+        <receipt-view :key="receiptViewKey" id="receipt-view" v-model="isConfirmationVisible" v-if="Object.keys(sorted_receipts_by_mmYYYY).length !== 0"/>
 <!--        </div>-->
         <div id="content" :style="cssVars">
           <div v-if="isConfirmationVisible" id="delete-confirmation-div">
