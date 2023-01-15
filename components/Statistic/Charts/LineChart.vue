@@ -2,7 +2,8 @@
   <div class="line-chart">
     <client-only>
       <div class="title">
-        Lorem Ipsum
+<!--        Expenses trends-->
+        Spending trends
       </div>
       <div id="line-chart-block">
         <apexchart ref="chart" type="area" height="280px" :options="chartOptions" :series="main"></apexchart>

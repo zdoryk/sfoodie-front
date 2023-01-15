@@ -2,7 +2,7 @@
   <div id="stacked">
     <client-only>
       <div class="title">
-        Lorem ipsum
+        Weekday average spending
       </div>
       <div class="chart">
 <!--        <apexchart ref="chart" type="bar" width="95%" height="280px" :options="chartOptions" :series="data_series" ></apexchart>-->
