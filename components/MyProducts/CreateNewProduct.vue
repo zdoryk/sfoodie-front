@@ -27,7 +27,7 @@
       <red-stroke-button class="buttons" @click.native="hide">
         Cancel
       </red-stroke-button>
-      <blue-button :style="input_error_styles" class="button" @click.native="create_new">
+      <blue-button :disabled="!product_name_is_fine" :style="input_error_styles" class="button" @click.native="create_new">
         Save product
       </blue-button>
     </div>
