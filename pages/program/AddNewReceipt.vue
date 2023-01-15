@@ -9,6 +9,7 @@
           list="my-list-id"
           v-model="new_product.product_name"
           v-on:input="product_name_constraint"
+          v-on:keydown="product_prevent_input"
         />
         <datalist id="my-list-id" class="list-of-products">
           <option v-for="(product, index) in products" :key="product + index" class="list-of-products">
@@ -22,6 +23,7 @@
           id="price-input"
           v-model="new_product.price"
           v-on:input="price_constraint"
+          v-on:keydown="price_prevent_input"
           @keyup.enter="add_new_product"
         />
         <blue-button
@@ -188,12 +190,22 @@ export default {
         this.new_product.product_name = this.new_product.product_name.slice(0, 25)
       }
     },
+    product_prevent_input(event){
+      if (!event.key.match(/^[a-z0-9]+$/i)) {
+        event.preventDefault()
+      }
+    },
+
+    price_prevent_input(event){
+      if (event.key === '-') {
+        event.preventDefault()
+      }
+    },
     price_constraint(event){
-      this.new_product.price = event.target.value.slice(0,8)
-      if (event.target.value.length > 3 && event.target.value.split('.')[1] !== undefined && event.target.value.split('.')[1].length >= 2){
+      this.new_product.price = event.target.value.slice(0, 8)
+      if (event.target.value.length > 3 && event.target.value.split('.')[1] !== undefined && event.target.value.split('.')[1].length >= 2) {
         this.new_product.price = parseFloat(this.new_product.price).toFixed(2)
       }
-
     },
 
     isOverflown(element) {
