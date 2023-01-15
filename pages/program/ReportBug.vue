@@ -15,7 +15,7 @@
             <textarea class="form-control" id="bugComment" v-model="bugComment" rows="3"></textarea>
           </div>
           <div class="form-group image">
-            <label for="bugImage">Attach an image (optional)</label>
+            <label for="bugImage">Attach an image (mandatory)</label>
             <input type="file" class="form-control-file" id="bugImage" ref="bugImageInput" @change="onFileChange" accept="image/*">
           </div>
 <!--          <button type="submit" class="btn btn-primary" @click.prevent="submitBug">Submit</button>-->
