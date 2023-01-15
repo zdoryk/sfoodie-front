@@ -191,7 +191,7 @@ export default {
       }
     },
     product_prevent_input(event){
-      if (!event.key.match(/^[a-z0-9]+$/i)) {
+      if (event.key.match(/[!№@#\$%^&*()`~+=\[\]{};':"\\|,.<>\/?]/g)){
         event.preventDefault()
       }
     },
