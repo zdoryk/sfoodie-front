@@ -2,8 +2,8 @@
   <div class="price-range-filter-pop-up" v-click-outside="hide">
     <div class="content" v-if="visible">
       <div class="inputs">
-        <input :style="cssVars" v-model="inputFrom" class="from" :placeholder="'0'+currencySymbol" type="number">
-        <input :style="cssVars" v-model="inputTo" class="to" :placeholder="'100'+currencySymbol" type="number">
+        <input :style="cssVars" v-model="inputFrom" class="from" :placeholder="'0'+currencySymbol" @keyup.enter="apply" type="number">
+        <input :style="cssVars" v-model="inputTo" class="to" :placeholder="'100'+currencySymbol" @keyup.enter="apply" type="number">
       </div>
       <div class="buttons">
         <red-stroke-button class="clear-button" v-on:click.native="clear_inputs">Clear</red-stroke-button>
@@ -68,16 +68,16 @@ export default {
       console.log(typeof this.inputTo)
       if (this.inputFrom === '' && this.inputTo === '') this.$parent.clear_price_range()
       else if (!this.inputTo && this.inputFrom){
-        this.$emit('onUpdateInputValue', "$" + this.inputFrom + " ~ $" + '999999')
+        this.$emit('onUpdateInputValue', this.currencySymbol + this.inputFrom + " ~ " + this.currencySymbol + '999999')
         this.$parent.hide()
         this.$parent.updateParentPriceRange()
       } else if (!this.inputFrom && this.inputTo){
-        this.$emit('onUpdateInputValue', "$" + '0' + " ~ $" + this.inputTo)
+        this.$emit('onUpdateInputValue', this.currencySymbol + '0' + " ~ " + this.currencySymbol + this.inputTo)
         this.$parent.hide()
         this.$parent.updateParentPriceRange()
       } else {
         if (parseFloat(this.inputFrom) <= parseFloat(this.inputTo)) {
-          this.$emit('onUpdateInputValue', "$" + this.inputFrom + " ~ $" + this.inputTo)
+          this.$emit('onUpdateInputValue', this.currencySymbol + this.inputFrom + " ~ " + this.currencySymbol + this.inputTo)
           this.$parent.hide()
           this.$parent.updateParentPriceRange()
         }
