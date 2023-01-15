@@ -8,7 +8,10 @@
 
 <script>
 export default {
-  name: "loginSignUp"
+  name: "loginSignUp",
+  beforeCreate() {
+    this.$store.dispatch('WAKE_APP')
+  }
 }
 </script>
 

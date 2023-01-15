@@ -84,7 +84,7 @@ export default {
     }
   },
   methods:{
-    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION','SELECT_FIRST_RECEIPT', 'GET_ALL_USER_RECEIPTS']),
+    ...mapActions(['SET_EXISTING_RECEIPTS_ACTION','SELECT_FIRST_RECEIPT', 'GET_ALL_USER_RECEIPTS', 'GET_USER_CATEGORIES']),
     closeConfirmation(){
       this.isConfirmationVisible = !this.isConfirmationVisible
     },
@@ -114,6 +114,7 @@ export default {
 
   created() {
     this.GET_ALL_USER_RECEIPTS(this.userId)
+    this.GET_USER_CATEGORIES(this.userId)
   },
 
   computed: {

@@ -764,5 +764,13 @@ export const actions = {
     } catch (e) {
       throw e;
     }
+  },
+
+
+  // TEMP
+  async WAKE_APP(){
+    console.log('wake up')
+    await this.$axios.get(back_link + "/wake-up")
   }
+
 }
