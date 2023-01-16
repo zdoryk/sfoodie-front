@@ -11,7 +11,7 @@
 <script>
 // import VueApexCharts from "vue-apexcharts";
 
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import BlueButton from "@/components/UI/BlueButton";
 import Vue from "vue";
 
@@ -21,6 +21,7 @@ export default {
   mounted() {
     this.chartOptions.colors = this.$store.state.state.tree_map_data.colors
     this.series = [this.categories_agg]
+    console.log(JSON.parse(JSON.stringify(this.series)))
   },
   beforeDestroy(){
     console.log('Leave')
@@ -160,6 +161,13 @@ export default {
     }
   },
   methods: {
+    update_series_by_date(){
+      // this.SET_CATEGORY_CHART_DATA_ACTION({selected_category: 'None', isChartCategoryData: false})
+      // this.chartOptions.colors = this.$store.state.state.tree_map_data.colors
+      // this.series = [this.categories_agg]
+      // console.log(JSON.parse(JSON.stringify(this.series)))
+    },
+
     product_selection(isSelected, index){
       if (this.$store.state.state.charts_shared.isChartCategoryData){
         console.log(this.series)
@@ -199,7 +207,9 @@ export default {
   },
   computed: {
     ...mapGetters(['currencySymbol']),
+    ...mapState(['state']),
     categories_agg() {
+      console.log(this.state.tree_map_data.categories_aggregated)
       return this.$store.state.state.tree_map_data.categories_aggregated
     },
     tree_map_data(){

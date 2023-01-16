@@ -5,11 +5,14 @@
    && this.$store.state.state.tree_map_data.colors !== undefined
    && this.$store.state.state.existing_categories.length !== 0
    && this.$store.state.state.existing_categories.length !== undefined">
-        <div class="title">
-          Statistic
+        <div class="header">
+          <div class="title">
+            Statistic
+          </div>
+          <date-picker id="date-picker" v-model="timePeriod" range format="MMM DD, YYYY" :placeholder="'Choose a date'"></date-picker>
         </div>
         <client-only>
-          <tree-map v-if="this.$store.state.state.tree_map_data.colors !== undefined"/>
+          <tree-map ref='treemap' v-if="this.$store.state.state.tree_map_data.colors !== undefined"/>
           <div class="footer"
                v-if="this.$store.state.state.existing_receipts !== undefined
                   && this.$store.state.state.stacked_bar_data.categories !== undefined
@@ -17,7 +20,7 @@
                   && this.$store.state.state.existing_categories.length !== 0
                   && this.$store.state.state.existing_categories.length !== undefined">
             <stacked-bar id="stacked" />
-            <line-chart id="line"/>
+            <line-chart id="line" :start="start" :end="end"/>
           </div>
         </client-only>
       </div>
@@ -42,15 +45,60 @@ import TreeMap from "@/components/Statistic/Charts/TreeMap";
 import {mapActions} from "vuex";
 import StackedBar from "@/components/Statistic/Charts/StackedBar";
 import LineChart from "@/components/Statistic/Charts/LineChart";
+import DatePicker from 'vue2-datepicker';
+import 'vue2-datepicker/index.css';
+
 export default {
   name: 'Statistic',
-  components: {LineChart, StackedBar, TreeMap},
-  methods: {...mapActions(['GET_TREEMAP_DATA', 'GET_ALL_USER_RECEIPTS', 'GET_USER_CATEGORIES', 'GET_ALL_USER_DATA'])},
+  components: {DatePicker, LineChart, StackedBar, TreeMap},
+  data(){
+    return {
+      timePeriod: [],
+      start: 100,
+      end: new Date().getTime() / 1000
+    }
+  },
+  watch: {
+    timePeriod: function (newValue, oldValue) {
+      let data = {}
+      // console.log(new Date(newValue[0]).getTime() == new Date(newValue[1]).getTime())
+      console.log(newValue[0])
+      console.log(newValue[1])
+      data = {
+        user_id: this.$store.state.state.user_id,
+        start: new Date(newValue[0]).getTime() /1000,
+        end: new Date(newValue[1]).getTime() / 1000
+      }
+      if (newValue[0] === null || newValue[1] === null){
+        data.start = 100
+        data.end = new Date().getTime() / 1000
+      }
+
+      // this.GET_TREEMAP_DATA(data)
+      // this.$refs.treemap.update_series_by_date()
+      this.getTreemap(data)
+      this.start = data.start
+      this.end = data.end
+    }
+  },
+  methods: {
+    ...mapActions(['GET_TREEMAP_DATA', 'GET_ALL_USER_RECEIPTS', 'GET_USER_CATEGORIES', 'GET_ALL_USER_DATA']),
+    async getTreemap(data){
+      this.GET_TREEMAP_DATA(data).then(response => {
+          this.$refs.treemap.back()
+      })
+    }
+  },
   created() {
     // this.GET_ALL_USER_DATA(this.$store.state.state.user_id)
     this.GET_USER_CATEGORIES(this.$store.state.state.user_id)
     this.GET_ALL_USER_RECEIPTS(this.$store.state.state.user_id)
-    this.GET_TREEMAP_DATA(this.$store.state.state.user_id)
+    const data = {
+      user_id: this.$store.state.state.user_id,
+      start: 100,
+      end: new Date().getTime() / 1000
+    }
+    this.GET_TREEMAP_DATA(data)
   },
 }
 </script>
@@ -67,6 +115,15 @@ export default {
   #container {
     width: 30px;
     height: 30px;
+  }
+
+  .header{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #date-picker{
+    max-width: 280px;
   }
 
   @keyframes animation {

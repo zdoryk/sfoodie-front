@@ -648,8 +648,8 @@ export const actions = {
       ))
   },
 
-  async GET_TREEMAP_DATA({commit, state}, user_id){
-    await this.$axios(back_link + '/custom/tree_map_chart/' + user_id, {
+  async GET_TREEMAP_DATA({commit, state}, data){
+    await this.$axios(back_link + '/custom/tree_map_chart/?user_id=' + data.user_id + '&start_timestamp=' + data.start.toFixed(0) + '&end_timestamp=' + data.end.toFixed(0), {
       method: "GET",
       // headers: {'X-Requested-With': 'XMLHttpRequest'},
     })

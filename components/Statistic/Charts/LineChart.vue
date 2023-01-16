@@ -31,17 +31,22 @@ export default {
     })
     // this.chartOptions.colors = [this.$store.state.state.tree_map_data.colors[0]]
   },
+  props: ['start', "end"],
   computed: {
     ...mapGetters(['currencySymbol']),
     main(){
       const isCategory = this.$store.state.state.charts_shared.isChartCategoryData
       const isProduct = this.$store.state.state.charts_shared.product.isProductSelected
-      let receipts = Array.from(this.$store.state.state.existing_receipts).sort((a,b) => a.createdAt-b.createdAt)
-      receipts = this.aggregateReceipts(receipts).sort((a,b) => a.createdAt-b.createdAt)
-
+      // let receipts = Array.from(this.$store.state.state.existing_receipts).sort((a,b) => a.createdAt-b.createdAt)
+      let receipts = Array.from(this.$store.state.state.existing_receipts)
+      console.log(receipts.map(receipt => new Date(receipt.createdAt * 1000)))
+      console.log(new Date(this.start * 1000))
+      console.log(new Date(this.end+86399))
+      receipts = this.aggregateReceipts(receipts.filter(receipt => receipt.createdAt >= this.start && receipt.createdAt <= this.end + 86399)).sort((a,b) => a.createdAt-b.createdAt)
       console.log(receipts)
-      console.log(isProduct)
-      console.log(isCategory)
+      // console.log(receipts)
+      // console.log(isProduct)
+      // console.log(isCategory)
       if (isProduct){
         return this.test(this.filter_by_product(this.filter_by_category(receipts)))
       }
@@ -128,7 +133,7 @@ export default {
     },
 
     filter_by_product(receipts){
-      console.log(receipts)
+      // console.log(receipts)
       return receipts.map(receipt => {
         const filtered = receipt.products.filter(product => product.product_name === this.$store.state.state.charts_shared.product.product_name)
         return {...receipt, products: filtered};
@@ -157,7 +162,7 @@ export default {
         return total;
       });
       const datesArray = Object.keys(totalsByDate)
-      console.log(datesArray)
+      // console.log(datesArray)
       // .map(key => {
       // console.log(key)
       // console.log(new Date(key))

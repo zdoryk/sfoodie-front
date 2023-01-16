@@ -43,8 +43,8 @@ export default {
   },
   methods: {
     change_colors(newValue){
-      console.log(newValue)
-      console.log(this.$refs)
+      // console.log(newValue)
+      // console.log(this.$refs)
       // this.chartOptions.colors = newValue
       if (this.$refs.chart !== undefined){
         this.$refs.chart.updateOptions({colors: newValue}, true, true, true);
@@ -66,7 +66,7 @@ export default {
       let productNames
       const selected_category = '' + this.$store.state.state.charts_shared.selected_category
 
-      console.log(products)
+      // console.log(products)
       if (isCategoryData) {
         const category_map = this.$store.state.state.stacked_bar_data.category_map_products
         products = Object.fromEntries(Object.entries(products).filter( ([key,value]) => category_map[key.split(",")[0]] === selected_category))
@@ -84,7 +84,7 @@ export default {
       )))
 
       // console.log(products)
-      console.log(productNames)
+      // console.log(productNames)
       for (let i = 0; i < productNames.length; i++) {
         productData.push({
           name: productNames[i],
@@ -99,13 +99,13 @@ export default {
           ]
         })
       }
-      console.log(productData)
+      // console.log(productData)
       if (productData.length === 0) return [{name: '', data: ''}]
       if (!isCategoryData) {
-        console.log(this.$store.state.state.tree_map_data.tree_map_data)
+        // console.log(this.$store.state.state.tree_map_data.tree_map_data)
         const convertedArray = this.$store.state.state.tree_map_data.tree_map_data.map(obj2 => {
           // find the corresponding object in array1
-          console.log(obj2)
+          // console.log(obj2)
           const obj1 = productData.find(obj => obj.name === obj2.name)
           // create a new object with the same name and data
           return {
@@ -242,9 +242,9 @@ export default {
     data_series(){
       const isCategory = this.$store.state.state.charts_shared.isChartCategoryData
       const isProduct = this.$store.state.state.charts_shared.product.isProductSelected
-      console.log(isProduct)
-      console.log(isCategory)
-      console.log(this.$store.state.state.stacked_bar_data.categories)
+      // console.log(isProduct)
+      // console.log(isCategory)
+      // console.log(this.$store.state.state.stacked_bar_data.categories)
       // console.log(this.$store.state.state.stacked_bar_data.categories.length)
       if (isCategory === false ){
         return this.test(this.$store.state.state.stacked_bar_data.categories, isCategory)
