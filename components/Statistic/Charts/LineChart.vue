@@ -2,11 +2,17 @@
   <div class="line-chart">
     <client-only>
       <div class="title">
-<!--        Expenses trends-->
+        <!--        Expenses trends-->
         Spending trends
       </div>
       <div id="line-chart-block">
-        <apexchart ref="chart" type="area" height="280px" :options="chartOptions" :series="main"></apexchart>
+        <apexchart
+          ref="chart"
+          type="area"
+          height="280px"
+          :options="chartOptions"
+          :series="main"
+        ></apexchart>
       </div>
     </client-only>
   </div>
@@ -31,7 +37,9 @@ export default {
       const isCategory = this.$store.state.state.charts_shared.isChartCategoryData
       const isProduct = this.$store.state.state.charts_shared.product.isProductSelected
       let receipts = Array.from(this.$store.state.state.existing_receipts).sort((a,b) => a.createdAt-b.createdAt)
+      receipts = this.aggregateReceipts(receipts).sort((a,b) => a.createdAt-b.createdAt)
 
+      console.log(receipts)
       console.log(isProduct)
       console.log(isCategory)
       if (isProduct){
@@ -47,6 +55,62 @@ export default {
     }
   },
   methods: {
+
+// Function to aggregate receipts by day
+    aggregateReceipts(receipts) {
+      // Create an empty object to store the aggregated data
+      const aggregatedData = {};
+
+      // Loop through the receipts
+      for (let i = 0; i < receipts.length; i++) {
+        // Get the date from the createdAt timestamp
+        const date = new Date(receipts[i].createdAt * 1000).toDateString();
+
+        // Check if the date already exists in the aggregatedData object
+        if (!aggregatedData[date]) {
+          // If it doesn't, create a new object with the date as the key
+          aggregatedData[date] = {
+            totalPrice: 0,
+            products: []
+          };
+        }
+
+        // Add the total price of the receipt to the total price for that date
+        aggregatedData[date].totalPrice += receipts[i].total_price;
+
+        // Loop through the products in the receipt
+        for (let j = 0; j < receipts[i].products.length; j++) {
+          // Get the product name
+          const productName = receipts[i].products[j].product_name;
+
+          // Check if the product already exists in the products array
+          let existingProduct = aggregatedData[date].products.find(p => p.product_name === productName);
+          if (!existingProduct) {
+            // If it doesn't, push a new object with the product name as the key
+            existingProduct = { product_name: productName, price: 0 };
+            aggregatedData[date].products.push(existingProduct);
+          }
+
+          // Add the price of the product to the total price for that product
+          existingProduct.price += receipts[i].products[j].price;
+        }
+      }
+
+      // Create an empty array to store the final list of objects
+      const aggregatedList = [];
+
+      // Loop through the aggregatedData object and push each day's data as an object to the aggregatedList array
+      for (const date in aggregatedData) {
+        aggregatedList.push({
+          createdAt: new Date(date).getTime() / 1000,
+          totalPrice: aggregatedData[date].totalPrice,
+          products: aggregatedData[date].products
+        });
+      }
+
+      return aggregatedList;
+    },
+
     changeColor(newValue){
       if (this.$refs.chart !== undefined){
         if (this.$store.state.state.charts_shared.isChartCategoryData === false) this.$refs.chart.updateOptions({colors: ['rgb(0, 143, 251)']}, true, true, true);
@@ -94,12 +158,12 @@ export default {
       });
       const datesArray = Object.keys(totalsByDate)
       console.log(datesArray)
-        // .map(key => {
-        // console.log(key)
-        // console.log(new Date(key))
-        // return new Date(key).toISOString();
-        // return new Date(key);
-        // return key
+      // .map(key => {
+      // console.log(key)
+      // console.log(new Date(key))
+      // return new Date(key).toISOString();
+      // return new Date(key);
+      // return key
       // });
 
       this.chartOptions = {...this.chartOptions, ...{
@@ -233,18 +297,17 @@ export default {
 <style scoped lang="scss">
 @import "assets/variables";
 
-  #line-chart-block{
-    background-color: $grey-background;
-    border-radius: 4px;
-  }
+#line-chart-block {
+  background-color: $grey-background;
+  border-radius: 4px;
+}
 
-  .title{
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 24px;
-    margin-bottom: 10px;
-    margin-top: 16px;
-  }
-
+.title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 10px;
+  margin-top: 16px;
+}
 </style>
