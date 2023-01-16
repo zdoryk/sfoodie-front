@@ -7,6 +7,7 @@
           class="form-control custom-input"
           id="product-input"
           list="my-list-id"
+          ref="productInput"
           v-model="new_product.product_name"
           v-on:input="product_name_constraint"
           v-on:keydown="product_prevent_input"
@@ -22,10 +23,12 @@
           class="form-control custom-input"
           id="price-input"
           v-model="new_product.price"
+          ref="priceInput"
           v-on:input="price_constraint"
           v-on:keydown="price_prevent_input"
-          @keyup.enter="add_new_product"
+          @keydown.enter="add_new_product"
         />
+<!--        v-on:keyup="handleArrow"-->
         <blue-button
           id="add-button"
           v-on:click.native="add_new_product"
@@ -191,10 +194,28 @@ export default {
       }
     },
     product_prevent_input(event){
+      if (event.key === 'ArrowRight') {
+        if (event.target.selectionStart === event.target.value.length) {
+          this.$refs.priceInput.focus()
+        }
+      }
+      if (event.key === 'Enter') {
+        this.$refs.priceInput.focus()
+      }
       if (event instanceof KeyboardEvent && event.key.match(/[!№@#\$%^&*()`~+=\[\]{};':"\\|,.<>\/?]/g)){
         event.preventDefault()
       }
     },
+
+    // handleArrow(event){
+    //   if (event.key === 'ArrowLeft') {
+    //     console.log('we')
+    //     console.log(event.target.selectionStart)
+    //     if (event.target.selectionStart === 0) {
+    //       this.$refs.productInput.focus()
+    //     }
+    //   }
+    // },
 
     price_prevent_input(event){
       if (event.key === '-') {
@@ -222,6 +243,7 @@ export default {
       console.log(JSON.parse(JSON.stringify(this.new_product)))
       this.ADD_PRODUCT_TO_RECEIPT_PRODUCTS(JSON.parse(JSON.stringify(product)))
       this.new_product = {product_name: '', price: ''}
+      this.$refs.productInput.focus()
 
       // else alert(`The receipt already contains a product with the name: "${this.new_product.product_name}"`);
     },

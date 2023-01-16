@@ -2,7 +2,9 @@
   <div id="main-window">
     <div id="main-content">
 <!--      <CookieModal v-if="showModal" @close="hideModal" />-->
-      <CookieWarning v-if="showCookieWarning" @close="hideModal"/>
+      <Transition name="fade">
+        <CookieWarning v-if="showCookieWarning" @close="hideModal"/>
+      </Transition>
       <nuxt/>
     </div>
   </div>
@@ -52,6 +54,19 @@ export default {
   ::-webkit-scrollbar-thumb:hover {
     background: $blue;
   }
+
+  .fade-enter-active,
+  .fade-leave-active
+  {
+    transition: all 0.3s ease-in-out;
+  }
+
+  .fade-enter,
+  .fade-leave-to
+  {
+    opacity: 0;
+  }
+
 
   #main-window {
     min-height: 100vh;
