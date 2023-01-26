@@ -1,21 +1,20 @@
 <template>
   <button class="cross-button">
-    <x-icon class="ico"/>
+    <x-icon class="ico" />
   </button>
 </template>
 
 <script>
-import { XIcon } from 'vue-tabler-icons';
+import { XIcon } from "vue-tabler-icons";
 
 export default {
   name: "CrossButton",
-  components: {XIcon},
-}
+  components: { XIcon },
+};
 </script>
 
 <style scoped lang="scss">
 @import "assets/variables";
-
 
 .cross-button {
   width: 24px;
@@ -33,13 +32,11 @@ export default {
   }
 }
 
-
-.cross-button:hover{
+.cross-button:hover {
   background: $peach;
   color: $white;
   border: 1.5px solid $peach;
   box-shadow: 0 0 20px $peach-shadow;
   border-radius: 4px;
 }
-
 </style>

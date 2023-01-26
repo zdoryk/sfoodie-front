@@ -6,13 +6,12 @@
 
 <script>
 export default {
-  name: 'red-stroke-button'
-}
+  name: "red-stroke-button",
+};
 </script>
 
 <style scoped lang="scss">
-
-@import 'assets/variables';
+@import "assets/variables";
 
 .red-stroke-button {
   display: flex;
@@ -27,11 +26,10 @@ export default {
   transition: all 0.3s ease-in-out;
 }
 
-.red-stroke-button:hover{
+.red-stroke-button:hover {
   border-radius: 4px;
   background: $peach;
   box-shadow: 0 0 20px $peach-shadow;
   color: $white;
 }
-
 </style>

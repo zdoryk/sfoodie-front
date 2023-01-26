@@ -1,79 +1,96 @@
 <template>
   <div class="category-filter">
-    <div class="category-filter-input-wrapper"  @click="isPopUpVisible ? notToClose() : closeOpen()">
-      <input id="category-filter-input" ref="input" placeholder="Category filter" v-model="inputValue" autocomplete="off">
-      <i class="apple-ico" ref="icon" >
-        <apple-icon class="ico filter-ico"/>
+    <div
+      class="category-filter-input-wrapper"
+      @click="isPopUpVisible ? notToClose() : closeOpen()"
+    >
+      <input
+        id="category-filter-input"
+        ref="input"
+        placeholder="Category filter"
+        v-model="inputValue"
+        autocomplete="off"
+      />
+      <i class="apple-ico" ref="icon">
+        <apple-icon class="ico filter-ico" />
       </i>
     </div>
-    <category-filter-pop-up id='pop-up' :style="cssVars" v-bind:visible="isPopUpVisible"
-                               :selected_categories="selected_categories"/>
+    <category-filter-pop-up
+      id="pop-up"
+      :style="cssVars"
+      v-bind:visible="isPopUpVisible"
+      :selected_categories="selected_categories"
+    />
   </div>
 </template>
 
 <script>
-import { AppleIcon } from 'vue-tabler-icons';
+import { AppleIcon } from "vue-tabler-icons";
 // import PriceRangeFilterPopUp from "@/components/AllReceipts/PriceFilter/PriceRangeFilterPopUp";
 import CategoryFilterPopUp from "@/components/AllReceipts/CategoryFilter/CategoryFilterPopUp";
 
 export default {
   name: "CategoryFilter",
-  components: {CategoryFilterPopUp, AppleIcon},
+  components: { CategoryFilterPopUp, AppleIcon },
   mounted() {
-      // let x = 0
-      // let y = 0
-      // let rect = document.querySelector('#category-filter-input').getBoundingClientRect()
-      // x = rect.x + rect.width / 2
-      // y = rect.y + rect.height / 2
-      // this.$refs.icon.style.left = `${x}px`
-      // this.$refs.icontop = `${y}px`
+    // let x = 0
+    // let y = 0
+    // let rect = document.querySelector('#category-filter-input').getBoundingClientRect()
+    // x = rect.x + rect.width / 2
+    // y = rect.y + rect.height / 2
+    // this.$refs.icon.style.left = `${x}px`
+    // this.$refs.icontop = `${y}px`
   },
   beforeMount() {
-    this.selected_categories = this.$store.state.state.existing_categories.map(category => {
-      return {
-        category_name: category.category_name,
-        state: false
-      }
-    }).reduce((acc, item) => {
-      acc[item.category_name] = item.state
-      return acc
-    }, {})
+    this.selected_categories = this.$store.state.state.existing_categories
+      .map((category) => {
+        return {
+          category_name: category.category_name,
+          state: false,
+        };
+      })
+      .reduce((acc, item) => {
+        acc[item.category_name] = item.state;
+        return acc;
+      }, {});
   },
-  data(){
-    return{
+  data() {
+    return {
       isPopUpVisible: false,
       height: 0,
       max_height: window.document.documentElement.clientHeight,
-      margin: '0 16px',
-      inputValue: '',
+      margin: "0 16px",
+      inputValue: "",
       selected_categories: {},
-    }
+    };
   },
   methods: {
     set_category_state(new_selected_categories) {
-      this.selected_categories = new_selected_categories
-      const list_of_categories = Object.entries(new_selected_categories).filter(([key,value]) => value === true).map(([key]) => key)
-      this.inputValue = list_of_categories.length + " categories selected"
-      this.$parent.set_categories_to_include(list_of_categories)
+      this.selected_categories = new_selected_categories;
+      const list_of_categories = Object.entries(new_selected_categories)
+        .filter(([key, value]) => value === true)
+        .map(([key]) => key);
+      this.inputValue = list_of_categories.length + " categories selected";
+      this.$parent.set_categories_to_include(list_of_categories);
       // this.selected_categories[category_name] = state
     },
 
     closeOpen() {
-      console.log('Closed )');
-      this.height = 0
-      this.padding = '24px'
+      console.log("Closed )");
+      this.height = 0;
+      this.padding = "24px";
       this.isPopUpVisible = !this.isPopUpVisible;
-      this.height = this.max_height / 10 * 4.3
+      this.height = (this.max_height / 10) * 4.3;
     },
 
     notToClose() {
-      console.log('Not closed )');
+      console.log("Not closed )");
     },
 
-    hide(){
-      if (this.isPopUpVisible === true ){
-        this.padding = '0 16px'
-        this.height = 0
+    hide() {
+      if (this.isPopUpVisible === true) {
+        this.padding = "0 16px";
+        this.height = 0;
         this.isPopUpVisible = !this.isPopUpVisible;
       }
     },
@@ -84,99 +101,97 @@ export default {
     //   this.hide()
     // },
 
-    clearInput(){
-      this.inputValue = ''
-      Object.entries(this.selected_categories).map(([key,value])=>{
-        this.selected_categories[key]= false
-      })
-      this.$parent.set_categories_to_include([])
+    clearInput() {
+      this.inputValue = "";
+      Object.entries(this.selected_categories).map(([key, value]) => {
+        this.selected_categories[key] = false;
+      });
+      this.$parent.set_categories_to_include([]);
     },
   },
-  computed:{
+  computed: {
     cssVars() {
       return {
-        '--height': this.height + 'px',
-        '--padding': this.padding
-      }
+        "--height": this.height + "px",
+        "--padding": this.padding,
+      };
     },
-
-  }
-}
+  },
+};
 </script>
 
 <style scoped lang="scss">
 @import "../../../assets/variables";
 
-.category-filter-input-wrapper{
+.category-filter-input-wrapper {
   position: relative;
 }
 
-.category-filter{
-  position:relative;
+.category-filter {
+  position: relative;
   min-width: 160px;
 }
 
-.category-filter:hover{
-  display:block
+.category-filter:hover {
+  display: block;
 }
-.category-filter:hover{
+.category-filter:hover {
   //display:none
 }
 
-.ico{
+.ico {
   color: $blue;
 }
 
 .apple-ico {
   width: 24px;
   height: 24px;
-  position:absolute;
-  top:50%;
-  right:8px;
-  --webkit-transform:translateY(-50%);
-  transform:translateY(-50%);
-  font-size:16px;
-  line-height:1;
-  vertical-align:middle;
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  --webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  font-size: 16px;
+  line-height: 1;
+  vertical-align: middle;
   //left: var(--left);
   //top: var(--top);
 }
 
-#category-filter-input{
-  display:inline-block;
-  -webkit-box-sizing:border-box;
-  box-sizing:border-box;
-  width:100%;
-  height:34px;
-  padding:6px 30px;
-  padding-left:10px;
-  font-size:16px;
-  line-height:1.4;
-  color:#edefff;
+#category-filter-input {
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 100%;
+  height: 34px;
+  padding: 6px 30px;
+  padding-left: 10px;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #edefff;
   background-color: #282932;
   border: 1px solid rgba(105, 106, 233, 0.2);
-  border-radius:4px;
+  border-radius: 4px;
   font-family: Poppins, sans-serif;
   caret-color: transparent;
   cursor: pointer;
   //opacity: 0.2;
 }
 
-#category-filter-input:hover{
+#category-filter-input:hover {
   border: 1px solid $blue;
 }
 
-#category-filter-input:focus{
+#category-filter-input:focus {
   outline: none;
   border: 1px solid $blue;
 }
 
-#category-filter-input:focus::-webkit-input-placeholder{
+#category-filter-input:focus::-webkit-input-placeholder {
   color: #edefff;
 }
 
-
-#pop-up{
+#pop-up {
   height: var(--height);
   padding: var(--padding);
   transition-property: height, padding;
@@ -186,14 +201,12 @@ export default {
 }
 
 @media (max-width: $phone-size) {
-  #pop-up{
+  #pop-up {
     right: auto;
   }
 
-  .category-filter{
+  .category-filter {
     z-index: 2;
-
   }
 }
-
 </style>

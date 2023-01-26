@@ -1,4 +1,3 @@
-
 // let getters = {
 //   PRODUCTS(state) {
 //     return state.products;

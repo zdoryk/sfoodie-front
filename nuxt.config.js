@@ -1,32 +1,30 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'sfoodie',
+    title: "sfoodie",
     htmlAttrs: {
-      lang: 'en'
+      lang: "en",
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: "" },
+      { name: "format-detection", content: "telephone=no" },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/img.ico' }
-    ]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/img.ico" }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '@/node_modules/bootstrap/dist/css/bootstrap.min.css',
-    'vue2-datepicker/index.css',
-    '~/assets/date_picker.css'
+    "@/node_modules/bootstrap/dist/css/bootstrap.min.css",
+    "vue2-datepicker/index.css",
+    "~/assets/date_picker.css",
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/local-storage',
-    '~/plugins/axios',
+    "@/plugins/local-storage",
+    "~/plugins/axios",
     // { src: "@/plugins/cookie_warner_check.js", ssr: false }
   ],
 
@@ -34,19 +32,18 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-  ],
+  buildModules: [],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
+    "@nuxtjs/axios",
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: "/",
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -59,10 +56,10 @@ export default {
   },
 
   generate: {
-    dir: './dist',
+    dir: "./dist",
     // subdir: 'subfolder'
   },
-  target: 'static' // default is 'server'
+  target: "static", // default is 'server'
 
   //Local dvelopment
   // server: {
@@ -78,4 +75,4 @@ export default {
   //     },
   //   ],
   // },
-}
+};

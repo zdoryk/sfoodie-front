@@ -5,7 +5,7 @@
         <h3 class="card-title">{{ name }}</h3>
         <p class="card-text text-grey">{{ comment }}</p>
         <p class="card-text">User ID: {{ user_id }}</p>
-        <img :src="image_url" alt="Bug Image" class="card-img-top">
+        <img :src="image_url" alt="Bug Image" class="card-img-top" />
       </div>
     </div>
   </div>
@@ -18,15 +18,9 @@ export default {
     user_id: Number,
     name: String,
     comment: String,
-    image_url: String
+    image_url: String,
   },
-
-}
+};
 </script>
 
-<style scoped>
-
-
-</style>
-
-
+<style scoped></style>

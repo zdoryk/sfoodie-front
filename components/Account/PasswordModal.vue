@@ -1,14 +1,9 @@
 <template>
   <div class="password-modal">
-
-    <div class="modal-title">
-      Change password
-    </div>
-    <div class="line"/>
+    <div class="modal-title">Change password</div>
+    <div class="line" />
     <div class="password-input-block">
-      <div class="password-input-block-title">
-        Old password
-      </div>
+      <div class="password-input-block-title">Old password</div>
       <div class="error" :style="old_error" ref="old_error">
         <input
           class="password-input"
@@ -19,13 +14,11 @@
           :style="old_error"
           @focus="old_is_focused = true"
           @blur="old_is_focused = false"
-        >
+        />
       </div>
     </div>
     <div class="password-input-block">
-      <div class="password-input-block-title">
-        New password
-      </div>
+      <div class="password-input-block-title">New password</div>
       <div class="error" :style="new_1_error">
         <input
           class="password-input"
@@ -35,13 +28,11 @@
           :style="new_1_error"
           @focus="new_1_is_focused = true"
           @blur="new_1_is_focused = false"
-        >
+        />
       </div>
     </div>
     <div class="password-input-block">
-      <div class="password-input-block-title">
-        Repeat new password
-      </div>
+      <div class="password-input-block-title">Repeat new password</div>
       <div class="error" :style="new_2_error">
         <input
           class="password-input"
@@ -51,14 +42,16 @@
           :style="new_2_error"
           @focus="mew_2_is_focused = true"
           @blur="mew_2_is_focused = false"
-        >
+        />
       </div>
     </div>
     <div class="footer">
       <blue-button
         :style="button_styles"
         @click.native="save"
-        :disabled="!old_is_fine || !mew_1_is_fine || !mew_2_is_fine || !check_length"
+        :disabled="
+          !old_is_fine || !mew_1_is_fine || !mew_2_is_fine || !check_length
+        "
       >
         Save
       </blue-button>
@@ -71,216 +64,236 @@ import BlueButton from "@/components/UI/BlueButton.vue";
 
 export default {
   name: "PasswordModal",
-  components: {BlueButton},
-  data(){
-    return{
-      old: '',
+  components: { BlueButton },
+  data() {
+    return {
+      old: "",
       old_is_fine: true,
       old_is_focused: true,
-      new_1: '',
+      new_1: "",
       mew_1_is_fine: true,
       new_1_is_focused: true,
-      new_2: '',
+      new_2: "",
       mew_2_is_fine: true,
       mew_2_is_focused: true,
       regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*]{8,}$/,
       doesnt_match: {
-        '--content': JSON.stringify("Password doesn't match requirements"),
-        '--border-color': '#FF5252',
-        '--back-color': '#696AE9',
+        "--content": JSON.stringify("Password doesn't match requirements"),
+        "--border-color": "#FF5252",
+        "--back-color": "#696AE9",
       },
       good_pass: {
-        '--content': ' ',
-        '--border-color': '#66BB6A',
-        '--box-shadow': '0 0 20px rgba(105, 106, 233, 0.2)',
-        '--back-color': '#5D5FEF',
-      }
-    }
+        "--content": " ",
+        "--border-color": "#66BB6A",
+        "--box-shadow": "0 0 20px rgba(105, 106, 233, 0.2)",
+        "--back-color": "#5D5FEF",
+      },
+    };
   },
-  methods:{
-    save(){
-      if (this.old_is_fine || this.mew_1_is_fine || this.mew_2_is_fine || this.check_length){
+  methods: {
+    save() {
+      if (
+        this.old_is_fine ||
+        this.mew_1_is_fine ||
+        this.mew_2_is_fine ||
+        this.check_length
+      ) {
         const data = {
           user_id: this.$store.state.state.user_id,
           old_password: this.old,
-          new_password: this.new_2
-        }
-        this.$axios.put('https://94gzkk.deta.dev/account/put_user_password', data)
-          .then(function (data) {
-            console.log(data)
-            if (data.data.code !== undefined){
-              this.old_is_fine = false
-              this.$refs.old_error.style.setProperty('--content', '"Bad old password."')
-              this.$refs.old_input.style.setProperty('--border-color', '#FF5252')
-            }
-            else {
-              const access_token = data.data.access_token
-              this.$store.dispatch('update_token_func', access_token)
-              this.$parent.closeAll()
-            }
-          }.bind(this))
+          new_password: this.new_2,
+        };
+        this.$axios
+          .put("https://94gzkk.deta.dev/account/put_user_password", data)
+          .then(
+            function (data) {
+              console.log(data);
+              if (data.data.code !== undefined) {
+                this.old_is_fine = false;
+                this.$refs.old_error.style.setProperty(
+                  "--content",
+                  '"Bad old password."'
+                );
+                this.$refs.old_input.style.setProperty(
+                  "--border-color",
+                  "#FF5252"
+                );
+              } else {
+                const access_token = data.data.access_token;
+                this.$store.dispatch("update_token_func", access_token);
+                this.$parent.closeAll();
+              }
+            }.bind(this)
+          );
       }
-    }
+    },
   },
   computed: {
-    check_length(){
-      return !(this.old.length < 8 || this.new_1.length < 8 || this.new_2.length < 8);
+    check_length() {
+      return !(
+        this.old.length < 8 ||
+        this.new_1.length < 8 ||
+        this.new_2.length < 8
+      );
     },
-    old_error(){
-      if (this.old_is_focused){
+    old_error() {
+      if (this.old_is_focused) {
         return Object.assign({}, this.good_pass, {
-          '--border-color': '#282932'
-        })
+          "--border-color": "#282932",
+        });
       }
-      if (!this.regex.test(this.old)){
-        this.old_is_fine = false
-        return this.doesnt_match
+      if (!this.regex.test(this.old)) {
+        this.old_is_fine = false;
+        return this.doesnt_match;
       }
-      this.old_is_fine = true
-      return this.good_pass
+      this.old_is_fine = true;
+      return this.good_pass;
     },
-    new_1_error(){
-      if (this.new_1_is_focused){
+    new_1_error() {
+      if (this.new_1_is_focused) {
         return Object.assign({}, this.good_pass, {
-          '--border-color': '#282932'
-        })
+          "--border-color": "#282932",
+        });
       }
-      if (!this.regex.test(this.new_1)){
-        this.mew_1_is_fine = false
-        return this.doesnt_match
+      if (!this.regex.test(this.new_1)) {
+        this.mew_1_is_fine = false;
+        return this.doesnt_match;
       }
-      this.mew_1_is_fine = true
-      return this.good_pass
+      this.mew_1_is_fine = true;
+      return this.good_pass;
     },
-    new_2_error(){
-      if (this.mew_2_is_focused){
+    new_2_error() {
+      if (this.mew_2_is_focused) {
         return Object.assign({}, this.good_pass, {
-          '--border-color': '#282932'
-        })
+          "--border-color": "#282932",
+        });
       }
-      if (!this.regex.test(this.new_2)){
-        this.mew_2_is_fine = false
-        return this.doesnt_match
+      if (!this.regex.test(this.new_2)) {
+        this.mew_2_is_fine = false;
+        return this.doesnt_match;
       }
-      if (this.new_1 !== this.new_2){
-        this.mew_2_is_fine = false
+      if (this.new_1 !== this.new_2) {
+        this.mew_2_is_fine = false;
         return Object.assign({}, this.doesnt_match, {
-          '--content': JSON.stringify("New passwords do not match")
-        })
+          "--content": JSON.stringify("New passwords do not match"),
+        });
       }
-      this.mew_2_is_fine = true
-      return this.good_pass
+      this.mew_2_is_fine = true;
+      return this.good_pass;
     },
 
-    button_styles(){
-      if (!this.mew_2_is_fine || !this.mew_1_is_fine || !this.old_is_fine || !this.check_length){
+    button_styles() {
+      if (
+        !this.mew_2_is_fine ||
+        !this.mew_1_is_fine ||
+        !this.old_is_fine ||
+        !this.check_length
+      ) {
         return {
-          '--cursor': 'default',
-          '--opacity': '0.5'
-        }
+          "--cursor": "default",
+          "--opacity": "0.5",
+        };
       }
       return {
-        '--cursor': 'pointer',
-        '--opacity': '1'
-      }
-    }
-  }
-}
+        "--cursor": "pointer",
+        "--opacity": "1",
+      };
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
 @import "assets/variables.scss";
 
-  .footer{
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-  }
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
 
-  .bttn{
-    padding: 8px 16px;
-    opacity: var(--opacity);
-    cursor: var(--cursor);
-  }
+.bttn {
+  padding: 8px 16px;
+  opacity: var(--opacity);
+  cursor: var(--cursor);
+}
 
-  .password-modal{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 24px;
-    gap: 16px;
-    width: 380px;
-    //height: 416px; // TODO temporary
-    background: $grey-background;
-    box-shadow: 0px -4px 40px $receipt-view-shadow;
-    border-radius: 8px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1004;
-  }
+.password-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px;
+  gap: 16px;
+  width: 380px;
+  //height: 416px; // TODO temporary
+  background: $grey-background;
+  box-shadow: 0px -4px 40px $receipt-view-shadow;
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1004;
+}
 
-  .line{
-    width: 100%;
-    height: 1px;
-    background-color: $line;
-    //border: 1px solid $line;
-    align-self: stretch;
-    margin-top: 4px;
-  }
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: $line;
+  //border: 1px solid $line;
+  align-self: stretch;
+  margin-top: 4px;
+}
 
-  .modal-title{
-    font-style: normal;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 24px;
-  }
-  .password-input-block-title{
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-  }
+.modal-title {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 24px;
+}
+.password-input-block-title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
 
+.password-input {
+  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: $grey-input-background;
+  border: 1px solid var(--border-color);
+  color: $white;
+  margin-bottom: 6px;
+}
 
-  .password-input{
-    padding: 6px 12px;
-    border-radius: 4px;
-    background-color: $grey-input-background;
-    border: 1px solid var(--border-color);
-    color: $white;
-    margin-bottom: 6px;
-  }
+.error {
+  position: relative;
+}
 
-  .error{
-    position: relative;
-  }
+.password-input:focus {
+  outline: none;
+  border: 1px solid $blue;
+}
 
-  .password-input:focus{
-    outline: none;
-    border: 1px solid $blue;
-  }
+.password-input:hover {
+  border: 1px solid $blue;
+}
 
-  .password-input:hover{
-    border: 1px solid $blue;
-  }
-
-  .error::after {
-    //background-color: $line;
-    border-radius: 10px;
-    color:#FF5252;
-    //padding: 10px 15px;
-    position: absolute;
-    text-align: center;
-    font-size: 14px;
-    //width: 150px;
-    //content: 'Something';
-    content: var(--content);
-    top: 0;
-    left: 0;
-    transform: translate(0,190%);
-    z-index: 1005;
-  }
-
+.error::after {
+  //background-color: $line;
+  border-radius: 10px;
+  color: #ff5252;
+  //padding: 10px 15px;
+  position: absolute;
+  text-align: center;
+  font-size: 14px;
+  //width: 150px;
+  //content: 'Something';
+  content: var(--content);
+  top: 0;
+  left: 0;
+  transform: translate(0, 190%);
+  z-index: 1005;
+}
 </style>

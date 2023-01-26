@@ -1,61 +1,51 @@
 <template>
   <div id="password-recovery">
-      <email-modal v-if="!is_message_has_been_sent" :key="'email_modal'"/>
-      <password-recovery-modal
-        :key="'password-recovery'"
-        :token="token"
-        v-else
-      />
+    <email-modal v-if="!is_message_has_been_sent" :key="'email_modal'" />
+    <password-recovery-modal :key="'password-recovery'" :token="token" v-else />
     <!--      :user_email="email" -->
   </div>
 </template>
 
 <script>
-
 import EmailModal from "@/components/PasswordRecovery/EmailModal.vue";
 import PasswordRecoveryModal from "@/components/PasswordRecovery/PasswordRecoveryModal.vue";
 
 export default {
   name: "PasswordRecovery",
-  components: {EmailModal, PasswordRecoveryModal},
-  layout: 'notProgram',
-  data(){
-    return{
+  components: { EmailModal, PasswordRecoveryModal },
+  layout: "notProgram",
+  data() {
+    return {
       is_message_has_been_sent: false,
       token: null,
-      email: null
-    }
+      email: null,
+    };
   },
   methods: {
     // message_was_sent(token, email){
-    message_was_sent(token){
-      this.is_message_has_been_sent = true
-      this.token = token
+    message_was_sent(token) {
+      this.is_message_has_been_sent = true;
+      this.token = token;
       // this.email = email
-    }
-  }
-
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss">
 @import "assets/variables";
 
-
 .fade-enter-active,
-.fade-leave-active
-{
+.fade-leave-active {
   transition: all 0.2s ease-in-out;
 }
 
 .fade-enter,
-.fade-leave-to
-{
+.fade-leave-to {
   opacity: 0;
 }
 
-
-#password-recovery{
+#password-recovery {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -73,22 +63,21 @@ export default {
   z-index: 1004;
 }
 
-.recovery-title{
+.recovery-title {
   font-size: 24px;
   font-weight: 900;
   display: flex;
   justify-content: center;
 }
 
-
-.recovery-label{
+.recovery-label {
   user-select: none;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none;
   color: $grey;
 }
 
-.recovery-input{
+.recovery-input {
   padding: 6px 12px;
   border-radius: 4px;
   background-color: $grey-input-background;
@@ -100,9 +89,7 @@ export default {
   margin-top: 4px;
 }
 
-.recovery-button{
+.recovery-button {
   padding: 10px;
 }
-
-
 </style>
