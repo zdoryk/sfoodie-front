@@ -20,14 +20,14 @@
 
 <!--    <nuxt-link class="sidebar-link" active-class="active" to="/program/AllReceiptsRedirection">-->
     <client-only>
-    <nuxt-link v-if="window_width <= 420" class="sidebar-link" active-class="active" to="/program/AllReceipts/Mobile">
+    <nuxt-link v-if="window_width <= 430" class="sidebar-link" active-class="active" to="/program/AllReceipts/Mobile">
       <menu-item class="menu-item">
         <receipt-icon class="ico menu-item-icon" />
         All Receipts
       </menu-item>
     </nuxt-link>
 
-    <nuxt-link v-if="window_width > 420" class="sidebar-link" active-class="active" to="/program/AllReceipts/Desktop">
+    <nuxt-link v-if="window_width > 430" class="sidebar-link" active-class="active" to="/program/AllReceipts/Desktop">
       <menu-item class="menu-item">
         <receipt-icon class="ico menu-item-icon" />
         All Receipts

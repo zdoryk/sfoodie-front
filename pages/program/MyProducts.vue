@@ -89,7 +89,7 @@ export default {
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize);
     })
-    if (window.innerWidth < 420) this.$refs['create_new_category'].textContent = 'New Category'
+    if (window.innerWidth < 430) this.$refs['create_new_category'].textContent = 'New Category'
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize);

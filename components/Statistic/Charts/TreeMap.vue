@@ -1,9 +1,10 @@
 <template>
   <div class="tree-map">
     <client-only>
-      <blue-button class="back-button" @click.native="back" v-if="this.$store.state.state.charts_shared.isChartCategoryData">< Back</blue-button>
+      <blue-button id="back-desktop" class="back-button" @click.native="back" v-if="this.$store.state.state.charts_shared.isChartCategoryData">< Back</blue-button>
 <!--      <apexchart ref="tree_map_chart" type="treemap" height="300"  :options="chartOptions" :series="series" ></apexchart>-->
-     <apexchart style="display: flex; justify-content: center; align-items: flex-start; width: 100%" ref="tree_map_chart" type="treemap" height="280"  :options="chartOptions" :series="series" ></apexchart>
+      <apexchart style="display: flex; justify-content: center; align-items: flex-start; width: 100%" ref="tree_map_chart" type="treemap" height="280"  :options="chartOptions" :series="series" ></apexchart>
+      <blue-button id="back-mobile" class="back-button" @click.native="back" v-if="this.$store.state.state.charts_shared.isChartCategoryData">< Back</blue-button>
     </client-only>
   </div>
 </template>
@@ -30,8 +31,9 @@ export default {
   },
   updated() {
     // const element = document.querySelector(".apexcharts-title-text");
-    let back_button = document.querySelector(".back-button")
+    let back_button = document.querySelector("#back-desktop")
     let rects = document.querySelectorAll('g.apexcharts-treemap-series .apexcharts-treemap-rect')
+    // if (back_button && window.innerWidth >= 720){
     if (back_button){
       back_button.style.top =  rects[0].getBoundingClientRect().top + 10 + 'px';
       back_button.style.left =  rects[0].getBoundingClientRect().left + 10 + 'px';
@@ -226,16 +228,39 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "assets/variables.scss";
+
   .apexcharts-treemap-rect.apexcharts-treemap-rect {
       stroke: none !important;
   }
 
   .back-button{
-    //transform: translateY(5px);
     padding: 8px 12px;
-    position: absolute;
     z-index: 3;
     cursor: pointer;
+  }
+
+  #back-desktop{
+    position: absolute;
+  }
+
+  #back-mobile{
+    display: none;
+  }
+
+  @media (max-width: $tab-size) {
+    #back-desktop{
+      display: none;
+    }
+
+    #back-mobile {
+      //transform: translate(-15px, -95px);
+      //top: 0;
+      //left: 0;
+      position: relative;
+      width: 100%;
+      display: block;
+    }
   }
 
 </style>

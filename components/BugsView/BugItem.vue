@@ -5,7 +5,12 @@
         <h3 class="card-title">{{ name }}</h3>
         <p class="card-text text-grey">{{ comment }}</p>
         <p class="card-text">User ID: {{ user_id }}</p>
-        <img :src="image_url" alt="Bug Image" class="card-img-top">
+        <div class="thumbnail-container">
+          <a :href="image_url" target="_blank">
+            <img  :src="image_url" alt="Bug Image" class="card-img-top">
+          </a>
+        </div>
+<!--        <a target="_blank" :href="image_url" class="card-img-top">Image link</a>-->
       </div>
     </div>
   </div>
@@ -25,7 +30,17 @@ export default {
 </script>
 
 <style scoped>
+.thumbnail-container {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+}
 
+.thumbnail-container img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
 
 </style>
 

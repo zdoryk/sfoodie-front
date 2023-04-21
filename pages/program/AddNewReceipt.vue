@@ -310,9 +310,9 @@ export default {
   margin-top: 18px;
 }
 
-.first-row, .content, .there-is-no-products{
-  max-width: 560px;
-}
+//.first-row, .content, .there-is-no-products{
+//  max-width: 560px;
+//}
 
 .content{
   margin-top: 16px;
@@ -475,20 +475,25 @@ input[type=number] {
 
 @media (max-width: $phone-size){
   .first-row{
-    margin-top: 20px;
+    margin-top: 0;
+    padding: 16px;
+    width: 100%;
   }
 
   #product-input{
-    max-width: 200px;
+    //max-width: 200px;
+    flex: 5
   }
 
   #price-input{
-    max-width: 80px;
+    //max-width: 80px;
+    flex: 2.5
   }
 
   #add-button{
-    max-width: 40px;
+    //max-width: 40px;
     max-height: 40px;
+    flex: 1.5;
   }
 
   #product-input,
@@ -497,7 +502,8 @@ input[type=number] {
   }
 
   .content{
-    max-width: 338px;
+    //max-width: 338px;
+    max-width: 100%;
     padding: 16px;
   }
 

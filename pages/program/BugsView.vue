@@ -37,13 +37,17 @@ export default {
     max-height: 100vh;
     overflow-y: scroll;
     display: flex;
-    flex-direction: column;
+    //flex-direction: column;
     padding: 8px;
+    flex-wrap: wrap;
+    //gap: 10px;
+    justify-content: space-between;
   }
   .bug-item{
     border: 2px solid $blue;
     border-radius: 5px;
     margin-bottom: 50px;
+    width: 500px;
   }
 
 </style>

@@ -179,7 +179,17 @@ export default {
     /*max-height: 30% ;*/
   }
 
-  @media (max-width: $phone-size) {
+  @media (max-width: $tab-size) {
+    .header{
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    #date-picker{
+      max-width: 100%;
+      width: 100%;
+    }
+
     #stacked, #line{
       width: 100%;
     }
@@ -196,7 +206,7 @@ export default {
 
     .footer{
       flex-direction: column;
-      padding-right: 16px;
+      //padding-right: 16px;
     }
   }
 </style>

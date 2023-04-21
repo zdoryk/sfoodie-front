@@ -40,6 +40,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "assets/variables.scss";
   .NewProduct {
     display: flex;
     align-items: center;
@@ -55,5 +56,23 @@ export default {
     flex: 1;
     justify-content: flex-end;
     margin-right: 32px;
+  }
+
+  //.cross-button{
+  //  flex: 1;
+  //}
+
+  @media (max-width: $phone-size) {
+    .NewProduct{
+      gap: 8px;
+    }
+
+    .product-name{
+      flex: 5
+    }
+    .product-price{
+      flex: 2;
+      margin-right: 0;
+    }
   }
 </style>

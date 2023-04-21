@@ -1,10 +1,10 @@
 <template>
   <div class="Landing">
     <header>
-      <img id="logo" v-if="width <= 420" :src="require('static/sfoodie_small_logo.svg')">
-      <img id="logo" v-if="width > 420" :src="require('static/logo.svg')">
+      <img id="logo" v-if="width <= 430" :src="require('static/sfoodie_small_logo.svg')">
+      <img id="logo" v-if="width > 430" :src="require('static/logo.svg')">
       <div class="buttons">
-        <blue-stroke-button class="button" v-if="width > 420" @click.native="push_to_login">Log in</blue-stroke-button>
+        <blue-stroke-button class="button" v-if="width > 430" @click.native="push_to_login">Log in</blue-stroke-button>
         <blue-button class="button" @click.native="push_to_signup">Sign Up</blue-button>
       </div>
     </header>

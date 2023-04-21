@@ -104,15 +104,16 @@ export default {
       /*border-radius: 99px;*/
       /*//background-color: #2e3047;*/
       cursor: pointer;
+      z-index: 2;
     }
 
   }
 
-  @media (max-width: 420px) {
+  @media (max-width: 430px) {
     .menu-toggle {
       display: block;
       top: 23px;
-      right: 8%;
+      right: 5%;
     }
 
   }

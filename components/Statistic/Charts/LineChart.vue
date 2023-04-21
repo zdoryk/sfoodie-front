@@ -170,10 +170,15 @@ export default {
       // return new Date(key);
       // return key
       // });
+      let ticks = 16
+      if (window.innerWidth <= 430){
+        ticks = ticks / 2
+      }
 
       this.chartOptions = {...this.chartOptions, ...{
           xaxis: {
             categories: datesArray,
+            tickAmount: ticks, // show only every fifth tick
             type: 'category',
             tooltip: {
               x: {
