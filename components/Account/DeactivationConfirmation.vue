@@ -1,15 +1,11 @@
 <template>
   <div class="deactivation-confirmation">
     <div class="header">
-      <p class="text">
-        Type&nbsp;<b> Deactivate </b>&nbsp;
-      </p>
-      <p class="text">
-        to  deactivate your account:
-      </p>
+      <p class="text">Type&nbsp;<b> Deactivate </b>&nbsp;</p>
+      <p class="text">to deactivate your account:</p>
     </div>
     <div class="body">
-      <input class="deactivate-input" v-model="input_value">
+      <input class="deactivate-input" v-model="input_value" />
     </div>
     <div class="footer">
       <red-button
@@ -20,85 +16,80 @@
       >
         Deactivate
       </red-button>
-      <blue-stroke-button @click.native="updateVisibility" class="cancel-button">Cancel</blue-stroke-button>
+      <blue-stroke-button @click.native="updateVisibility" class="cancel-button"
+        >Cancel</blue-stroke-button
+      >
     </div>
   </div>
 </template>
 
-
-
 <script>
-
-
 import BlueStrokeButton from "@/components/UI/BlueStrokeButton";
 import RedButton from "@/components/UI/RedButton";
-import {mapActions} from "vuex";
-import {state} from "@/store";
+import { mapActions } from "vuex";
+import { state } from "@/store";
 
 export default {
   name: "DeleteConfirmation",
-  components: {RedButton, BlueStrokeButton},
-  data(){
-    return{
-      input_value: ''
-    }
+  components: { RedButton, BlueStrokeButton },
+  data() {
+    return {
+      input_value: "",
+    };
   },
-  methods:{
+  methods: {
     updateVisibility() {
-      this.$parent.closeAll()
+      this.$parent.closeAll();
     },
-    deactivate_account(){
-      const request_body = {user_id: this.$store.state.state.user_id}
-      this.$store.dispatch('DEACTIVATE_USER_ACCOUNT', request_body)
+    deactivate_account() {
+      const request_body = { user_id: this.$store.state.state.user_id };
+      this.$store.dispatch("DEACTIVATE_USER_ACCOUNT", request_body);
     },
-
   },
   computed: {
-    check_input(){
-      return this.input_value === 'Deactivate';
+    check_input() {
+      return this.input_value === "Deactivate";
     },
 
-    button_style(){
-      if (this.check_input){
+    button_style() {
+      if (this.check_input) {
         return {
           "--box-shadow": "0 0 20px rgb(242 139 112 / 30%)",
-          "--background-color": "#de5d5d"
-        }
+          "--background-color": "#de5d5d",
+        };
       }
       return {
         "--background-color": "#F66969",
-        "--opacity": "0.5"
-      }
-    }
-  }
-}
+        "--opacity": "0.5",
+      };
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
 @import "../../assets/variables";
 
-
-.deactivate-input{
+.deactivate-input {
   margin-top: 8px;
   width: 100%;
   padding: 6px 12px;
   border-radius: 4px;
   background-color: $grey-input-background;
-  border: 1px solid $grey-input-background;;
+  border: 1px solid $grey-input-background;
   color: $white;
 }
 
-.deactivate-input:focus{
+.deactivate-input:focus {
   outline: none;
   border: 1px solid $blue;
 }
 
-.deactivate-input:hover{
+.deactivate-input:hover {
   border: 1px solid $blue;
 }
 
-
-.deactivation-confirmation{
+.deactivation-confirmation {
   width: 390px;
   background-color: $grey-background;
   border-radius: 8px;
@@ -110,14 +101,14 @@ export default {
   //margin-top: 40%;
 }
 
-.header{
+.header {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 }
 
-.text{
+.text {
   //font-family: 'Poppins';
   font-style: normal;
   font-weight: 400;
@@ -128,44 +119,41 @@ export default {
   text-align: center;
 }
 
-.footer{
+.footer {
   margin-top: 24px;
   display: flex;
   justify-content: space-between;
 }
 
-.deactivate-button.deactivate-button{
+.deactivate-button.deactivate-button {
   width: 145px;
   opacity: var(--opacity);
-  transition: all .3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   //font-size: 16px;
 }
 
-.deactivate-button:hover{
+.deactivate-button:hover {
   background-color: var(--background-color);
   box-shadow: var(--box-shadow);
 }
 
-
-.cancel-button{
+.cancel-button {
   width: 145px;
   //background-color: $blue;
   border: 1px solid $blue;
   color: $blue;
 }
 
-.cancel-button:hover{
+.cancel-button:hover {
   border-color: $blue-dark;
   color: $white;
-  background-color:  $blue-dark;
+  background-color: $blue-dark;
 }
 
-@media (max-width: $phone-size){
-  .deactivation-confirmation{
+@media (max-width: $phone-size) {
+  .deactivation-confirmation {
     padding: 36px 32px;
     max-width: calc(100vw - 32px);
   }
 }
-
-
 </style>

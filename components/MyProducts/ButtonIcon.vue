@@ -2,10 +2,10 @@
   <div
     class="button-icon"
     @click="changeActive"
-    :class="{'active-color' : this.iconData.icon_name === this.activeIcon}"
+    :class="{ 'active-color': this.iconData.icon_name === this.activeIcon }"
     tabindex="0"
   >
-    <img :src="icon">
+    <img :src="icon" />
   </div>
 </template>
 
@@ -14,15 +14,15 @@ import * as icons from "assets/categories_svgs";
 
 export default {
   name: "ButtonIcon",
-  props: ['activeIcon', 'iconData'],
+  props: ["activeIcon", "iconData"],
   model: {
-    prop: 'activeIcon',
-    event: 'onUpdateIcon'
+    prop: "activeIcon",
+    event: "onUpdateIcon",
   },
   methods: {
-    changeActive () {
-      console.log('change')
-      this.$emit('onUpdateIcon', this.iconData.icon_name)
+    changeActive() {
+      console.log("change");
+      this.$emit("onUpdateIcon", this.iconData.icon_name);
     },
   },
   computed: {
@@ -33,52 +33,51 @@ export default {
     // },
     icon() {
       // if (this.iconData !== 'undefined') return icons[this.category_data.ico]
-      return icons[this.iconData.icon_name]
+      return icons[this.iconData.icon_name];
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped lang="scss">
 @import "assets/variables";
-  img{
-    width: 32px;
-    height: 32px;
-    opacity: 0.5;
-    transition: 0.1s ease-in-out;
-  }
+img {
+  width: 32px;
+  height: 32px;
+  opacity: 0.5;
+  transition: 0.1s ease-in-out;
+}
 
-  img:hover{
+img:hover {
+  opacity: 1;
+}
+
+.button-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  outline: none;
+  //background-color: $;
+  transition: 0.1s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.active-color {
+  border-radius: 6px;
+  box-shadow: 0 0 0 2px $blue;
+
+  img {
     opacity: 1;
   }
+}
 
-  .button-icon{
-    width: 40px;
-    height: 40px;
-    border-radius: 4px;
-    outline: none;
-    //background-color: $;
-    transition: 0.1s ease-in-out;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+@media (max-width: $phone-size) {
+  img {
+    height: 26px;
+    width: 26px;
   }
-
-  .active-color{
-    border-radius: 6px;
-    box-shadow: 0 0 0 2px $blue;
-
-    img{
-      opacity: 1;
-    }
-  }
-
-  @media (max-width: $phone-size) {
-    img{
-      height: 26px;
-      width: 26px;
-    }
-  }
-
+}
 </style>

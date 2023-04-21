@@ -1,26 +1,25 @@
 <template>
   <button class="chevron-down-button">
     <slot></slot>
-    <chevron-down-icon v-if="isOpened === false" class="ico"/>
-    <chevron-up-icon v-if="isOpened" class="ico"/>
+    <chevron-down-icon v-if="isOpened === false" class="ico" />
+    <chevron-up-icon v-if="isOpened" class="ico" />
   </button>
 </template>
 
 <script>
-import {ChevronDownIcon, ChevronUpIcon} from "vue-tabler-icons"
+import { ChevronDownIcon, ChevronUpIcon } from "vue-tabler-icons";
 
 export default {
   name: "ChevronDownButton",
-  components: {ChevronDownIcon, ChevronUpIcon},
+  components: { ChevronDownIcon, ChevronUpIcon },
   props: {
-    isOpened: false
-  }
-}
+    isOpened: false,
+  },
+};
 </script>
 
 <style scoped lang="scss">
 @import "assets/variables";
-
 
 .chevron-down-button {
   width: 100%;
@@ -35,9 +34,4 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-
-
-
-
-
 </style>

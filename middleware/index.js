@@ -7,4 +7,4 @@ export default ({ app, store, redirect }) => {
   //   const decoded = jwt.decode(store.state.state.access_token)
   //   store.commit('AUTH_MUTATIONS_SET_USER', {user_id: decoded.user_id, email: decoded.sub})
   // })
-}
+};

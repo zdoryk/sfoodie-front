@@ -1,8 +1,8 @@
 <template>
   <div class="check-box-item">
-    <check-box :is-checked="data_obj.isChecked"/>
+    <check-box :is-checked="data_obj.isChecked" />
     <p>
-      {{name}}
+      {{ name }}
     </p>
   </div>
 </template>
@@ -12,25 +12,29 @@ import CheckBox from "@/components/UI/CheckBox.vue";
 
 export default {
   name: "CheckBoxItem",
-  components: {CheckBox},
+  components: { CheckBox },
   props: ["data_obj"],
   computed: {
-    name(){
-      return this.data_obj.name
-    }
+    name() {
+      return this.data_obj.name;
+    },
   },
   methods: {
-    change_state(state){
-      this.$parent.change_state(this.data_obj.name, state, this.data_obj.category_name)
-    }
-  }
-}
+    change_state(state) {
+      this.$parent.change_state(
+        this.data_obj.name,
+        state,
+        this.data_obj.category_name
+      );
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
 @import "assets/variables.scss";
 
-.check-box-item{
+.check-box-item {
   display: flex;
   p {
     margin: 0;
@@ -38,10 +42,8 @@ export default {
     align-items: center;
   }
 
-  .check-box{
+  .check-box {
     margin-right: 8px;
   }
 }
-
-
 </style>
