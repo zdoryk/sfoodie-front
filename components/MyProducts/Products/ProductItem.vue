@@ -1,7 +1,7 @@
 <template>
   <div class="product-item">
     <transition name="fade-opacity">
-      <div class="opacity" v-if="this.isPopUpVisible" />
+      <div class="opacity" v-if="this.isPopUpVisible" :style="{display: isDesktop}"/>
     </transition>
     <div class="name-category">
       <div class="product-name" v-if="product_name.length < 20">
@@ -81,11 +81,16 @@ export default {
     product_category() {
       if (this.product !== "undefined") return this.product.product_category;
     },
+    isDesktop () {
+      if (window.innerWidth > 430) return 'block'
+      return  'none'
+    }
   },
   methods: {
     ...mapActions(["MOVE_TO_OTHER"]),
     edit() {
       this.isPopUpVisible = true;
+      this.$parent.showOpacity()
     },
     // move() {
     //   this.isMovePopUpVisible = 'visible'
@@ -106,6 +111,7 @@ export default {
     // this.$forceUpdate()
     // },
     hide() {
+      this.$parent.hideOpacity()
       this.isPopUpVisible = false;
       // this.isMovePopUpVisible = 'hidden'
     },

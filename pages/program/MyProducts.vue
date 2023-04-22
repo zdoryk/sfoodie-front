@@ -1,5 +1,11 @@
 <template>
   <div class="MyProducts">
+    <transition name="fade-opacity">
+      <div class="opacity_new"
+           ref="new_opacity"
+           v-if="newOpacity">
+      </div>
+    </transition>
     <div class="navigation-bar">
       <div id="title">My Products</div>
       <div class="buttons" :style="{'--category-translate': -difference+'px'}">
@@ -57,7 +63,8 @@ export default {
       isNewProduct: false,
       isOpacity: false,
       translate: 0,
-      difference: 0
+      difference: 0,
+      newOpacity: false
     }
   },
   methods: {
@@ -65,10 +72,14 @@ export default {
       if (this.difference === 0){
         this.difference = this.translate
       } else this.difference = 0
-      console.log(this.$refs.product_view.clientWidth)
+      // console.log(this.$refs.product_view.$el.scrollHeight)
+      // console.log(this.$refs.product_view.$children[0])
     },
     onResize() {
       this.translate = window.innerWidth
+    },
+    changeNewOpacity(bool){
+      this.newOpacity = bool
     },
     show_hide_opacity () {
       this.isNewCategory = false;
@@ -159,6 +170,15 @@ export default {
   z-index: 1003;
 }
 
+.opacity_new{
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background: black;
+  opacity: 0.5;
+  z-index: 2
+}
+
 .MyProducts{
   width: 100%;
 }
@@ -243,6 +263,8 @@ export default {
     transition: 0.3s ease-in-out;
     width: calc(100% - 32px);
     height: 70%;
+    z-index: 3;
+    overflow-x: hidden;
   }
 
   .navigation-bar{
@@ -279,6 +301,7 @@ export default {
   .content{
     padding: 0 16px;
   }
+
 }
 
 </style>
