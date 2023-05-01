@@ -102,7 +102,7 @@ export default {
   opacity: 0;
 }
 .opacity-product-view{
-  position: absolute; width: 130%; background: black; opacity: 50%; top: -30px; left: -30px;
+  position: absolute; width: 130%; background: black; opacity: 0.5; top: -30px; left: -30px; z-index: 2;
 }
 
 #product-view {
