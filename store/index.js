@@ -4,10 +4,12 @@ import axios from "axios";
 import jwt from "vue-jwt-decode";
 import Cookies from "js-cookie";
 
-const back_link = "https://sfoodiedeta-1-w6589305.deta.app";
-// const back_link = 'http://10.9.179.156:8080'
+// const back_link = "https://sfoodiedeta-1-w6589305.deta.app";
+const back_link = 'http://localhost:8080'
 // const back_link = 'http://192.168.0.7:8080'
 import currencyData from "assets/currency.json";
+
+const deta_token = 'a0pS9cdNoXVP_DGCG2LWKQEucjprhPdzgMbK6A3AYchNX'
 
 export const state = () => ({
   namespaced: true,
@@ -455,7 +457,7 @@ export const actions = {
       const data = await axios.post(
         back_link + "/token",
         "username=" + email + "&password=" + password,
-        { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+        { headers: { "Content-Type": "application/x-www-form-urlencoded", "X-API-Key":  deta_token} }
       );
       const access_token = data.data.access_token;
       const decoded = jwt.decode(access_token);
@@ -525,10 +527,10 @@ export const actions = {
     console.log("Bearer " + token);
     await this.$axios
       .get(
-        back_link + "/users/me"
-        // {
-        //   headers: {'Authorization': 'Bearer ' + token},
-        // }
+        back_link + "/users/me",
+        {
+          headers: {"X-API-Key":  deta_token},
+        }
       )
       .then((data) => {
         console.log(data);
@@ -580,7 +582,7 @@ export const actions = {
   async GET_ALL_USER_DATA({ commit }, user_id) {
     this.$axios(back_link + "/custom/" + user_id, {
       method: "GET",
-      // headers: {'X-Requested-With': 'XMLHttpRequest'},
+      headers: {"X-API-Key":  deta_token},
     })
       .then((products) => {
         // console.log(products.data)
@@ -652,7 +654,7 @@ export const actions = {
   async GET_ALL_USER_RECEIPTS({ commit }, user_id) {
     await this.$axios(back_link + "/receipts/" + user_id, {
       method: "GET",
-      // headers: {'X-Requested-With': 'XMLHttpRequest'},
+      headers: {"X-API-Key":  deta_token},
     })
       .then((receipts) => {
         commit("SET_USER_PRODUCTS", receipts.data);
@@ -743,7 +745,7 @@ export const actions = {
         data.end.toFixed(0),
       {
         method: "GET",
-        // headers: {'X-Requested-With': 'XMLHttpRequest'},
+        headers: {"X-API-Key":  deta_token},
       }
     )
       .then((data) => {
