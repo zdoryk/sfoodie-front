@@ -5,6 +5,7 @@ import jwt from "vue-jwt-decode";
 import Cookies from "js-cookie";
 
 const back_link = "https://sfoodiedeta-1-w6589305.deta.app";
+// const back_link = "https://ec2-44-210-89-106.compute-1.amazonaws.com";
 // const back_link = 'http://localhost:8080'
 // const back_link = 'http://192.168.0.7:8080'
 import currencyData from "assets/currency.json";
@@ -455,7 +456,7 @@ export const actions = {
   async LOGIN({ commit, dispatch, context }, { email, password }) {
     try {
       const data = await axios.post(
-        back_link + "/token",
+        back_link + "/token/",
         "username=" + email + "&password=" + password,
         { headers: { "Content-Type": "application/x-www-form-urlencoded", "X-API-Key":  deta_token} }
       );
@@ -936,7 +937,7 @@ export const actions = {
     await this.$axios(back_link + "/wake-up",
       {
         method: "GET",
-        headers: {"X-API-Key":  deta_token}
+        // headers: {"X-API-Key":  deta_token}
       }
   );
   },
