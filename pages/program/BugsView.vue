@@ -16,7 +16,7 @@ export default {
     }
   },
   beforeCreate() {
-    this.$store.$axios.get('https://oe7jy3.deta.dev/get_check_bugs').then(data=>{
+    this.$store.$axios.get('https://sfoodiedeta-1-w6589305.deta.app/get_check_bugs').then(data=>{
       console.log(data)
       this.bugs = data.data
     })

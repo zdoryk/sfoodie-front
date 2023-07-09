@@ -123,7 +123,7 @@ export default {
 
       this.$axios
         .post(
-          "https://oe7jy3.deta.dev/report_a_bug/?user_id=" +
+          "https://sfoodiedeta-1-w6589305.deta.app/report_a_bug/?user_id=" +
             this.$store.state.state.user_id +
             "&name=" +
             this.bugName +
