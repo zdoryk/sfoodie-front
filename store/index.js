@@ -4,8 +4,8 @@ import axios from "axios";
 import jwt from "vue-jwt-decode";
 import Cookies from "js-cookie";
 
-// const back_link = "https://sfoodiedeta-1-w6589305.deta.app";
-const back_link = 'http://localhost:8080'
+const back_link = "https://sfoodiedeta-1-w6589305.deta.app";
+// const back_link = 'http://localhost:8080'
 // const back_link = 'http://192.168.0.7:8080'
 import currencyData from "assets/currency.json";
 
@@ -480,7 +480,7 @@ export const actions = {
       return await axios.post(
         back_link + "/token/register",
         "username=" + email_address + "&password=" + password,
-        { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+        { headers: { "Content-Type": "application/x-www-form-urlencoded", "X-API-Key":  deta_token } }
       );
       // if (data.data.detail === 'Message has been sent'){
       //   return data.data.detail
@@ -670,20 +670,26 @@ export const actions = {
 
   async POST_NEW_RECEIPT({ commit }, receipt) {
     console.log(receipt);
-    this.$axios
-      .post(back_link + "/receipts/post_user_receipt", receipt)
+    this.$axios(back_link + "/receipts/post_user_receipt", {
+      method: 'POST',
+      headers: {"X-API-Key":  deta_token},
+      data: receipt
+    })
       .then((data) => console.log(data));
     commit("DELETE_NEW_RECEIPT_PRODUCTS");
   },
 
   async DELETE_RECEIPT_REQUEST({ commit }, receipt_and_user_ids) {
-    this.$axios
-      .delete(
+    this.$axios(
         back_link +
           "/receipts/delete_user_receipt/?user_id=" +
           receipt_and_user_ids.user_id +
           "&receipt_id=" +
-          receipt_and_user_ids.receipt_id
+          receipt_and_user_ids.receipt_id,
+      {
+        method: 'DELETE',
+        headers: {"X-API-Key":  deta_token}
+        }
       )
       .then((response) => {
         if (response.data.Status === "OK") {
@@ -709,8 +715,12 @@ export const actions = {
 
   async EDIT_PRODUCT({ commit, dispatch }, data_for_update) {
     console.log(data_for_update);
-    this.$axios
-      .put(back_link + "/products/update_user_product", data_for_update)
+    this.$axios(back_link + "/products/update_user_product",
+      {
+       method: 'PUT',
+        headers: {"X-API-Key":  deta_token},
+        data: data_for_update
+      })
       .then(function (data) {
         dispatch("GET_USER_CATEGORIES", data_for_update.user_id);
         console.log(data);
@@ -719,8 +729,12 @@ export const actions = {
 
   async POST_NEW_CATEGORY({ commit, dispatch }, category) {
     console.log(category);
-    this.$axios
-      .post(back_link + "/products/post_new_user_category", category)
+    this.$axios(back_link + "/products/post_new_user_category",
+      {
+        method: "POST",
+        data: category,
+        headers: {"X-API-Key":  deta_token}
+    })
       .then((data) => {
         console.log(data);
         dispatch("GET_USER_CATEGORIES", category.user_id);
@@ -729,8 +743,12 @@ export const actions = {
 
   async POST_NEW_PRODUCT({ commit }, product) {
     console.log(product);
-    this.$axios
-      .post(back_link + "/products/post_new_user_product", product)
+    this.$axios(back_link + "/products/post_new_user_product",
+      {
+        method: "POST",
+        data: product,
+        headers: {"X-API-Key":  deta_token}
+      })
       .then((data) => console.log(data));
   },
 
@@ -760,7 +778,11 @@ export const actions = {
   },
 
   async GET_USER_CATEGORIES({ commit }, user_id) {
-    this.$axios.get(back_link + "/products/" + user_id).then((products) => {
+    this.$axios(back_link + "/products/" + user_id,
+      {
+        method: "GET",
+        headers: {"X-API-Key":  deta_token},
+    }).then((products) => {
       console.log(products.data);
       let categories = products.data;
       delete categories.user_id;
@@ -823,8 +845,11 @@ export const actions = {
 
   async PUT_USER_EMAIL({ commit, dispatch }, data) {
     console.log(data);
-    this.$axios
-      .put(back_link + "/account/put_user_email", data)
+    this.$axios(back_link + "/account/put_user_email", {
+      method: "PUT",
+      data: data,
+      headers: {"X-API-Key":  deta_token}
+    })
       .then(function (data) {
         const access_token = data.data.access_token;
         dispatch("update_token_func", access_token);
@@ -833,8 +858,12 @@ export const actions = {
 
   async PUT_USER_CURRENCY({ commit, dispatch }, data) {
     console.log(data);
-    this.$axios
-      .put(back_link + "/account/put_user_currency", data)
+    this.$axios(back_link + "/account/put_user_currency",
+      {
+        method: "PUT",
+        data: data,
+        headers: {"X-API-Key":  deta_token}
+      })
       .then(function (data) {
         const access_token = data.data.access_token;
         console.log(data);
@@ -859,7 +888,11 @@ export const actions = {
   async DEACTIVATE_USER_ACCOUNT({ commit }, request_body) {
     console.log(request_body);
     this.$axios
-      .put(back_link + "/account/deactivate_an_account/", request_body)
+      .put(back_link + "/account/deactivate_an_account/", {
+        method: "PUT",
+        data: request_body,
+        headers: {"X-API-Key":  deta_token}
+      })
       .then(function (data) {
         console.log(data);
         commit("AUTH_MUTATIONS_LOGOUT");
@@ -870,8 +903,12 @@ export const actions = {
   async SEND_EMAIL_FOR_RECOVERY({ commit }, email) {
     try {
       // return await this.$axios.post(back_link + '/token/password-recovery/send-code/' + email)
-      return await this.$axios.post(
-        back_link + "/token/password-recovery/send-code/" + email
+      return await this.$axios(
+        back_link + "/token/password-recovery/send-code/" + email,
+        {
+          method: "POST",
+          headers: {"X-API-Key":  deta_token}
+        }
       );
     } catch (e) {
       throw e;
@@ -880,9 +917,13 @@ export const actions = {
 
   async SEND_CODE_FOR_RECOVERY({ commit }, data) {
     try {
-      return await this.$axios.post(
+      return await this.$axios(
         back_link + "/token/password-recovery/use-code",
-        data
+        {
+          method: "POST",
+          data: data,
+          headers: {"X-API-Key":  deta_token}
+        }
       );
     } catch (e) {
       throw e;
@@ -892,6 +933,11 @@ export const actions = {
   // TEMP
   async WAKE_APP() {
     console.log("wake up");
-    await this.$axios.get(back_link + "/wake-up");
+    await this.$axios(back_link + "/wake-up",
+      {
+        method: "GET",
+        headers: {"X-API-Key":  deta_token}
+      }
+  );
   },
 };
